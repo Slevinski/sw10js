@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SignWriting 2010 Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="written sign language tools for user interface and searching">
+    <meta name="author" content="Stephen E Slevinski Jr">
+    <meta name="robots" content="noindex,nocache,nofollow,noarchive,noimageindex,nosnippet"/>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="vendor/bootstrap.min.css" />
+    <script src="sw10.js"></script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html"><img src="assets/sw10_icon.svg"> SignWriting 2010</a>
+        </div>
+        <div class="navbar-text navbar-right">
+          <a class="navbar-link" style="padding-left:30px;" href="guide.html">Guide</a>
+          <a class="navbar-link" style="padding-left:30px;" href="api.html">API</a>
+          <a class="navbar-link" style="padding-left:30px;" href="tests/index.html">Test</a>
+          <a class="navbar-link" style="padding-left:30px;" href="https://github.com/Slevinski/sw10js/archive/master.zip">Download</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-3 affix hidden-xs">
+              <div class="list-group">
+                <a href="#ttf" class="list-group-item">
+                  <h5 class="list-group-item-heading">Installing the TrueType Fonts</h5>
+                </a>
+                <a href="#js" class="list-group-item">
+                  <h5 class="list-group-item-heading">Using the JavaScript Library</h5>
+                </a>
+                <a href="#i-d" class="list-group-item">
+                  <h5 class="list-group-item-heading">Referencing the Internet Draft</h5>
+                </a>
+              </div>
+            </div>
+            <div class="col-sm-4 hidden-xs">
+            </div>
+            <div class="col-sm-8 col-xs-12">
+              <h2>Welcome to SignWriting 2010</h2>
+              <p class="lead">
+                The modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts and a compact JavaScript library.
+              </p>
+
+              <hr>
+
+              <h2 id="ttf">Installing the TrueType Fonts</h2>
+              <p>The SignWriting 2010 TrueType fonts are available for download and installation.  
+              The fonts have been tailored for the SignWriting 2010 JavaScript library.
+              Please ignore warning and unusual font previews as these will not affect the fonts utility.</p>
+              <h3>Windows, Linux, and Mac</h3>
+              <p>Installation is straight forward for these platforms.  Simply download the 2 TrueType fonts and install as usual.</p>
+              <a class="btn btn-default btn-lg btn-block" href="https://github.com/Slevinski/signwriting_2010_fonts/raw/master/fonts/SignWriting%202010.ttf" role="button">SignWriting 2010 TrueType Font</a>
+              <a class="btn btn-default btn-lg btn-block" href="https://github.com/Slevinski/signwriting_2010_fonts/raw/master/fonts/SignWriting%202010%20Filling.ttf" role="button">SignWriting 2010 Filling TrueType Font</a>
+
+              <h3>iOS</h3>
+              <p>Installation is possible with a configuration profile that includes the 2 TrueType fonts.  Simply download the configuration profile and install.</p>
+              <a class="btn btn-default btn-lg btn-block" href="https://github.com/Slevinski/signwriting_2010_fonts/raw/master/fonts/SignWriting%202010.mobileconfig" role="button">SignWriting 2010 Configuration Profile</a>
+
+              <h3>Android</h3>
+              <p>Android is not officially supported yet.
+              While installing the fonts should be possible, the process has not yet been defined.
+              Anyone knowledgable about using fonts on Android is encouraged to help realize the installation process.</p>
+
+             <hr>
+
+              <h2 id="js">Using the JavaScript Library</h2>
+              <p>The JavaScript library leverages the TrueType fonts without any additional requirements.
+              Simply include the "<a href="sw10.js">sw10.js</a>" script or the minified version "<a href="sw10.min.js">sw10.min.js</a>" in any HTML page to access the function library.
+              View the <a href="api.html">API Reference</a> for example usage.</p>
+              <a class="btn btn-default btn-lg btn-block" href="sw10.js" role="button">SignWriting 2010 JavaScript Library (26 KB)</a>
+              <a class="btn btn-default btn-lg btn-block" href="sw10.min.js" role="button">Minified SignWriting 2010 JS Library (12 KB)</a>
+
+              <hr>
+
+              <h2 id="i-d">Referencing the Internet Draft</h2>
+              <p><a href="assets/draft-slevinski-signwriting-text.html">The SignPuddle Standard for SignWriting Text</a> Internet Draft has been submitted to the IETF as draft-slevinski-signwriting-text.
+              The I-D contains detailed information about a variety of topics related to SignWriting.</p>
+              <a class="btn btn-default btn-lg btn-block" href="assets/draft-slevinski-signwriting-text.html#rfc.section.1" role="button">SignWriting Script</a>
+              <a class="btn btn-default btn-lg btn-block" href="assets/draft-slevinski-signwriting-text.html#rfc.section.2" role="button">Formal SignWriting</a>
+              <a class="btn btn-default btn-lg btn-block" href="assets/draft-slevinski-signwriting-text.html#rfc.section.3" role="button">Query Language</a>
+              <a class="btn btn-default btn-lg btn-block" href="assets/draft-slevinski-signwriting-text.html#rfc.section.4" role="button">SignWriting 2010</a>
+              <a class="btn btn-default btn-lg btn-block" href="assets/draft-slevinski-signwriting-text.html#rfc.section.5" role="button">Unicode Integration</a>
+
+              <hr>
+              
+              <div class="col-md-8 col-sm-12">
+                <p><img src="assets/sw10_logo.svg" alt=""></p>
+              </div>
+            </div>
+        </div>
+    </div>
+
+
+  </body>
+
+</html>
