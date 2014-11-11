@@ -26803,7 +26803,7 @@ var assert = chai.assert;
       assert.equal(sw10.size('S1fc03'),'21x21','S1fc03');
       assert.equal(sw10.size('S1fc04'),'15x19','S1fc04');
       assert.equal(sw10.size('S1fc05'),'21x21','S1fc05');
-      assert.equal(sw10.size('S1fc06'),'26x18','S1fc06');
+      assert.equal(sw10.size('S1fc06'),'19x15','S1fc06');
       assert.equal(sw10.size('S1fc07'),'21x21','S1fc07');
       assert.equal(sw10.size('S1fc08'),'15x19','S1fc08');
       assert.equal(sw10.size('S1fc09'),'21x21','S1fc09');
