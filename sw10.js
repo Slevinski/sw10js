@@ -264,10 +264,10 @@
       }
     }
     if (!options) options = {};
-    if (options.zoom) {
-      options.zoom = parseFloat(options.zoom);
+    if (options.size) {
+      options.size = parseFloat(options.size);
     } else {
-      options.zoom = 1;
+      options.size = 1;
     }
     if (!options.line){
       options.line="black";
@@ -334,7 +334,7 @@
     l = o[k] || 0;
     l = l * 75 + x1 - 400;
     var svg = '<svg '
-    if (options.zoom!='x') svg += 'width="' + (w * options.zoom) + '" height="' + (h * options.zoom) + '" ';
+    if (options.size!='x') svg += 'width="' + (w * options.size) + '" height="' + (h * options.size) + '" ';
     svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '">' + syms.join('') + "</svg>";
     if (options.laned){
       svg = '<div style="padding:10px;position:relative;width:' + w + 'px;height:' + h + 'px;left:' + l + 'px;">' + svg + '</div>';
@@ -354,10 +354,10 @@
       }
     }
     if (!options) options = {};
-    if (options.zoom) {
-      options.zoom = parseFloat(options.zoom);
+    if (options.size) {
+      options.size = parseFloat(options.size);
     } else {
-      options.zoom = 1;
+      options.size = 1;
     }
     if (!options.line){
       options.line="black";
@@ -396,20 +396,20 @@
       }
     }
 
-    canvas.width = (x2-x1) * options.zoom;
-    canvas.height = (y2-y1) * options.zoom;
+    canvas.width = (x2-x1) * options.size;
+    canvas.height = (y2-y1) * options.size;
     var context = canvas.getContext("2d");
     syms = fsw.match(rsym);
     for (var i=0; i < syms.length; i++) {
       sym = syms[i].slice(0,6)
       x = syms[i].slice(6, 9);
       y = syms[i].slice(10, 13);
-      context.font = (30*options.zoom) + "px 'SignWriting 2010 Filling'";
+      context.font = (30*options.size) + "px 'SignWriting 2010 Filling'";
       context.fillStyle = options.fill;
-      context.fillText(this.code(sym),((x-x1)*options.zoom),((y-y1)*options.zoom));
-      context.font = (30*options.zoom) + "px 'SignWriting 2010'";
+      context.fillText(this.code(sym),((x-x1)*options.size),((y-y1)*options.size));
+      context.font = (30*options.size) + "px 'SignWriting 2010'";
       context.fillStyle = options.line;
-      context.fillText(this.code(sym),((x-x1)*options.zoom),((y-y1)*options.zoom));
+      context.fillText(this.code(sym),((x-x1)*options.size),((y-y1)*options.size));
     }
     return canvas;
   },
