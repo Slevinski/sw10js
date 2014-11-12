@@ -232,6 +232,34 @@ function fswChange(){
 	  document.getElementById("fswRow").className = "warning";
 	}
 
+    var fswfilterOut = sw10.filter(fswIn,"hand");
+	document.getElementById("fswfilterFn").innerHTML = 'sw10.filter("' + fswIn + '","hand");';
+	document.getElementById("fswfilterOut").innerHTML = fswfilterOut;
+	if (fswfilterOut) {
+	  document.getElementById("fswfilterRow").className = "success";
+	} else {
+	  document.getElementById("fswfilterRow").className = "warning";
+	}
+
+    var fswmaxOut = sw10.max(fswfilterOut);
+	document.getElementById("fswmaxFn").innerHTML = 'sw10.max("' + fswfilterOut + '");';
+	document.getElementById("fswmaxOut").innerHTML = fswmaxOut;
+	if (fswmaxOut) {
+	  document.getElementById("fswmaxRow").className = "success";
+	} else {
+	  document.getElementById("fswmaxRow").className = "warning";
+	}
+
+    var fswnormOut = sw10.norm(fswIn);
+	document.getElementById("fswnormFn").innerHTML = 'sw10.norm("' + fswIn + '");';
+	document.getElementById("fswnormOut").innerHTML = fswnormOut;
+	if (fswnormOut) {
+	  document.getElementById("fswnormRow").className = "success";
+	} else {
+	  document.getElementById("fswnormRow").className = "warning";
+	}
+	fswIn = fswnormOut;
+
     var fswsizeOut = sw10.size(fswIn);
 	document.getElementById("fswsizeFn").innerHTML = 'sw10.size("' + fswIn + '");';
 	document.getElementById("fswsizeOut").innerHTML = fswsizeOut;
@@ -472,6 +500,7 @@ function setQuery(query){
                     <div class="col-sm-9">
                       <button class="btn btn-default" onClick="setFSW('M518x529S14c20481x471S27106503x489'); fswChange();return false;">Hello</button>
                       <button class="btn btn-default" onClick="setFSW('M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468'); fswChange();return false;">World</button>
+                      <button class="btn btn-default" onClick="setFSW('MS10200480x480S20500500x490'); fswChange();return false;">Partial</button>
                     </div>
                   </div>
                 </form>
@@ -488,6 +517,18 @@ function setQuery(query){
         <tr id="fswRow">
           <td id="fswFn">sw10.fsw("")</td>
           <td id="fswOut"></td>
+        </tr>
+        <tr id="fswfilterRow">
+          <td id="fswfilterFn">sw10.filter("","hand")</td>
+          <td id="fswfilterOut"></td>
+        </tr>
+        <tr id="fswmaxRow">
+          <td id="fswmaxFn">sw10.max("")</td>
+          <td id="fswmaxOut"></td>
+        </tr>
+        <tr id="fswnormRow">
+          <td id="fswnormFn">sw10.norm("")</td>
+          <td id="fswnormOut"></td>
         </tr>
         <tr id="fswbboxRow">
           <td id="fswbboxFn">sw10.bbox("")</td>

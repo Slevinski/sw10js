@@ -32,6 +32,61 @@ suite('.fsw( )', function(){
   });
 });
 
+// .type()
+suite('.type( )', function(){
+  suite('Valid', function(){
+    test('should return start and end range for type', function(){
+      assert.sameMembers(sw10.type('hand'),['100', '204']);
+    });
+  });
+  suite('Invalid', function(){
+    test('should return entire range for invalid type', function(){
+      assert.sameMembers(sw10.type(''),['100', '38b']);
+    });
+  });
+});
+
+// .is()
+suite('.is( )', function(){
+  suite('True', function(){
+    test('should return true when key is of type', function(){
+      assert.ok(sw10.is('S10000','hand'));
+    });
+  });
+  suite('False', function(){
+    test('should return false when key is not of type', function(){
+      assert.notOk(sw10.is('S38b00','hand'));
+    });
+  });
+});
+
+// .filter()
+suite('.filter( )', function(){
+  suite('Found', function(){
+    test('should return key and coordinates of the specified type', function(){
+      assert.equal(sw10.filter('M518x529S14c20481x471S27106503x489','hand'),'S14c20481x471');
+      assert.equal(sw10.filter('M518x529S14c20481x471S27106503x489','movement'),'S27106503x489');
+      assert.equal(sw10.filter('M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468','hand'),'S1870a489x515S18701482x490');
+    });
+  });
+  suite('Missing', function(){
+    test('should return empty string if type not found', function(){
+      assert.equal(sw10.filter('M518x529S14c20481x471S27106503x489','vcenter'),'');
+      assert.equal(sw10.filter('M518x529S14c20481x471S27106503x489','hcenter'),'');
+    });
+  });
+});
+
+
+// .random()
+suite('.random( )', function(){
+  suite('Okay', function(){
+    test('should return key of the right type', function(){
+      assert.ok(sw10.is(sw10.random('hand'),'hand'));
+    });
+  });
+});
+
 // .code()
 suite('.code( )', function(){
   suite('Valid', function(){
@@ -90,15 +145,36 @@ suite('.bbox( )', function(){
   });
   suite('Valid Coordinates', function(){
     test('should return x-min x-max y-min y-max', function(){
-      assert.equal(sw10.bbox("550x550"),'500 550 500 550');
+      assert.equal(sw10.bbox("550x550"),'550 550 550 550');
       assert.equal(sw10.bbox("440x660 550x330"),'440 550 330 660');
     });
   });
   suite('Invalid', function(){
-    test('should return 500 for each x-min x-max y-min y-max', function(){
-      assert.equal(sw10.bbox(""),'500 500 500 500');
-      assert.equal(sw10.bbox("500x50"),'500 500 500 500');
-      assert.equal(sw10.bbox("00x500"),'500 500 500 500');
+    test('should return empty string', function(){
+      assert.equal(sw10.bbox(""),'');
+      assert.equal(sw10.bbox("500x50"),'');
+      assert.equal(sw10.bbox("00x500"),'');
+    });
+  });
+});
+
+// .displace()
+suite('.displace( )', function(){
+  suite('FSW', function(){
+    test('should return FSW with updated coordinates', function(){
+      assert.equal(sw10.displace("M518x529S14c20481x471S27106503x489",5,10),'M523x539S14c20486x481S27106508x499');
+    });
+  });
+  suite('Query', function(){
+    test('should return query with updated coordinates', function(){
+      assert.equal(sw10.displace("QS10000550x550R205t210500x500",-50,-50),'QS10000500x500R205t210450x450');
+    });
+  });
+  suite('No coordinates', function(){
+    test('should return same string', function(){
+      assert.equal(sw10.displace("Q"),'Q');
+      assert.equal(sw10.displace("500x50"),'500x50');
+      assert.equal(sw10.displace("00x500"),'00x500');
     });
   });
 });
@@ -125,16 +201,49 @@ suite('.size( )', function(){
   });
 });
 
+// .max()
+suite('.max( )', function(){
+  suite('Found', function(){
+    test('should return key and coordinates of the specified type with max coordinates added', function(){
+      assert.equal(sw10.max('M518x529S14c20481x471S27106503x489','hand'),'S14c20481x471504x502');
+      assert.equal(sw10.max('M518x529S14c20481x471S27106503x489','movement'),'S27106503x489518x529');
+      assert.equal(sw10.max('M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468','hand'),'S1870a489x515518x533S18701482x490506x514');
+    });
+  });
+  suite('Missing', function(){
+    test('should return empty string if type not found', function(){
+      assert.equal(sw10.max('M518x529S14c20481x471S27106503x489','vcenter'),'');
+      assert.equal(sw10.max('M518x529S14c20481x471S27106503x489','hcenter'),'');
+    });
+  });
+});
+
+// .norm()
+suite('.norm( )', function(){
+  suite('Valid', function(){
+    test('should return normalized FSW string based on proper center', function(){
+      assert.equal(sw10.norm('M519x529S14c20482x471S27106504x489'),'M519x529S14c20482x471S27106504x489');
+      assert.equal(sw10.norm('M518x529S14c20481x471S27106503x489'),'M519x529S14c20482x471S27106504x489');
+      assert.equal(sw10.norm('M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468'),'M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468');
+      assert.equal(sw10.norm('S10000500x500'),'M508x515S10000493x485');
+      assert.equal(sw10.norm('LS10000500x500'),'L508x515S10000493x485');
+      assert.equal(sw10.norm('LS10200510x510S20500530x520'),'L515x515S10200485x485S20500505x495');
+    });
+  });
+  suite('Invalid', function(){
+    test('should return empty string if invalid FSW', function(){
+      assert.equal(sw10.norm('a'),'');
+      assert.equal(sw10.norm('Q'),'');
+    });
+  });
+});
+
 
 // .svg()
 
 // .canvas()
 
 // .png()
-
-// .is()
-
-// .random()
 
 // .query()
 suite('.query( )', function(){

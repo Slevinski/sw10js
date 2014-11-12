@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.0
+* SignWriting 2010 JavaScript Library v1.1
 * Copyright (c) 2007-2014, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -21,8 +21,7 @@
       return fsw[0];
     }
   },
-  is: function(key,type){
-    if (!this.size(key)) return '';
+  type: function(type){
     var start,end;
     switch(type) {
       case "writing":
@@ -71,58 +70,32 @@
         end = '38b';
         break;
     }
+    return [start,end];
+  },
+  is: function(key,type){
+    if (!this.size(key)) return '';
+    var range = sw10.type(type);
+    var start = range[0];
+    var end = range[1];
     var char = key.slice(1,4);
     return (parseInt(start,16)<=parseInt(char,16) && parseInt(end,16)>=parseInt(char,16)); 
   },
-  random: function (type) {
-    var start,end;
-    switch(type) {
-      case "writing":
-        start = '100';
-        end = '37e';
-        break;
-      case "hand":
-        start = '100';
-        end = '204';
-        break;
-      case "movement":
-        start = '205';
-        end = '2f6';
-        break;
-      case "dynamic":
-        start = '2f7';
-        end = '2fe';
-        break;
-      case "head":
-      case "hcenter":
-        start = '2ff';
-        end = '36c';
-        break;
-      case "vcenter":
-        start = '2ff';
-        end = '375';
-        break;
-      case "trunk":
-        start = '36d';
-        end = '375';
-        break;
-      case "limb":
-        start = '376';
-        end = '37e';
-        break;
-      case "location":
-        start = '37f';
-        end = '386';
-        break;
-      case "punctuation":
-        start = '387';
-        end = '38b';
-        break;
-      default:
-        start = '100';
-        end = '38b';
-        break;
+  filter: function (fsw,type) {
+    var range = sw10.type(type);
+    var start = range[0];
+    var end = range[1];
+    var re = 'S' + sw10.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
+    var matches = fsw.match(RegExp(re,'g'));
+    if (matches){
+      return matches.join('');
+    } else {
+      return '';
     }
+  },
+  random: function (type) {
+    var range = sw10.type(type);
+    var start = range[0];
+    var end = range[1];
     var rBase = Math.floor(Math.random() * (parseInt(end,16)-parseInt(start,16)+1) + parseInt(start,16));
     var rFill = Math.floor(Math.random() * 6);
     var rRota = Math.floor(Math.random() * 16);
@@ -171,19 +144,42 @@
   },
   bbox: function(fsw) {
     var rcoord = /[0-9]{3}x[0-9]{3}/g;
-    var x,y,x1=500,x2=500,y1=500,y2=500;
+    var x,y,x1,x2,y1,y2;
     var coords = fsw.match(rcoord);
     if (coords){
       for (var i=0; i < coords.length; i++) {
         x = parseInt(coords[i].slice(0, 3));
         y = parseInt(coords[i].slice(4, 7));
-        x1 = Math.min(x1, x);
-        x2 = Math.max(x2, x);
-        y1 = Math.min(y1, y);
-        y2 = Math.max(y2, y);
+        if (i==0){
+          x1 = x;
+          x2 = x;
+          y1 = y;
+          y2 = y;
+        } else {
+          x1 = Math.min(x1, x);
+          x2 = Math.max(x2, x);
+          y1 = Math.min(y1, y);
+          y2 = Math.max(y2, y);
+        }
       }
+      return '' + x1 + ' ' + x2 + ' ' + y1 + ' ' + y2;
+    } else {
+      return '';
     }
-    return x1 + ' ' + x2 + ' ' + y1 + ' ' + y2;
+  },
+  displace: function(text,x,y){
+    var xpos,ypos;
+    var re = '[0-9]{3}x[0-9]{3}';
+    var matches = text.match(RegExp(re,'g'));
+    if (matches){
+      for(var i=0; i<matches.length; i++) {
+        xpos = parseInt(matches[i].slice(0, 3)) + x;
+        ypos = parseInt(matches[i].slice(4, 7)) + y;
+        text = text.replace(matches[i],xpos + "X" + ypos);
+      }
+      text = text.replace(/X/g,"x");
+    }
+    return text;
   },
   size: function(text) {
     var size,fsw = this.fsw(text);
@@ -251,6 +247,60 @@
     size = width + 'x' + height;
     if (size=='0x0') return '';
     return size;
+  },
+  max: function(fsw,type){
+    var range = sw10.type(type);
+    var start = range[0];
+    var end = range[1];
+    var re = 'S' + sw10.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
+    var matches = fsw.match(RegExp(re,'g'));
+    if (matches){
+      var key,x,y,size,output='';
+      for (var i=0; i < matches.length; i++) {
+        key = matches[i].slice(0,6);
+        x = parseInt(matches[i].slice(6, 9));
+        y = parseInt(matches[i].slice(10, 13));
+        size =sw10.size(key).split('x');
+        output += key + x + "x" + y + (x+parseInt(size[0])) + 'x' + (y+parseInt(size[1]));
+      }
+      return output;
+    } else {
+      return '';
+    }
+  },
+  norm: function (fsw){
+    var minx,maxx,miny,maxy;
+    var hbox = sw10.bbox(sw10.max(fsw,'hcenter'));
+    var vbox = sw10.bbox(sw10.max(fsw,'vcenter'));
+    var box = sw10.bbox(sw10.max(fsw));
+    if (!box) return "";
+    if (hbox){
+      minx = parseInt(hbox.slice(0,3));
+      maxx = parseInt(hbox.slice(4,7));
+    } else {
+      minx = parseInt(box.slice(0,3));
+      maxx = parseInt(box.slice(4,7));
+    }
+    if (vbox){
+      miny = parseInt(vbox.slice(8,11));
+      maxy = parseInt(vbox.slice(12,15));
+    } else {
+      miny = parseInt(box.slice(8,11));
+      maxy = parseInt(box.slice(12,15));
+    }
+    var xcenter = parseInt((minx + maxx)/2);
+    var ycenter = parseInt((miny + maxy)/2);
+    var xdiff = 500 - xcenter;
+    var ydiff = 500 - ycenter;
+    var start = fsw.match(/(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]/);
+    if (!start) {
+      start = 'M';
+    } else {
+      start = start[0];
+    }
+
+    fsw = start + maxx + "x" + maxy + sw10.filter(fsw)
+    return sw10.displace(fsw,xdiff,ydiff);
   },
   svg: function(text,options){
     var fsw = this.fsw(text);
