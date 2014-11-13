@@ -32,6 +32,73 @@ suite('.fsw( )', function(){
   });
 });
 
+// .mirror()
+suite('.mirror( )', function(){
+  suite('Valid', function(){
+    test('should return valid mirror key if available', function(){
+      assert.equal(sw10.mirror("S10000"),"S10008");
+      assert.equal(sw10.mirror("S1005f"),"S10057");
+      assert.equal(sw10.mirror("S29b0e"),"S29b06");
+    });
+  });
+  suite('Invalid', function(){
+    test('should return empty string for invalid keys', function(){
+      assert.equal(sw10.mirror("S1000"),'');
+      assert.equal(sw10.mirror("S4005f"),'');
+    });
+  });
+});
+
+// .flop()
+suite('.flop( )', function(){
+  suite('Valid', function(){
+    test('should return valid key for next fill', function(){
+      assert.equal(sw10.flop("S10000"),"S10010");
+      assert.equal(sw10.flop("S10000",-1),"S10050");
+    });
+  });
+  suite('Invalid', function(){
+    test('should return empty string for invalid keys', function(){
+      assert.equal(sw10.flop("S1000"),'');
+      assert.equal(sw10.flop("S4005f"),'');
+    });
+  });
+});
+
+// .rotate()
+suite('.rotate( )', function(){
+  suite('Valid', function(){
+    test('should return valid key for next rotation', function(){
+      assert.equal(sw10.rotate("S10000"),"S10007");
+      assert.equal(sw10.rotate("S10000",-1),"S10001");
+      assert.equal(sw10.rotate("S10008"),"S10009");
+      assert.equal(sw10.rotate("S1000f",-1),"S1000e");
+    });
+  });
+  suite('Invalid', function(){
+    test('should return empty string for invalid keys', function(){
+      assert.equal(sw10.rotate("S1000"),'');
+      assert.equal(sw10.rotate("S4005f"),'');
+    });
+  });
+});
+
+// .scroll()
+suite('.scroll( )', function(){
+  suite('Valid', function(){
+    test('should return next or previous base if valid', function(){
+      assert.equal(sw10.scroll("S10000"),"S10100");
+      assert.equal(sw10.scroll("S10000",-1),"S10000");
+    });
+  });
+  suite('Invalid', function(){
+    test('should return empty string for invalid keys', function(){
+      assert.equal(sw10.scroll("S1000"),'');
+      assert.equal(sw10.scroll("S4005f"),'');
+    });
+  });
+});
+
 // .type()
 suite('.type( )', function(){
   suite('Valid', function(){
@@ -121,10 +188,16 @@ suite('.uni8( )', function(){
 
 // .pua()
 suite('.pua( )', function(){
-  suite('Valid', function(){
+  suite('Valid Key', function(){
     test('should return 3 Unicode characters on plane 15 for key', function(){
       assert.equal(sw10.pua("S10000"),'󽠰󽠐󽠠');
       assert.equal(sw10.pua("S38b5f"),'󽪻󽠕󽠯');
+    });
+  });
+  suite('Valid FSW', function(){
+    test('should return Unicode string on plane 15 for FSW', function(){
+      assert.equal(sw10.pua("M518x529S14c20481x471S27106503x489"),'󽠃󽼒󽼝󽡼󽠒󽠠󽻭󽻣󽦡󽠐󽠦󽼃󽻵');
+      assert.equal(sw10.pua("M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"),'󽠃󽼒󽼡󽢷󽠐󽠪󽻵󽼏󽢷󽠐󽠡󽻮󽻶󽤵󽠐󽠠󽼈󽻼󽨗󽠓󽠤󽼀󽻠');
     });
   });
   suite('Invalid', function(){
@@ -238,7 +311,6 @@ suite('.norm( )', function(){
   });
 });
 
-
 // .svg()
 
 // .canvas()
@@ -305,6 +377,25 @@ suite('.regex( )', function(){
       assert.equal(sw10.regex("M500x500"),'');
       assert.equal(sw10.regex("505x510S10000490x480"),'');
       assert.equal(sw10.regex("qrti"),'');
+    });
+  });
+});
+
+// .results()
+var text = 'M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537 M524x514S11541500x487S1154a477x490 M510x545S1f720490x456S14720496x476S14720496x503S14a20495x530 M542x582S20320474x567S16d20472x419S11502459x443S1f720469x462S11a20474x480S1dc20465x514S14a20474x548S18d20516x419S19220521x450S16d20519x474S11502506x498S14a20521x518S1dc20512x538';
+suite('.results( )', function(){
+  suite('results', function(){
+    test('should return array of matching words for query string', function(){
+      assert.sameMembers(sw10.results("Q",text),[ "M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537", "M524x514S11541500x487S1154a477x490", "M510x545S1f720490x456S14720496x476S14720496x503S14a20495x530", "M542x582S20320474x567S16d20472x419S11502459x443S1f720469x462S11a20474x480S1dc20465x514S14a20474x548S18d20516x419S19220521x450S16d20519x474S11502506x498S14a20521x518S1dc20512x538" ]);
+      assert.sameMembers(sw10.results("Q",text,"B"),[ "B537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537", "B524x514S11541500x487S1154a477x490", "B510x545S1f720490x456S14720496x476S14720496x503S14a20495x530", "B542x582S20320474x567S16d20472x419S11502459x443S1f720469x462S11a20474x480S1dc20465x514S14a20474x548S18d20516x419S19220521x450S16d20519x474S11502506x498S14a20521x518S1dc20512x538" ]);
+      assert.sameMembers(sw10.results("QR100t120",text),[ "M524x514S11541500x487S1154a477x490", "M542x582S20320474x567S16d20472x419S11502459x443S1f720469x462S11a20474x480S1dc20465x514S14a20474x548S18d20516x419S19220521x450S16d20519x474S11502506x498S14a20521x518S1dc20512x538" ]);
+    });
+  });
+  suite('Invalid', function(){
+    test('should return empty array when no results found', function(){
+      assert.sameMembers(sw10.results("Q","500x500"),[],'a');
+      assert.sameMembers(sw10.results("QT","505x510S10000490x480"),[],'b');
+      assert.sameMembers(sw10.results("qrti",text),[],'c');
     });
   });
 });

@@ -220,6 +220,30 @@ function setRandom(type){
 	document.getElementById("key").value = randomOut;
 }
 
+function setMirror(){
+    var keyIn = document.getElementById("key").value;
+	var mirrorOut = sw10.mirror(keyIn);
+	document.getElementById("key").value = mirrorOut;
+}
+
+function setFlop(step){
+    var keyIn = document.getElementById("key").value;
+	var flopOut = sw10.flop(keyIn,step);
+	document.getElementById("key").value = flopOut;
+}
+
+function setRotate(step){
+    var keyIn = document.getElementById("key").value;
+	var rotateOut = sw10.rotate(keyIn,step);
+	document.getElementById("key").value = rotateOut;
+}
+
+function setScroll(step){
+    var keyIn = document.getElementById("key").value;
+	var scrollOut = sw10.scroll(keyIn,step);
+	document.getElementById("key").value = scrollOut;
+}
+
 function fswChange(){
     var fswIn = document.getElementById("fsw").value;
 
@@ -305,6 +329,15 @@ function fswChange(){
 	  document.getElementById("fswpngRow").className = "warning";
 	}
 
+    var fswpuaOut = sw10.pua(fswIn);
+	document.getElementById("fswpuaFn").innerHTML = 'sw10.pua("' + fswIn + '");';
+	document.getElementById("fswpuaOut").innerHTML = fswpuaOut;
+	if (fswpuaOut) {
+	  document.getElementById("fswpuaRow").className = "success";
+	} else {
+	  document.getElementById("fswpuaRow").className = "warning";
+	}
+
 }
 
 function setFSW(fsw){
@@ -313,6 +346,7 @@ function setFSW(fsw){
 
 function queryChange(){
     var queryIn = document.getElementById("query").value;
+    var textIn = document.getElementById("text").value;
 
     var queryOut = sw10.query(queryIn);
 	document.getElementById("queryFn").innerHTML = 'sw10.query("' + queryIn + '");';
@@ -333,11 +367,26 @@ function queryChange(){
 	  document.getElementById("regexRow").className = "warning";
 	}
 
+    var resultsOut = sw10.results(queryIn,textIn);
+	document.getElementById("resultsFn").innerHTML = 'sw10.results("' + queryIn + '","' + textIn + '");';
+	if (resultsOut) {
+      document.getElementById("resultsOut").innerHTML = 'Array("' + resultsOut.join('", "') + '")';
+	  document.getElementById("resultsRow").className = "success";
+	} else {
+      document.getElementById("resultsOut").innerHTML = '';
+	  document.getElementById("resultsRow").className = "warning";
+	}
+
 }
 
 function setQuery(query){
 	document.getElementById("query").value = query;
 }
+
+function setText(fsw){
+	document.getElementById("text").value = fsw;
+}
+
 </script>
     <div class="container">
         <div class="row">
@@ -370,7 +419,18 @@ function setQuery(query){
                       <button class="btn btn-default" onClick="setRandom('limb'); keyChange();return false;">Limb</button>
                       <button class="btn btn-default" onClick="setRandom('location'); keyChange();return false;">Location</button>
                       <button class="btn btn-default" onClick="setRandom('punctuation'); keyChange();return false;">Punctuation</button>
-
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Modify</label>
+                    <div class="col-sm-9">
+                      <button class="btn btn-default" onClick="setMirror(); keyChange();return false;">Mirror</button>
+                      <button class="btn btn-default" onClick="setFlop(-1); keyChange();return false;"><- Flop</button>
+                      <button class="btn btn-default" onClick="setFlop(1); keyChange();return false;">Flop -></button>
+                      <button class="btn btn-default" onClick="setRotate(-1); keyChange();return false;"><- Rotate</button>
+                      <button class="btn btn-default" onClick="setRotate(1); keyChange();return false;">Rotate -></button>
+                      <button class="btn btn-default" onClick="setScroll(-1); keyChange();return false;"><- Scroll</button>
+                      <button class="btn btn-default" onClick="setScroll(1); keyChange();return false;">Scroll -></button>
                     </div>
                   </div>
                 </form>
@@ -550,6 +610,10 @@ function setQuery(query){
           <td id="fswpngFn">sw10.png("")</td>
           <td id="fswpngOut"></td>
         </tr>
+        <tr id="fswpuaRow">
+          <td id="fswpuaFn">sw10.pua("")</td>
+          <td id="fswpuaOut"></td>
+        </tr>
 
 
       </tbody>
@@ -562,9 +626,9 @@ function setQuery(query){
               <div>
                 <form class="form-horizontal" role="form">
                   <div class="form-group">
-                    <label for="fsw" class="col-sm-3 control-label">Query string</label>
+                    <label for="query" class="col-sm-3 control-label">Query string</label>
                     <div class="col-sm-9">
-                      <input type="fsw" class="form-control" id="query" placeholder="enter query string" oninput="queryChange();">
+                      <input type="query" class="form-control" id="query" placeholder="enter query string" oninput="queryChange();">
                     </div>
                   </div>
                   <div class="form-group">
@@ -573,6 +637,19 @@ function setQuery(query){
                       <button class="btn btn-default" onClick="setQuery('Q'); queryChange();return false;">Any sign</button>
                       <button class="btn btn-default" onClick="setQuery('QT'); queryChange();return false;">Sortable sign</button>
                       <button class="btn btn-default" onClick="setQuery('QAR100t110TS189uuS20500'); queryChange();return false;">Complex example</button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="text" class="col-sm-3 control-label">FSW Text</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="text" placeholder="enter FSW text for searching" oninput="queryChange();">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Signs</label>
+                    <div class="col-sm-9">
+                      <button class="btn btn-default" onClick="setText('M518x529S14c20481x471S27106503x489'); queryChange();return false;">Hello</button>
+                      <button class="btn btn-default" onClick="setText('M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468'); queryChange();return false;">World</button>
                     </div>
                   </div>
                 </form>
@@ -593,6 +670,10 @@ function setQuery(query){
         <tr id="regexRow">
           <td id="regexFn">sw10.regex("")</td>
           <td id="regexOut"></td>
+        </tr>
+        <tr id="resultsRow">
+          <td id="resultsFn">sw10.results("","")</td>
+          <td id="resultsOut"></td>
         </tr>
 
       </tbody>

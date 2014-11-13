@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.1
+* SignWriting 2010 JavaScript Library v1.2
 * Copyright (c) 2007-2014, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -19,6 +19,85 @@
       return '';
     } else {
       return fsw[0];
+    }
+  },
+  mirror: function(key){
+    key = this.key(key);
+    if (!this.size(key)) return ''
+    var base = key.slice(0,4);
+    var fill = key.slice(4,5);
+    var rot = parseInt(key.slice(5,6),16);
+    var key1 = base + "08";
+    var key2 = base + "18";
+    var rAdd;
+    if (this.size(key1) || this.size(key2)){
+      rAdd = 8;
+    } else {
+      if ((rot==0) || (rot==4)) {rAdd=0}
+      if ((rot==1) || (rot==5)) {rAdd=6}
+      if ((rot==2) || (rot==6)) {rAdd=4}
+      if ((rot==3) || (rot==7)) {rAdd=2}
+    }
+    key='';
+    while (!this.size(key)) {
+      rot += rAdd
+      if ((rot>7) && (rAdd<8)) { rot = rot -8}
+      if (rot>15) { rot = rot -16}
+      key = base + fill + rot.toString(16);
+    }
+    return key;
+  },
+  flop: function(key,step){
+    key = this.key(key);
+    if (!this.size(key)) return ''
+    if (step!=-1) step=1;
+    var base = key.slice(0,4);
+    var fill = parseInt(key.slice(4,5));
+    var rot = key.slice(5,6);
+    key='';
+    while (!this.size(key)){
+      fill += step;
+      if (fill>5) fill=0;
+      if (fill<0) fill=5;
+      key = base + fill + rot;
+    }
+    return key;
+  },
+  rotate: function(key,step){
+    key = this.key(key);
+    if (!this.size(key)) return ''
+    if (step!=-1) step=1;
+    var base = key.slice(0,4);
+    var fill = key.slice(4,5);
+    var rot = parseInt(key.slice(5,6),16);
+    key='';
+    while (!this.size(key)){
+      if (rot>7){
+        rot += step;
+        if (rot>15) rot=8;
+        if (rot<8) rot=15;
+        key = base + fill + rot.toString(16);
+      } else {
+        rot -= step;
+        if (rot>7) rot=0;
+        if (rot<0) rot=7;
+        key = base + fill + rot;
+      }
+    }
+    return key;
+  },
+  scroll: function(key,step){
+    key = this.key(key);
+    if (!this.size(key)) return ''
+    if (step!=-1) step=1;
+    var base = parseInt(key.slice(1,4),16) + step;
+    var fill = key.slice(4,5);
+    var rot = key.slice(5,6);
+    var nkey= 'S' + base.toString(16) + fill + rot
+    if(this.size(nkey)){
+      return nkey;
+    } else {
+      return key;
     }
   },
   type: function(type){
@@ -74,17 +153,17 @@
   },
   is: function(key,type){
     if (!this.size(key)) return '';
-    var range = sw10.type(type);
+    var range = this.type(type);
     var start = range[0];
     var end = range[1];
     var char = key.slice(1,4);
     return (parseInt(start,16)<=parseInt(char,16) && parseInt(end,16)>=parseInt(char,16)); 
   },
   filter: function (fsw,type) {
-    var range = sw10.type(type);
+    var range = this.type(type);
     var start = range[0];
     var end = range[1];
-    var re = 'S' + sw10.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
+    var re = 'S' + this.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
     var matches = fsw.match(RegExp(re,'g'));
     if (matches){
       return matches.join('');
@@ -93,7 +172,7 @@
     }
   },
   random: function (type) {
-    var range = sw10.type(type);
+    var range = this.type(type);
     var start = range[0];
     var end = range[1];
     var rBase = Math.floor(Math.random() * (parseInt(end,16)-parseInt(start,16)+1) + parseInt(start,16));
@@ -129,8 +208,36 @@
     }
     return uni8;
   },
-  pua: function(key){
-    key = this.key(key);
+  pua: function(text){
+    var fsw = this.fsw(text);
+    if (fsw){
+      var str, code, coord, key, pua;
+      var pattern = '[0-9]{3}x[0-9]{3}';
+      var matches = fsw.match(RegExp(pattern,'g'));
+      for(var i=0; i<matches.length; i++) {
+        str = matches[i];
+        coord = str.split('x');
+        coord[0] = parseInt(coord[0]) + parseInt('FDD0C',16);
+        coord[1] = parseInt(coord[1]) + parseInt('FDD0C',16);
+        pua = String.fromCharCode(0xD800 + ((coord[0] - 0x10000) >> 10), 0xDC00 + ((coord[0] - 0x10000) & 0x3FF));
+        pua += String.fromCharCode(0xD800 + ((coord[1] - 0x10000) >> 10), 0xDC00 + ((coord[1] - 0x10000) & 0x3FF));
+        fsw = fsw.replace(str,pua);
+      }
+      pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
+      matches = fsw.match(RegExp(pattern,'g'));
+      for(i=0; i<matches.length; i++) {
+        key = matches[i];
+        fsw = fsw.replace(key,this.pua(key));
+      }
+      code = parseInt('FD800',16);
+      fsw = fsw.replace('A',String.fromCharCode(0xD800 + (((code) - 0x10000) >> 10), 0xDC00 + (((code) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('B',String.fromCharCode(0xD800 + (((code+1) - 0x10000) >> 10), 0xDC00 + (((code+1) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('L',String.fromCharCode(0xD800 + (((code+2) - 0x10000) >> 10), 0xDC00 + (((code+2) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('M',String.fromCharCode(0xD800 + (((code+3) - 0x10000) >> 10), 0xDC00 + (((code+3) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('R',String.fromCharCode(0xD800 + (((code+4) - 0x10000) >> 10), 0xDC00 + (((code+4) - 0x10000) & 0x3FF)));
+      return fsw;
+    }
+    var key = this.key(text);
     if (!key) return '';
     var base = parseInt(key.substr(1,3),16) + parseInt('FD730',16);
     var pua = String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
@@ -249,10 +356,10 @@
     return size;
   },
   max: function(fsw,type){
-    var range = sw10.type(type);
+    var range = this.type(type);
     var start = range[0];
     var end = range[1];
-    var re = 'S' + sw10.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
+    var re = 'S' + this.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
     var matches = fsw.match(RegExp(re,'g'));
     if (matches){
       var key,x,y,size,output='';
@@ -260,7 +367,7 @@
         key = matches[i].slice(0,6);
         x = parseInt(matches[i].slice(6, 9));
         y = parseInt(matches[i].slice(10, 13));
-        size =sw10.size(key).split('x');
+        size =this.size(key).split('x');
         output += key + x + "x" + y + (x+parseInt(size[0])) + 'x' + (y+parseInt(size[1]));
       }
       return output;
@@ -270,9 +377,9 @@
   },
   norm: function (fsw){
     var minx,maxx,miny,maxy;
-    var hbox = sw10.bbox(sw10.max(fsw,'hcenter'));
-    var vbox = sw10.bbox(sw10.max(fsw,'vcenter'));
-    var box = sw10.bbox(sw10.max(fsw));
+    var hbox = this.bbox(this.max(fsw,'hcenter'));
+    var vbox = this.bbox(this.max(fsw,'vcenter'));
+    var box = this.bbox(this.max(fsw));
     if (!box) return "";
     if (hbox){
       minx = parseInt(hbox.slice(0,3));
@@ -299,8 +406,8 @@
       start = start[0];
     }
 
-    fsw = start + maxx + "x" + maxy + sw10.filter(fsw)
-    return sw10.displace(fsw,xdiff,ydiff);
+    fsw = start + maxx + "x" + maxy + this.filter(fsw)
+    return this.displace(fsw,xdiff,ydiff);
   },
   svg: function(text,options){
     var fsw = this.fsw(text);
@@ -473,8 +580,8 @@
       return '';
     }
   },
-  query: function (text){
-    var query = text.match(/Q((A(S[123][0-9a-f]{2}[0-5u][0-9a-fu]|R[123][0-9a-f]{2}t[123][0-9a-f]{2})+)?T)?((R[123][0-9a-f]{2}t[123][0-9a-f]{2}([0-9]{3}x[0-9]{3})?)|(S[123][0-9a-f]{2}[0-5u][0-9a-fu]([0-9]{3}x[0-9]{3})?))*(V[0-9]+)?/);
+  query: function (query){
+    var query = query.match(/Q((A(S[123][0-9a-f]{2}[0-5u][0-9a-fu]|R[123][0-9a-f]{2}t[123][0-9a-f]{2})+)?T)?((R[123][0-9a-f]{2}t[123][0-9a-f]{2}([0-9]{3}x[0-9]{3})?)|(S[123][0-9a-f]{2}[0-5u][0-9a-fu]([0-9]{3}x[0-9]{3})?))*(V[0-9]+)?/);
     if (query) {
       return query[0];
     } else {
@@ -878,41 +985,32 @@
     }
     return pattern;
   },
-  regex: function (text,fuzz){
-    var query = this.query(text);
+  regex: function (query,fuzz){
+    query = this.query(query);
     if (!query) {
       return '';
     }
-
     var fsw_pattern, part, from, to, re_range, segment, x, y, base, fill, rotate;
     if (!fuzz) fuzz = 20;
-
     var re_sym = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
     var re_coord = '[0-9]{3}x[0-9]{3}';
     var re_word = '[BLMR](' + re_coord + ')(' + re_sym + re_coord + ')*';
     var re_term = '(A(' + re_sym+ ')+)';
-
     var q_range = 'R[123][0-9a-f]{2}t[123][0-9a-f]{2}';
     var q_sym = 'S[123][0-9a-f]{2}[0-5u][0-9a-fu]';
     var q_coord = '([0-9]{3}x[0-9]{3})?';
     var q_var = '(V[0-9]+)';
     var q_term;
-
-    query = sw10.query(query);
+    query = this.query(query);
     if (!query) return '';
-
     if (query=='Q'){
       return [re_term + "?" + re_word];
     }
-
     if (query=='QT'){
       return [re_term + re_word];
     }
-
     var segments = [];
-
     var term = query.indexOf('T')+1;
-
 	if (term){
 	  q_term = '(A';
 	  var qat = query.slice(0,term);
@@ -942,7 +1040,7 @@
             } else {
               from = matches[i].slice(1,4);
               to = matches[i].slice(5,8);
-              re_range = sw10.range(from,to,'hex');
+              re_range = this.range(from,to,'hex');
               segment = 'S' + re_range + '[0-5][0-9a-f]';
               q_term += segment;
             }
@@ -953,7 +1051,6 @@
 	    }
 	  }
 	}
-
     //get the variance
     var matches = query.match(RegExp(q_var,'g'));
     if (matches) fuzz = matches.toString().slice(1)*1;
@@ -961,34 +1058,29 @@
     fsw_pattern = q_sym + q_coord;
     var matches = query.match(RegExp(fsw_pattern,'g'));
     if (matches){
-
       for(var i=0; i<matches.length; i++) {
         part = matches[i].toString();
         base = part.slice(1,4);
         segment = 'S' + base;
-
         fill = part.slice(4,5);
         if (fill=='u') {
           segment += '[0-5]';
         } else {
           segment += fill;
         }
-    
         rotate = part.slice(5,6);
         if (rotate=='u') {
           segment += '[0-9a-f]';
         } else {
           segment += rotate;
         }
-    
         if (part.length>6){
-
           x = part.slice(6,9)*1;
           y = part.slice(10,13)*1;
           //now get the x segment range+++
-          segment += sw10.range((x-fuzz),(x+fuzz));
+          segment += this.range((x-fuzz),(x+fuzz));
           segment += 'x';
-          segment += sw10.range((y-fuzz),(y+fuzz));
+          segment += this.range((y-fuzz),(y+fuzz));
         } else {
           segment += re_coord;
         }
@@ -1003,26 +1095,23 @@
         segments.push(segment);
       }
     }
-
     //this gets all ranges
     fsw_pattern = q_range + q_coord;
     var matches = query.match(RegExp(fsw_pattern,'g'));
     if (matches){
-
       for(var i=0; i<matches.length; i++) {
         part = matches[i].toString();
         from = part.slice(1,4);
         to = part.slice(5,8);
-        re_range = sw10.range(from,to,"hex");
+        re_range = this.range(from,to,"hex");
         segment = 'S' + re_range + '[0-5][0-9a-f]';
         if (part.length>8){
-
           x = part.slice(8,11)*1;
           y = part.slice(12,15)*1;
           //now get the x segment range+++
-          segment += sw10.range((x-fuzz),(x+fuzz));
+          segment += this.range((x-fuzz),(x+fuzz));
           segment += 'x';
-          segment += sw10.range((y-fuzz),(y+fuzz));
+          segment += this.range((y-fuzz),(y+fuzz));
         } else {
           segment += re_coord;
         }
@@ -1036,11 +1125,42 @@
         segments.push(segment);
       }
     }
-    
     if (!segments.length){
       segments.push(q_term + re_word);
     }
-  
     return segments;
+  },
+  results: function (query,text,lane){
+    if (!text) return [];
+    if("BLMR".indexOf(lane) === -1 || lane.length>1) {
+      lane='';
+    }
+    var pattern, matches, parts, words;
+    var re = this.regex(query);
+    if (!re) return [];
+    for(var i=0; i<re.length; i++) {
+      pattern = re[i];
+      matches = text.match(RegExp(pattern,'g'));
+      if (matches){
+        text = matches.join(' ');
+      } else {
+        text ='';
+      }
+    }
+    if (text){
+      if (lane){
+        text = text.replace(/B/g,lane);
+        text = text.replace(/L/g,lane);
+        text = text.replace(/M/g,lane);
+        text = text.replace(/R/g,lane);
+      }
+      parts = text.split(' ');
+      words = parts.filter(function(element, index, array) {
+        return element in this ? false : this[element] = true;
+      }, {});
+    } else {
+      words = [];
+    }
+    return words;
   }
 };
