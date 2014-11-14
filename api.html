@@ -226,10 +226,10 @@ function setMirror(){
 	document.getElementById("key").value = mirrorOut;
 }
 
-function setFlop(step){
+function setFill(step){
     var keyIn = document.getElementById("key").value;
-	var flopOut = sw10.flop(keyIn,step);
-	document.getElementById("key").value = flopOut;
+	var fillOut = sw10.fill(keyIn,step);
+	document.getElementById("key").value = fillOut;
 }
 
 function setRotate(step){
@@ -425,8 +425,8 @@ function setText(fsw){
                     <label class="col-sm-3 control-label">Modify</label>
                     <div class="col-sm-9">
                       <button class="btn btn-default" onClick="setMirror(); keyChange();return false;">Mirror</button>
-                      <button class="btn btn-default" onClick="setFlop(-1); keyChange();return false;"><- Flop</button>
-                      <button class="btn btn-default" onClick="setFlop(1); keyChange();return false;">Flop -></button>
+                      <button class="btn btn-default" onClick="setFill(-1); keyChange();return false;"><- Fill</button>
+                      <button class="btn btn-default" onClick="setFill(1); keyChange();return false;">Fill -></button>
                       <button class="btn btn-default" onClick="setRotate(-1); keyChange();return false;"><- Rotate</button>
                       <button class="btn btn-default" onClick="setRotate(1); keyChange();return false;">Rotate -></button>
                       <button class="btn btn-default" onClick="setScroll(-1); keyChange();return false;"><- Scroll</button>

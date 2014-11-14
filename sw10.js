@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.2
+* SignWriting 2010 JavaScript Library v1.2.1
 * Copyright (c) 2007-2014, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -47,7 +47,7 @@
     }
     return key;
   },
-  flop: function(key,step){
+  fill: function(key,step){
     key = this.key(key);
     if (!this.size(key)) return ''
     if (step!=-1) step=1;

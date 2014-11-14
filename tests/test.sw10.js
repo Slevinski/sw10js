@@ -49,18 +49,18 @@ suite('.mirror( )', function(){
   });
 });
 
-// .flop()
-suite('.flop( )', function(){
+// .fill()
+suite('.fill( )', function(){
   suite('Valid', function(){
     test('should return valid key for next fill', function(){
-      assert.equal(sw10.flop("S10000"),"S10010");
-      assert.equal(sw10.flop("S10000",-1),"S10050");
+      assert.equal(sw10.fill("S10000"),"S10010");
+      assert.equal(sw10.fill("S10000",-1),"S10050");
     });
   });
   suite('Invalid', function(){
     test('should return empty string for invalid keys', function(){
-      assert.equal(sw10.flop("S1000"),'');
-      assert.equal(sw10.flop("S4005f"),'');
+      assert.equal(sw10.fill("S1000"),'');
+      assert.equal(sw10.fill("S4005f"),'');
     });
   });
 });
