@@ -266,10 +266,10 @@ suite('.size( )', function(){
       assert.equal(sw10.size('S38b00'),'60x15');
     });
   });
-  suite('Invalid', function(){
+  suite('Invalid key', function(){
     test('should return empty string for invalid keys', function(){
-      assert.equal(sw10.size('S1000'),'');
       assert.equal(sw10.size('S38b5f'),'');
+      assert.equal(sw10.size('S1000'),'');
     });
   });
 });

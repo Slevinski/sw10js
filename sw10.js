@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.2.1
+* SignWriting 2010 JavaScript Library v1.2.2
 * Copyright (c) 2007-2014, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -413,7 +413,7 @@
     var fsw = this.fsw(text);
     if (!fsw) {
       var key = this.key(text);
-      if (!key) return '';
+      if (!this.size(key)) return '';
       if (key.length==6) {
         fsw = key + "500x500";
       } else {
@@ -422,7 +422,7 @@
     }
     if (!options) options = {};
     if (options.size) {
-      options.size = parseFloat(options.size);
+      options.size = parseFloat(options.size) || 'x';
     } else {
       options.size = 1;
     }
@@ -1046,8 +1046,6 @@
             }
 	      }
           q_term += '(' + re_sym + ')*)';
-	    } else {
-	      console.log(qat)
 	    }
 	  }
 	}
