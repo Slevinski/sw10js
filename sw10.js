@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.2.2
+* SignWriting 2010 JavaScript Library v1.2.3
 * Copyright (c) 2007-2014, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -406,7 +406,7 @@
       start = start[0];
     }
 
-    fsw = start + maxx + "x" + maxy + this.filter(fsw)
+    fsw = start + parseInt(box.slice(4,7)) + "x" + parseInt(box.slice(12,15)) + this.filter(fsw)
     return this.displace(fsw,xdiff,ydiff);
   },
   svg: function(text,options){
@@ -492,7 +492,7 @@
     l = l * 75 + x1 - 400;
     var svg = '<svg '
     if (options.size!='x') svg += 'width="' + (w * options.size) + '" height="' + (h * options.size) + '" ';
-    svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '">' + syms.join('') + "</svg>";
+    svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '"><metadata>' + text + '</metadata>' + syms.join('') + "</svg>";
     if (options.laned){
       svg = '<div style="padding:10px;position:relative;width:' + w + 'px;height:' + h + 'px;left:' + l + 'px;">' + svg + '</div>';
     }
