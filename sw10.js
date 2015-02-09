@@ -1,6 +1,6 @@
 /**
-* SignWriting 2010 JavaScript Library v1.2.3
-* Copyright (c) 2007-2014, Stephen E Slevinski Jr
+* SignWriting 2010 JavaScript Library v1.2.4
+* Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
 */
@@ -460,16 +460,14 @@
       y = syms[i].slice(10, 13);
       gelem = '<g transform="translate(' + x + ',' + y + ')">';
       gelem += '<text ';
-      if (options.css) {
-        gelem += 'class="sym-fill"';
-      } else {
+      gelem += 'class="sym-fill" ';
+      if (!options.css) {
         gelem += 'style="font-family:\'SignWriting 2010 Filling\';font-size:30px;fill:' + options.fill + '"';
       }
       gelem += '>' + this.code(sym) + '</text>';
       gelem += '<text ';
-      if (options.css) {
-        gelem += 'class="sym-line"';
-      } else {
+      gelem += 'class="sym-line" ';
+      if (!options.css) {
         gelem += 'style="font-family:\'SignWriting 2010\';font-size:30px;fill:' + options.line + '"';
       }
       gelem += '>' + this.code(sym) + '</text>';
