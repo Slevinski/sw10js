@@ -338,6 +338,60 @@ function fswChange(){
 	  document.getElementById("fswpuaRow").className = "warning";
 	}
 
+    var converteOut = sw10.convert(fswIn,'e');
+	document.getElementById("converteFn").innerHTML = 'sw10.convert("' + fswIn + '","e");';
+	document.getElementById("converteOut").innerHTML = converteOut;
+	if (converteOut) {
+	  document.getElementById("converteRow").className = "success";
+	} else {
+	  document.getElementById("converteRow").className = "warning";
+	}
+
+    var convertgOut = sw10.convert(fswIn,'g');
+	document.getElementById("convertgFn").innerHTML = 'sw10.convert("' + fswIn + '","g");';
+	document.getElementById("convertgOut").innerHTML = convertgOut;
+	if (convertgOut) {
+	  document.getElementById("convertgRow").className = "success";
+	} else {
+	  document.getElementById("convertgRow").className = "warning";
+	}
+
+    var convertEOut = sw10.convert(fswIn,'E');
+	document.getElementById("convertEFn").innerHTML = 'sw10.convert("' + fswIn + '","E");';
+	document.getElementById("convertEOut").innerHTML = convertEOut;
+	if (convertEOut) {
+	  document.getElementById("convertERow").className = "success";
+	} else {
+	  document.getElementById("convertERow").className = "warning";
+	}
+
+    var convertELOut = sw10.convert(fswIn,'EL');
+	document.getElementById("convertELFn").innerHTML = 'sw10.convert("' + fswIn + '","EL");';
+	document.getElementById("convertELOut").innerHTML = convertELOut;
+	if (convertELOut) {
+	  document.getElementById("convertELRow").className = "success";
+	} else {
+	  document.getElementById("convertELRow").className = "warning";
+	}
+
+    var convertGOut = sw10.convert(fswIn,'G');
+	document.getElementById("convertGFn").innerHTML = 'sw10.convert("' + fswIn + '","G");';
+	document.getElementById("convertGOut").innerHTML = convertGOut;
+	if (convertGOut) {
+	  document.getElementById("convertGRow").className = "success";
+	} else {
+	  document.getElementById("convertGRow").className = "warning";
+	}
+
+    var convertGLOut = sw10.convert(fswIn,'GL');
+	document.getElementById("convertGLFn").innerHTML = 'sw10.convert("' + fswIn + '","GL");';
+	document.getElementById("convertGLOut").innerHTML = convertGLOut;
+	if (convertGLOut) {
+	  document.getElementById("convertGLRow").className = "success";
+	} else {
+	  document.getElementById("convertGLRow").className = "warning";
+	}
+
 }
 
 function setFSW(fsw){
@@ -558,7 +612,7 @@ function setText(fsw){
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Signs</label>
                     <div class="col-sm-9">
-                      <button class="btn btn-default" onClick="setFSW('M518x529S14c20481x471S27106503x489'); fswChange();return false;">Hello</button>
+                      <button class="btn btn-default" onClick="setFSW('AS14c20S27106M518x529S14c20481x471S27106503x489'); fswChange();return false;">Hello</button>
                       <button class="btn btn-default" onClick="setFSW('M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468'); fswChange();return false;">World</button>
                       <button class="btn btn-default" onClick="setFSW('MS10200480x480S20500500x490'); fswChange();return false;">Partial</button>
                     </div>
@@ -613,6 +667,30 @@ function setText(fsw){
         <tr id="fswpuaRow">
           <td id="fswpuaFn">sw10.pua("")</td>
           <td id="fswpuaOut"></td>
+        </tr>
+        <tr id="converteRow">
+          <td id="converteFn">sw10.convert("","e")</td>
+          <td id="converteOut"></td>
+        </tr>
+        <tr id="convertgRow">
+          <td id="convertgFn">sw10.convert("","g")</td>
+          <td id="convertgOut"></td>
+        </tr>
+        <tr id="convertERow">
+          <td id="convertEFn">sw10.convert("","E")</td>
+          <td id="convertEOut"></td>
+        </tr>
+        <tr id="convertELRow">
+          <td id="convertELFn">sw10.convert("","EL")</td>
+          <td id="convertELOut"></td>
+        </tr>
+        <tr id="convertGRow">
+          <td id="convertGFn">sw10.convert("","G")</td>
+          <td id="convertGOut"></td>
+        </tr>
+        <tr id="convertGLRow">
+          <td id="convertGLFn">sw10.convert("","GL")</td>
+          <td id="convertGLOut"></td>
         </tr>
 
 

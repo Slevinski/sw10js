@@ -399,3 +399,33 @@ suite('.results( )', function(){
     });
   });
 });
+
+// .convert()
+suite('.convert( )', function(){
+  suite('convert', function(){
+    test('should return query string from FSW', function(){
+      assert.equal(sw10.convert("AS2ff00S14c20M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537",'e'),'QAS2ff00S14c20T');
+      assert.equal(sw10.convert("AS2ff00S14c20M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537",'g'),'QAS2ffuuS14cuuT');
+      assert.equal(sw10.convert("AS2ff00S14c20M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537",'E'),'QS2ff00S14c20S22b03S14c10S20500');
+      assert.equal(sw10.convert("AS2ff00S14c20M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537",'G'),'QS2ffuuS14cuuS22buuS14cuuS205uu');
+      assert.equal(sw10.convert("AS2ff00S14c20M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537",'EL'),'QS2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537');
+      assert.equal(sw10.convert("AS2ff00S14c20M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537",'GL'),'QS2ffuu482x483S14cuu514x470S22buu505x507S14cuu476x524S205uu501x537');
+      assert.equal(sw10.convert("AS2ff00S14c20M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537",'eEL'),'QAS2ff00S14c20TS2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537');
+      assert.equal(sw10.convert("AS2ff00S14c20M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537",'gGL'),'QAS2ffuuS14cuuTS2ffuu482x483S14cuu514x470S22buu505x507S14cuu476x524S205uu501x537');
+    });
+  });
+  suite('Invalid FSW', function(){
+    test('should return empty string for bad FSW', function(){
+      assert.equal(sw10.convert("Q","E"),'');
+      assert.equal(sw10.convert("QT","G"),'');
+      assert.equal(sw10.convert("qrti","GL"),'');
+    });
+  });
+  suite('Invalid Flags', function(){
+    test('should return empty string for bad FSW', function(){
+      assert.equal(sw10.convert("M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537","eL"),'');
+      assert.equal(sw10.convert("M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537","Z"),'');
+      assert.equal(sw10.convert("M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537","eg"),'');
+    });
+  });
+});

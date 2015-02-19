@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.2.4
+* SignWriting 2010 JavaScript Library v1.3.0
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -1158,5 +1158,58 @@
       words = [];
     }
     return words;
+  },
+  convert: function (fsw,flags){
+    // e - exact symbol in temporal prefix
+    // g - general symbol in temporal prefix
+    // E - exact symbol in spatial signbox
+    // G - general symbol in spatial signbox
+    // L - spatial signbox symbol at location
+    var query = '';
+    if (this.fsw(fsw)){
+      if (/^[eg]?([EG]L?)?$/.test(flags)){
+        var re_base = 'S[123][0-9a-f]{2}';
+        var re_sym = re_base + '[0-5][0-9a-f]';
+        var re_coord = '[0-9]{3}x[0-9]{3}';
+        var re_term = '(A(' + re_sym+ ')+)';
+        var matches,matched;
+
+        if (flags.indexOf('e') > -1 || flags.indexOf('g') > -1) {
+          //exact symbols or general symbols in order
+          matches = fsw.match(RegExp('A(' + re_sym + ')*','g'));
+          if (matches){
+            matched = matches[0];
+            if (flags.indexOf('e') > -1) {
+              query += matched + "T";
+            } else {
+              matches = matched.match(RegExp(re_base,'g'));
+              query += "A";
+              for(var i=0; i<matches.length; i++) {
+                query += matches[i] + "uu";
+              }
+              query += "T";
+            }
+          }
+        }
+
+        if (flags.indexOf('E') > -1 || flags.indexOf('G') > -1) {
+          //exact symbols or general symbols in spatial
+          matches = fsw.match(RegExp(re_sym + re_coord,'g'));
+          if (matches){
+            for(var i=0; i<matches.length; i++) {
+              if (flags.indexOf('E') > -1) {
+                query += matches[i].slice(0,6);
+              } else {
+                query += matches[i].slice(0,4) + "uu";
+              }
+              if (flags.indexOf('L') > -1) {
+                query += matches[i].slice(6,13);
+              }
+            }
+          }
+        }
+      }
+    }
+    return query?"Q" + query:'';
   }
 };
