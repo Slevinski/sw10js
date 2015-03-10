@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.3.0
+* SignWriting 2010 JavaScript Library v1.4.0
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -462,13 +462,13 @@
       gelem += '<text ';
       gelem += 'class="sym-fill" ';
       if (!options.css) {
-        gelem += 'style="font-family:\'SignWriting 2010 Filling\';font-size:30px;fill:' + options.fill + '"';
+        gelem += 'style="pointer-events:none;font-family:\'SignWriting 2010 Filling\';font-size:30px;fill:' + options.fill + '"';
       }
       gelem += '>' + this.code(sym) + '</text>';
       gelem += '<text ';
       gelem += 'class="sym-line" ';
       if (!options.css) {
-        gelem += 'style="font-family:\'SignWriting 2010\';font-size:30px;fill:' + options.line + '"';
+        gelem += 'style="pointer-events:none;font-family:\'SignWriting 2010\';font-size:30px;fill:' + options.line + '"';
       }
       gelem += '>' + this.code(sym) + '</text>';
       gelem += '</g>';
@@ -490,7 +490,7 @@
     l = l * 75 + x1 - 400;
     var svg = '<svg '
     if (options.size!='x') svg += 'width="' + (w * options.size) + '" height="' + (h * options.size) + '" ';
-    svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '"><metadata>' + text + '</metadata>' + syms.join('') + "</svg>";
+    svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '"><text style="size=0;">' + text + '</text>' + syms.join('') + "</svg>";
     if (options.laned){
       svg = '<div style="padding:10px;position:relative;width:' + w + 'px;height:' + h + 'px;left:' + l + 'px;">' + svg + '</div>';
     }
