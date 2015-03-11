@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.4.0
+* SignWriting 2010 JavaScript Library v1.4.1
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -490,7 +490,7 @@
     l = l * 75 + x1 - 400;
     var svg = '<svg '
     if (options.size!='x') svg += 'width="' + (w * options.size) + '" height="' + (h * options.size) + '" ';
-    svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '"><text style="size=0;">' + text + '</text>' + syms.join('') + "</svg>";
+    svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '"><text style="font-size:0%;">' + text + '</text>' + syms.join('') + "</svg>";
     if (options.laned){
       svg = '<div style="padding:10px;position:relative;width:' + w + 'px;height:' + h + 'px;left:' + l + 'px;">' + svg + '</div>';
     }
