@@ -1,8 +1,8 @@
 /**
 * SignWriting 2010 JavaScript Library v1.4.2
+* https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
-* http://www.opensource.org/licenses/mit-license.php
 */
  var sw10 = signwriting_2010 = {
   key: function(text){
