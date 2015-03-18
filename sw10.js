@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.4.1
+* SignWriting 2010 JavaScript Library v1.4.2
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
@@ -1151,6 +1151,40 @@
         text = text.replace(/R/g,lane);
       }
       parts = text.split(' ');
+      words = parts.filter(function(element, index, array) {
+        return element in this ? false : this[element] = true;
+      }, {});
+    } else {
+      words = [];
+    }
+    return words;
+  },
+  lines: function (query,text,lane){
+    if (!text) return [];
+    if("BLMR".indexOf(lane) === -1 || lane.length>1) {
+      lane='';
+    }
+    var pattern, matches, parts, words;
+    var re = this.regex(query);
+    if (!re) return [];
+    for(var i=0; i<re.length; i++) {
+      pattern = re[i];
+      pattern = '^' + pattern + '.*';
+      matches = text.match(RegExp(pattern,'mg'));
+      if (matches){
+        text = matches.join("\n");
+      } else {
+        text ='';
+      }
+    }
+    if (text){
+      if (lane){
+        text = text.replace(/B/g,lane);
+        text = text.replace(/L/g,lane);
+        text = text.replace(/M/g,lane);
+        text = text.replace(/R/g,lane);
+      }
+      parts = text.split("\n");
       words = parts.filter(function(element, index, array) {
         return element in this ? false : this[element] = true;
       }, {});

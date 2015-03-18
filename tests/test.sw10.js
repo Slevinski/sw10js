@@ -400,6 +400,25 @@ suite('.results( )', function(){
   });
 });
 
+// .lines()
+var lines = 'M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537 line 1 stuff\n';
+lines += 'M524x514S11541500x487S1154a477x490 line 2 stuff\n';
+lines += 'M542x582S20320474x567S16d20472x419S11502459x443S1f720469x462S11a20474x480S1dc20465x514S14a20474x548S18d20516x419S19220521x450S16d20519x474S11502506x498S14a20521x518S1dc20512x538 final lines stuff';
+suite('.lines( )', function(){
+  suite('lines', function(){
+    test('should return array of matching words and the rest of the line', function(){
+      assert.sameMembers(sw10.lines("Q",lines),[ "M537x555S2ff00482x483S14c20514x470S22b03505x507S14c10476x524S20500501x537 line 1 stuff", "M524x514S11541500x487S1154a477x490 line 2 stuff", "M542x582S20320474x567S16d20472x419S11502459x443S1f720469x462S11a20474x480S1dc20465x514S14a20474x548S18d20516x419S19220521x450S16d20519x474S11502506x498S14a20521x518S1dc20512x538 final lines stuff" ]);
+    });
+  });
+  suite('Invalid', function(){
+    test('should return empty array when no results found', function(){
+      assert.sameMembers(sw10.lines("Q","500x500"),[],'a');
+      assert.sameMembers(sw10.lines("QT","505x510S10000490x480"),[],'b');
+      assert.sameMembers(sw10.lines("qrti",lines),[],'c');
+    });
+  });
+});
+
 // .convert()
 suite('.convert( )', function(){
   suite('convert', function(){
