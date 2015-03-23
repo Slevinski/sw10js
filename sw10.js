@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.4.2
+* SignWriting 2010 JavaScript Library v1.4.3
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
@@ -428,9 +428,13 @@
     }
     if (!options.line){
       options.line="black";
+    } else {
+      options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.line)?"#"+options.line:options.line;
     }
     if (!options.fill){
       options.fill="white";
+    } else {
+      options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.fill)?"#"+options.fill:options.fill;
     }
     var r, rsym, rcoord, sym, syms, coords, gelem, o;
     r = /(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
@@ -516,9 +520,13 @@
     }
     if (!options.line){
       options.line="black";
+    } else {
+      options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.line)?"#"+options.line:options.line;
     }
     if (!options.fill){
       options.fill="white";
+    } else {
+      options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.fill)?"#"+options.fill:options.fill;
     }
     var r, rsym, rcoord, sym, syms, coords, gelem, o;
     r = /(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
