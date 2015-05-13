@@ -12,6 +12,28 @@
 	  a {
 	  text-decoration: none;
 	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
 	  a.smpl {
 	  color: black;
 	  }
@@ -324,7 +346,7 @@
 		   content: "December 2010"; 
 	  } 
 	  @top-center {
-		   content: "Abbreviated Title";3
+		   content: "Abbreviated Title";
 	  } 
 	  @bottom-left {
 		   content: "Doe"; 
@@ -368,18 +390,20 @@
 <link href="#rfc.section.3.2" rel="Chapter" title="3.2 Searching the Temporal Sequence"/>
 <link href="#rfc.section.3.3" rel="Chapter" title="3.3 Transformation to Regular Expression"/>
 <link href="#rfc.section.4" rel="Chapter" title="4 SignWriting 2010"/>
-<link href="#rfc.section.4.1" rel="Chapter" title="4.1 TrueType Fonts"/>
-<link href="#rfc.section.4.2" rel="Chapter" title="4.2 JavaScript Library"/>
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Font Creation Tools"/>
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 TrueType Fonts"/>
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 JavaScript Library"/>
+<link href="#rfc.section.4.4" rel="Chapter" title="4.4 SignMaker Editor"/>
 <link href="#rfc.section.5" rel="Chapter" title="5 Unicode Integration"/>
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 UTF-8"/>
-<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Unicode 8"/>
-<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Private Use Area Plane 15"/>
-<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Private Use Area Plane 16"/>
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Private Use Area Plane 15"/>
+<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Private Use Area Plane 16"/>
+<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Unicode 8"/>
 <link href="#rfc.section.6" rel="Chapter" title="6 IANA Considerations"/>
 <link href="#rfc.section.7" rel="Chapter" title="7 Security Considerations"/>
 <link href="#rfc.references" rel="Chapter" title="8 References"/>
 <link href="#rfc.appendix.A" rel="Chapter" title="A Modern SignWriting"/>
-<link href="#rfc.appendix.B" rel="Chapter" title="B ISWA 2010"/>
+<link href="#rfc.appendix.B" rel="Chapter" title="B International SignWriting Alphabet 2010"/>
 <link href="#rfc.appendix.B.1" rel="Chapter" title="B.1 Grapheme"/>
 <link href="#rfc.appendix.B.2" rel="Chapter" title="B.2 Symbol"/>
 <link href="#rfc.appendix.B.3" rel="Chapter" title="B.3 Hierarchy"/>
@@ -388,26 +412,24 @@
 <link href="#rfc.appendix.C" rel="Chapter" title="C SignPuddle Standard"/>
 <link href="#rfc.appendix.C.1" rel="Chapter" title="C.1 Licenses"/>
 <link href="#rfc.appendix.C.2" rel="Chapter" title="C.2 Infrastructure"/>
-<link href="#rfc.appendix.C.2.1" rel="Chapter" title="C.2.1 International SignWriting Alphabet 2010"/>
-<link href="#rfc.appendix.C.2.2" rel="Chapter" title="C.2.2 SignPuddle Online"/>
-<link href="#rfc.appendix.C.2.3" rel="Chapter" title="C.2.3 SignWriting Icon Server"/>
-<link href="#rfc.appendix.C.2.4" rel="Chapter" title="C.2.4 SignWriting Asset Provider"/>
-<link href="#rfc.appendix.C.2.5" rel="Chapter" title="C.2.5 Wikimedia Incubator"/>
-<link href="#rfc.appendix.C.2.6" rel="Chapter" title="C.2.6 SignWriting Thin Viewer"/>
+<link href="#rfc.appendix.C.2.1" rel="Chapter" title="C.2.1 SignPuddle Online"/>
+<link href="#rfc.appendix.C.2.2" rel="Chapter" title="C.2.2 SignWriting Icon Server"/>
+<link href="#rfc.appendix.C.2.3" rel="Chapter" title="C.2.3 Wikimedia Incubator"/>
 <link href="#rfc.appendix.C.3" rel="Chapter" title="C.3 Compatibility"/>
 <link href="#rfc.appendix.C.3.1" rel="Chapter" title="C.3.1 SignTyp"/>
 <link href="#rfc.appendix.C.3.2" rel="Chapter" title="C.3.2 SignWriter Studio"/>
 <link href="#rfc.appendix.C.3.3" rel="Chapter" title="C.3.3 DELEGS Online"/>
 <link href="#rfc.appendix.C.3.4" rel="Chapter" title="C.3.4 SWift"/>
+<link href="#rfc.appendix.C.3.5" rel="Chapter" title="C.3.5 JSPad"/>
 <link href="#rfc.authors" rel="Chapter"/>
 
 
-  <meta name="generator" content="xml2rfc version 2.4.2 - http://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.4.12.dev0 - http://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Slevinski, S." />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-slevinski-signwriting-text-04" />
-  <meta name="dct.issued" scheme="ISO8601" content="2014-11-09" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-slevinski-signwriting-text-05" />
+  <meta name="dct.issued" scheme="ISO8601" content="2015-5-12" />
   <meta name="dct.abstract" content="For concreteness, because the universal character set is not yet universal, and because an international standard for the internet community should be documented and stable, this I-D has been released with the intention of producing an RFC to document the character use and naming conventions of the SignWriting community on the Internet.  " />
   <meta name="description" content="For concreteness, because the universal character set is not yet universal, and because an international standard for the internet community should be documented and stable, this I-D has been released with the intention of producing an RFC to document the character use and naming conventions of the SignWriting community on the Internet.  " />
 
@@ -428,10 +450,10 @@
 </tr>
 <tr>
   <td class="left">Intended status: Informational</td>
-  <td class="right">November 09, 2014</td>
+  <td class="right">May 12, 2015</td>
 </tr>
 <tr>
-  <td class="left">Expires: May 13, 2015</td>
+  <td class="left">Expires: November 13, 2015</td>
   <td class="right"></td>
 </tr>
 
@@ -440,16 +462,17 @@
   </table>
 
   <p class="title">The SignPuddle Standard for SignWriting Text<br />
-  <span class="filename">draft-slevinski-signwriting-text-04</span></p>
+  <span class="filename">draft-slevinski-signwriting-text-05</span></p>
   
   <h1 id="rfc.abstract">
   <a href="#rfc.abstract">Abstract</a>
 </h1>
 <p>For concreteness, because the universal character set is not yet universal, and because an international standard for the internet community should be documented and stable, this I-D has been released with the intention of producing an RFC to document the character use and naming conventions of the SignWriting community on the Internet.  </p>
 <p>The SignWriting Script is an international standard for writing sign languages by hand or with computers.  From education to research, from entertainment to religion, SignWriting has proven useful because people are using it to write signed languages.  The SignWriting Script has two major families: Block Printing for the reader and Handwriting for the writer.  </p>
-<p>Formal SignWriting uses ASCII strings to name logographic signs.  The mathematical names are explained with tokens and regular expression patterns.  Symbol keys reference the symbols of the International SignWriting Alphabet 2010.  Coordinates define X and Y number values for 2-dimensional placement.  Signs are written in a spatial SignBox, where each symbol is positioned with a 2-dimension coordinate.  For sorting, each sign can have an optional temporal sequence of symbols that is outside of the SignBox and the visible text.  Completed signs are written sequentially, interspersed with punctuation symbols, to form sentences.  </p>
-<p>The query language of Formal SignWriting uses a similar lite markup to define a variety of searching possibilities.  The spatial SignBox can be searched for symbols or ranges of symbols.  For each symbol or range, the search can specify if the symbol only needs to be found somewhere in the SignBox, or if the symbol needs to be found near certain coordinates.  The temporal sequence can be searched for starting symbols, written as a sequential list of symbols and ranges of symbols.  When searching the temporal sequence, the search results will be limited to signs that start with a matching temporal sequence.  Each query string is transformed into one or more regular expressions.  The regular expressions are used to quickly search large amounts of data.  </p>
-<p>For Unicode, there are several encodings which integrate.  Formal SignWriting is UTF-8.  The Unicode 8 specification will include characters to name the symbols of the International SignWriting Alphabet 2010.  There are 2 separate encodings in the Unicode Private Use Area.  The plane 15 encoding is isomorphic with Formal SignWriting strings, using 3 characters for each symbol.  The plane 16 encoding is focused on the symbols only, using 1 character for each symbol.  </p>
+<p>Formal SignWriting uses ASCII strings to name logographic signs.  The mathematical names are explained with tokens and regular expression patterns.  Symbol keys reference the symbols of the International SignWriting Alphabet 2010.  Coordinates define X and Y number values for 2-dimensional placement.  Signs are written in a spatial SignBox, where each symbol is positioned with a 2-dimension coordinate.  For sorting, each sign can have an optional temporal sequence of symbols that is outside of the SignBox and the visible text.  To create sentences, completed signs are written sequentially, interspersed with punctuation symbols.  </p>
+<p>The query language of Formal SignWriting uses a lite markup, similar to FSW, to define a variety of searching possibilities.  The spatial SignBox can be searched for symbols or ranges of symbols.  For each symbol or range, the search can specify if the symbol only needs to be found somewhere in the SignBox, or if the symbol needs to be found near certain coordinates.  The temporal sequence can be searched for starting symbols, written as a sequential list of symbols and ranges of symbols.  When searching the temporal sequence, the search results will be limited to signs that start with a matching temporal sequence.  Each query string is transformed into one or more regular expressions.  The regular expressions are used to quickly search large amounts of data.  </p>
+<p>SignWriting 2010 is the modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts and a compact JavaScript library.  SignMaker is a standards based editor, utilizing HTML, CSS, JavaScript, SVG, TrueType Fonts, and PNG images.  SignMaker can be used to create a private dictionary or to view dozens of sign language dictionaries derived from SignPuddle Online.  </p>
+<p>For Unicode, there are several encodings possibilities.  Formal SignWriting is UTF-8.  The plane 15 encoding is isomorphic with Formal SignWriting strings, using 3 characters for each symbol, along with structural marker characters and number characters.  The plane 16 encoding is focused on the symbols only, using 1 character for each symbol.  The Unicode 8 specification uses 1 to 3 characters on plane 1 to name each symbol of the International SignWriting Alphabet 2010.  </p>
 <p>Three appendices discuss additional topics to the standard.  The first discusses the Modern SignWriting theory and example document, stable since January 12, 2012.  The second discusses the symbol encoding of the International SignWriting Alphabet 2010.  The third discusses the SignPuddle Standards: licences, infrastructure, and compatibility.  </p>
 <p>This memo concretely defines a conceptual character encoding map for the Internet community.  It is published for reference, examination, implementation, and evaluation.  Distribution of this memo is unlimited.</p>
 <h1 id="rfc.status">
@@ -458,11 +481,11 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on May 13, 2015.</p>
+<p>This Internet-Draft will expire on November 13, 2015.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
-<p>Copyright (c) 2014 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>Copyright (c) 2015 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
 
   
@@ -471,53 +494,53 @@
   <ul class="toc">
 
   	<li>1.   <a href="#rfc.section.1">SignWriting Script</a></li>
-<li>1.1.   <a href="#rfc.section.1.1">2-Dimensional Signs</a></li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">2-Dimensional Signs</a></li>
 <li>1.2.   <a href="#rfc.section.1.2">Punctuation and Text</a></li>
 <li>1.3.   <a href="#rfc.section.1.3">Block Printing</a></li>
 <li>1.4.   <a href="#rfc.section.1.4">Handwriting</a></li>
-<li>2.   <a href="#rfc.section.2">Formal SignWriting</a></li>
-<li>2.1.   <a href="#rfc.section.2.1">Symbol Keys</a></li>
+</ul><li>2.   <a href="#rfc.section.2">Formal SignWriting</a></li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Symbol Keys</a></li>
 <li>2.2.   <a href="#rfc.section.2.2">Coordinates</a></li>
 <li>2.3.   <a href="#rfc.section.2.3">Spatial SignBox</a></li>
 <li>2.4.   <a href="#rfc.section.2.4">Temporal Sequence</a></li>
 <li>2.5.   <a href="#rfc.section.2.5">Sentences</a></li>
-<li>3.   <a href="#rfc.section.3">Query Language</a></li>
-<li>3.1.   <a href="#rfc.section.3.1">Searching the Spatial Signbox</a></li>
+</ul><li>3.   <a href="#rfc.section.3">Query Language</a></li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Searching the Spatial Signbox</a></li>
 <li>3.2.   <a href="#rfc.section.3.2">Searching the Temporal Sequence</a></li>
 <li>3.3.   <a href="#rfc.section.3.3">Transformation to Regular Expression</a></li>
-<li>4.   <a href="#rfc.section.4">SignWriting 2010</a></li>
-<li>4.1.   <a href="#rfc.section.4.1">TrueType Fonts</a></li>
-<li>4.2.   <a href="#rfc.section.4.2">JavaScript Library</a></li>
-<li>5.   <a href="#rfc.section.5">Unicode Integration</a></li>
-<li>5.1.   <a href="#rfc.section.5.1">UTF-8</a></li>
-<li>5.2.   <a href="#rfc.section.5.2">Unicode 8</a></li>
-<li>5.3.   <a href="#rfc.section.5.3">Private Use Area Plane 15</a></li>
-<li>5.4.   <a href="#rfc.section.5.4">Private Use Area Plane 16</a></li>
-<li>6.   <a href="#rfc.section.6">IANA Considerations</a></li>
+</ul><li>4.   <a href="#rfc.section.4">SignWriting 2010</a></li>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Font Creation Tools</a></li>
+<li>4.2.   <a href="#rfc.section.4.2">TrueType Fonts</a></li>
+<li>4.3.   <a href="#rfc.section.4.3">JavaScript Library</a></li>
+<li>4.4.   <a href="#rfc.section.4.4">SignMaker Editor</a></li>
+</ul><li>5.   <a href="#rfc.section.5">Unicode Integration</a></li>
+<ul><li>5.1.   <a href="#rfc.section.5.1">UTF-8</a></li>
+<li>5.2.   <a href="#rfc.section.5.2">Private Use Area Plane 15</a></li>
+<li>5.3.   <a href="#rfc.section.5.3">Private Use Area Plane 16</a></li>
+<li>5.4.   <a href="#rfc.section.5.4">Unicode 8</a></li>
+</ul><li>6.   <a href="#rfc.section.6">IANA Considerations</a></li>
 <li>7.   <a href="#rfc.section.7">Security Considerations</a></li>
 <li>8.   <a href="#rfc.references">References</a></li>
 <li>Appendix A.   <a href="#rfc.appendix.A">Modern SignWriting</a></li>
-<li>Appendix B.   <a href="#rfc.appendix.B">ISWA 2010</a></li>
-<li>B.1.   <a href="#rfc.appendix.B.1">Grapheme</a></li>
+<li>Appendix B.   <a href="#rfc.appendix.B">International SignWriting Alphabet 2010</a></li>
+<ul><li>B.1.   <a href="#rfc.appendix.B.1">Grapheme</a></li>
 <li>B.2.   <a href="#rfc.appendix.B.2">Symbol</a></li>
 <li>B.3.   <a href="#rfc.appendix.B.3">Hierarchy</a></li>
 <li>B.4.   <a href="#rfc.appendix.B.4">Combined Character Sequence</a></li>
 <li>B.5.   <a href="#rfc.appendix.B.5">Validity</a></li>
-<li>Appendix C.   <a href="#rfc.appendix.C">SignPuddle Standard</a></li>
-<li>C.1.   <a href="#rfc.appendix.C.1">Licenses</a></li>
+</ul><li>Appendix C.   <a href="#rfc.appendix.C">SignPuddle Standard</a></li>
+<ul><li>C.1.   <a href="#rfc.appendix.C.1">Licenses</a></li>
 <li>C.2.   <a href="#rfc.appendix.C.2">Infrastructure</a></li>
-<li>C.2.1.   <a href="#rfc.appendix.C.2.1">International SignWriting Alphabet 2010</a></li>
-<li>C.2.2.   <a href="#rfc.appendix.C.2.2">SignPuddle Online</a></li>
-<li>C.2.3.   <a href="#rfc.appendix.C.2.3">SignWriting Icon Server</a></li>
-<li>C.2.4.   <a href="#rfc.appendix.C.2.4">SignWriting Asset Provider</a></li>
-<li>C.2.5.   <a href="#rfc.appendix.C.2.5">Wikimedia Incubator</a></li>
-<li>C.2.6.   <a href="#rfc.appendix.C.2.6">SignWriting Thin Viewer</a></li>
-<li>C.3.   <a href="#rfc.appendix.C.3">Compatibility</a></li>
-<li>C.3.1.   <a href="#rfc.appendix.C.3.1">SignTyp</a></li>
+<ul><li>C.2.1.   <a href="#rfc.appendix.C.2.1">SignPuddle Online</a></li>
+<li>C.2.2.   <a href="#rfc.appendix.C.2.2">SignWriting Icon Server</a></li>
+<li>C.2.3.   <a href="#rfc.appendix.C.2.3">Wikimedia Incubator</a></li>
+</ul><li>C.3.   <a href="#rfc.appendix.C.3">Compatibility</a></li>
+<ul><li>C.3.1.   <a href="#rfc.appendix.C.3.1">SignTyp</a></li>
 <li>C.3.2.   <a href="#rfc.appendix.C.3.2">SignWriter Studio</a></li>
 <li>C.3.3.   <a href="#rfc.appendix.C.3.3">DELEGS Online</a></li>
 <li>C.3.4.   <a href="#rfc.appendix.C.3.4">SWift</a></li>
-<li><a href="#rfc.authors">Author's Address</a></li>
+<li>C.3.5.   <a href="#rfc.appendix.C.3.5">JSPad</a></li>
+</ul></ul><li><a href="#rfc.authors">Author's Address</a></li>
 
 
   </ul>
@@ -545,22 +568,21 @@
 <h1 id="rfc.section.1.3"><a href="#rfc.section.1.3">1.3.</a> <a href="#printing" id="printing">Block Printing</a></h1>
 <p id="rfc.section.1.3.p.1">Valerie Sutton writes, "SignWriting Printing is easy to read. It is designed for the reader. The Printing can be written by hand as well as by computer. If I am writing a letter to a friend in ASL, I write the letter in SignWriting Printing, taking the time to make sure that my handwritten-symbols are easy and clear to read. I try to write as clearly as if I were using a computer. Of course it is slower, but it is worth it, knowing that my friend will be able to read my letter!" </p>
 <p id="rfc.section.1.3.p.2">With Block Printing, a sign is a cluster of several symbols arranged in 2-dimensions space.  Each symbol has a definite appearance and understanding within an established symbol set.  The exact form of each symbol is structured, standardized, and highly featural.  </p>
-<p id="rfc.section.1.3.p.3">Each symbol has two aspects.  The first is the line that defines the positive shape of the symbol.  The second aspect is the fill (or negative space) of the symbol that is sometimes used inside the lines for palm facing, and inside some arrow heads and tails.  Not every symbol has fill.  Fill matters when symbols overlap.  The negative space of the symbol on top will cover part of the symbol underneath.  </p>
+<p id="rfc.section.1.3.p.3">Each symbol can have two aspects.  The first is the line that defines the positive shape of the symbol.  The second aspect is the fill (or negative space) of the symbol that is sometimes used inside the lines for palm facing, and inside some arrow heads and tails.  Not every symbol has fill.  Fill matters when symbols overlap.  The negative space of the symbol on top will cover part of the symbol underneath.  </p>
 <p id="rfc.section.1.3.p.4">The Block Printing family is aimed at the needs of the reader and the publisher.  The Block Printing family is ready to standardize with a fully developed model.  </p>
 <h1 id="rfc.section.1.4"><a href="#rfc.section.1.4">1.4.</a> <a href="#handwriting" id="handwriting">Handwriting</a></h1>
 <p id="rfc.section.1.4.p.1">Valerie Sutton writes, "SignWriting Handwriting is easier to write by hand, than the Printing. It is designed for the writer. There are several variations of Handwriting, and since most of the time, the writer is only writing for private notes, some writers create their own shortcuts that work just for them...and that is fine!" </p>
 <p id="rfc.section.1.4.p.2">The purpose is not to recreate the iconic symbols of the International SignWriting Alphabet exactly by hand, but the purpose is to enable the writer to quickly write notes on paper or chalkboard.  Handwriting often drops features of the SignWriting Script for efficiency and speed.  If too many features are dropped, the writing may loose it's clarity over time as the writer is distanced from the writing.  This is common for Shorthand.  </p>
 <p id="rfc.section.1.4.p.3">A popular form of SignWriting is cursive.  It can be shared among a groups of writers or it can be individualized and personal.  Cursive writing is designed to have fluid marks and a natural flow.  Cursive writing may use fewer features than the iconic symbols, but should be related to an iconic symbol in appearance and meaning.  Once developed, this style of writing is great for taking notes in a class.  </p>
-<p><a href="http://www.signwriting.org/lessons/cursive/shorthand">Shorthand is a skill of the proficient writer</a>.  In 1982, Sign Language Stenographers could <a href="http://www.signwriting.org/lessons/cursive/byhand5.html">record sign language with SignWriting Shorthand at normal signing speed</a>.  Time tests proved practice and special training were required. The marks they write are personal style of quick and efficient strokes with a highly developed reception to what signifies meaning.  They understand the iconic symbols of the SignWriting Script, but their marks are personal reminders rather than a fully developed text.  </p>
-<p id="rfc.section.1.4.p.5">The shorthand in and of itself is often an incomplete representation of the gestures that were experienced.  The shorthand writing can be thought of as a short-term memory device.  Often shorthand notes must be revised and extended at a later time, the sooner the better.</p>
+<p><a href="#SHORTHAND">Shorthand is a skill of the proficient writer</a> <cite title="NONE">[SHORTHAND]</cite>.  In 1982, Sign Language Stenographers could <a href="#STENOGRAPHY">record sign language with SignWriting Shorthand at normal signing speed</a> <cite title="NONE">[STENOGRAPHY]</cite>.  To develop this skill, practice and special training were required.  </p>
+<p id="rfc.section.1.4.p.5">The marks of SignWriting Shorthand are a personal style of quick and efficient strokes with a highly developed reception to what signifies meaning.  The marks are personal reminders rather than a fully developed text.  The shorthand in and of itself is often an incomplete representation of the gestures that were experienced.  The shorthand writing can be thought of as a short-term memory device.  Often shorthand notes must be revised and extended at a later time, the sooner the better.</p>
 <h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#formal_signwriting" id="formal_signwriting">Formal SignWriting</a></h1>
-<p id="rfc.section.2.p.1">According to Wikipedia, "In mathematics, computer science, and linguistics, a formal language is a set of strings of symbols that may be constrained by rules that are specific to it." <a href="https://en.wikipedia.org/wiki/Formal_language">https://en.wikipedia.org/wiki/Formal_language</a> </p>
+<p id="rfc.section.2.p.1">According to Wikipedia, "In mathematics, computer science, and linguistics, a formal language is a set of strings of symbols that may be constrained by rules that are specific to it." <a href="#FORMAL">[FORMAL]</a> </p>
 <p id="rfc.section.2.p.2">Formal SignWriting defines a formal language for the signed languages of the world.  Any sign of any sign language can be written as a string of ASCII characters.  </p>
 <p id="rfc.section.2.p.3">Formal SignWriting is a heuristic model.  The first prototypes were created in 2008.  Through trial and error, the model was successively refactored to reduce the complexity and the computation cost of the implementations.  The model has been optimized for common usage and processing.  The final model has been stable since January 12th, 2012.  </p>
 <p id="rfc.section.2.p.4">The mathematical names of Formal SignWriting are plain text strings of characters.  These names are described with regular expressions.  Formal languages and regular expressions are used to solve fundamental problems.  </p>
 <div id="rfc.table.1"/>
 <div id="table_regex"/>
-<p>Regular Expression Basics</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -612,10 +634,10 @@
     </tr>
   </tbody>
 </table>
+<p>Regular Expression Basics</p>
 <p id="rfc.section.2.p.5">The Formal SignWriting encoding model makes explicit those features which can be effectively and efficiently processed.  The mathematical names are structured with 11 different tokens.  They can be grouped in 4 layers:  the 5 structural makers (A, B, L, M, R), the 3 base symbol ranges (w, s, P), the 2 modifier indexes (i, o), and the numbers (n).  </p>
 <div id="rfc.table.2"/>
 <div id="table_tokens_structural"/>
-<p>The Tokens of Formal SignWriting</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -670,12 +692,12 @@
     </tr>
   </tbody>
 </table>
-<p id="rfc.section.2.p.6">These tokens are used in patterns to form written sign language.  The following token patterns fully describe the SignWriting Text language.  <a href="http://signpuddle.net/wiki/index.php/MSW:Mathematical_Model#4.B._Proto_Encoding_of_SignWriting_Text">http://signpuddle.net/wiki/index.php/MSW:Mathematical_Model#4.B._Proto_Encoding_of_SignWriting_Text</a> </p>
+<p>The Tokens of Formal SignWriting</p>
+<p id="rfc.section.2.p.6">These tokens are used in patterns to form written sign language.  The following token patterns fully describe SignWriting Text.  </p>
 <h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> Symbol Keys</h1>
 <p id="rfc.section.2.1.p.1">Symbol keys can be described with 3 tokens: base symbol, fill modifier, and rotation modifier.</p>
 <div id="rfc.table.3"/>
 <div id="table_tokens_symbol_key"/>
-<p>Symbol Key Tokens</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -718,10 +740,10 @@
     </tr>
   </tbody>
 </table>
+<p>Symbol Key Tokens</p>
 <p id="rfc.section.2.1.p.2">Symbol keys are 6 characters long.  The first character of a symbol key is always "S".  The next 3 characters identify the symbol base.  The last two characters identify the fill and rotation modifiers respectively.  </p>
 <div id="rfc.table.4"/>
 <div id="table_definition_symbol_key"/>
-<p>Symbol Key Definition</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -752,10 +774,10 @@
     </tr>
   </tbody>
 </table>
+<p>Symbol Key Definition</p>
 <p id="rfc.section.2.1.p.3">Symbol keys can be divided between several types.  Each type has a starting and ending base value.  </p>
 <div id="rfc.table.5"/>
 <div id="table_ranges_symbol_type"/>
-<p>Symbol Key Type and Ranges</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -840,12 +862,12 @@
     </tr>
   </tbody>
 </table>
+<p>Symbol Key Type and Ranges</p>
 <h1 id="rfc.section.2.2"><a href="#rfc.section.2.2">2.2.</a> Coordinates</h1>
 <p id="rfc.section.2.2.p.1">Coordinates can be described with 2 tokens: number and number.  These numbers represent the X and Y coordinates respectively.  </p>
 <p id="rfc.section.2.2.p.2">The number characters encode the ruler principle with characters.  The ruler principle is built in automatically for scripts written sequentially in one dimension.  The number characters are needed to specify the spatial relationship between symbols.  </p>
 <div id="rfc.table.6"/>
 <div id="table_tokens_coordinates"/>
-<p>Coordinate Tokens</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -864,36 +886,20 @@
     </tr>
   </tbody>
 </table>
+<p>Coordinate Tokens</p>
 <p id="rfc.section.2.2.p.3">There are 2 definitions for a coordinate.  The more general definition simply defines 3 numbers followed by an "x" followed by 3 more numbers.  The more explicit definition correctly restricts the number range from 250 to 749.  The general coordinate definition is adequate for processing.  </p>
-<div id="rfc.table.7"/>
-<div id="table_definition_coordinate"/>
-<p>Coordinate Definition</p>
-<table cellpadding="3" cellspacing="0" class="tt all left">
-  <thead>
-    <tr>
-      <th class="left">Regular Expression</th>
-      <th class="left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="left">[0-9]{3}</td>
-      <td class="left">General 3 digit number definition.</td>
-    </tr>
-    <tr>
-      <td class="left">[0-9]{3}x[0-9]{3}</td>
-      <td class="left">General coordinate definition.</td>
-    </tr>
-    <tr>
-      <td class="left">(2[5-9][0-9]|[3-6][0-9]{2}|7[0-4][0-9])</td>
-      <td class="left">Explicit number definition from 250 to 749.</td>
-    </tr>
-    <tr>
-      <td class="left">(2[5-9][0-9]|[3-6][0-9]{2}|7[0-4][0-9])x(2[5-9][0-9]|[3-6][0-9]{2}|7[0-4][0-9])</td>
-      <td class="left">Explicit coordinate definition</td>
-    </tr>
-  </tbody>
-</table>
+<p/>
+
+<dl>
+  <dt>General 3 digit number definition:</dt>
+  <dd style="margin-left: 8">[0-9]{3}</dd>
+  <dt>General coordinate definition:</dt>
+  <dd style="margin-left: 8">[0-9]{3}x[0-9]{3}</dd>
+  <dt>Explicit number definition from 250 to 749:</dt>
+  <dd style="margin-left: 8">(2[5-9][0-9]|[3-6][0-9]{2}|7[0-4][0-9])</dd>
+  <dt>Explicit coordinate definition:</dt>
+  <dd style="margin-left: 8">(2[5-9][0-9]|[3-6][0-9]{2}|7[0-4][0-9])x(2[5-9][0-9]|[3-6][0-9]{2}|7[0-4][0-9])</dd>
+</dl>
 <h1 id="rfc.section.2.3"><a href="#rfc.section.2.3">2.3.</a> Spatial SignBox</h1>
 <p id="rfc.section.2.3.p.1">The visual image of a logographic sign is a 2-dimension arrangement of symbols inside of a signbox.  Each signbox has a defined width, height, and 2-dimensional center that can be calculated from the plain text.  </p>
 <p id="rfc.section.2.3.p.2">Each logographic sign exists on its own 2-dimensional signbox.  Each point on the signbox is identified with an X and a Y coordinate.  Each signbox has a defined center.  Formal numbers range from 250 to 749.  Informal number have no limit.  </p>
@@ -915,12 +921,10 @@ X Axis       |
              |
              | 749
             </pre>
-<p class="figure"></p>
 <p id="rfc.section.2.3.p.3">Symbols are placed on the signbox with coordinates that represent the top-left of the symbol image.  Symbol images may overlap.  </p>
 <p id="rfc.section.2.3.p.4">The Spatial SignBox can be described with 8 tokens.  </p>
-<div id="rfc.table.8"/>
+<div id="rfc.table.7"/>
 <div id="table_tokens_signbox"/>
-<p>Spatial SignBox Tokens</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -991,43 +995,28 @@ X Axis       |
     </tr>
   </tbody>
 </table>
+<p>Spatial SignBox Tokens</p>
 <p id="rfc.section.2.3.p.5">The Spatial SignBox is assigned to a lane, has a preprocessed maximum coordinate and zero or more writing symbols with X and Y coordinates.  </p>
-<div id="rfc.table.9"/>
-<div id="table_definition_signbox"/>
-<p>Spatial SignBox Definition</p>
-<table cellpadding="3" cellspacing="0" class="tt all left">
-  <thead>
-    <tr>
-      <th class="left">Regular Expression</th>
-      <th class="left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="left">S[123][0-9a-f]{2}[0-5][0-9a-f]</td>
-      <td class="left">Symbol key definition.</td>
-    </tr>
-    <tr>
-      <td class="left">[0-9]{3}x[0-9]{3}</td>
-      <td class="left">Coordinate definition.</td>
-    </tr>
-    <tr>
-      <td class="left">[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*</td>
-      <td class="left">SignBox definition.</td>
-    </tr>
-  </tbody>
-</table>
-<p id="rfc.section.2.3.p.6">2-dimensional space does not have a normative 1-dimensional order.  When symbols overlap, the relative order of the overlapping symbols is important.  Otherwise, the exact string order of the spatial symbols is unpredictable.  </p>
+<p/>
+
+<dl>
+  <dt>Symbol key definition:</dt>
+  <dd style="margin-left: 8">S[123][0-9a-f]{2}[0-5][0-9a-f]</dd>
+  <dt>Coordinate definition:</dt>
+  <dd style="margin-left: 8">[0-9]{3}x[0-9]{3}</dd>
+  <dt>SignBox definition:</dt>
+  <dd style="margin-left: 8">[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*</dd>
+</dl>
+<p id="rfc.section.2.3.p.7">2-dimensional space does not have a normative 1-dimensional order.  When symbols overlap, the relative order of the overlapping symbols is important.  Otherwise, the exact string order of the spatial symbols is unpredictable.  </p>
 <h1 id="rfc.section.2.4"><a href="#rfc.section.2.4">2.4.</a> Temporal Sequence</h1>
 <p id="rfc.section.2.4.p.1">Signs are written in 2-dimensional space which does not have a normative 1-dimensional order.  Any 1-dimensional order of 2-dimensional space is subjective.  Some 1-dimensional orders may be canonical according to a particular theory, but there are a variety of theories on setting a 1-dimensional order.  </p>
-<p id="rfc.section.2.4.p.2">The temporal sequence describes a 1-dimensional order that is separate from the spatial SignBox;; It does not order the 2-dimensional space directly.  The temporal sequence is written as an optional prefix to a spatial SignBox.  The temporal sequence will always use the symbols that are used in the spatial SignBox, but it does not need to use all of them and it is not limited to only those symbols.  The temporal sequence is a list of writing symbols and/or detailed location symbols that identify temporal order and additional analysis.  A valid sequence must contain at least one symbol and can not contain punctuation.  </p>
+<p id="rfc.section.2.4.p.2">The temporal sequence describes a 1-dimensional order that is separate from the spatial SignBox, rather than ordering the 2-dimensional space directly.  The temporal sequence is written as an optional prefix to a spatial SignBox.  The temporal sequence will use the same symbols that are used in the spatial SignBox, but it does not need to use all of them and it is not limited to only those symbols.  The temporal sequence is a list of writing symbols and/or detailed location symbols that identify temporal order and additional analysis.  A valid sequence must contain at least one symbol and can not contain punctuation.  </p>
 <p id="rfc.section.2.4.p.3">The temporal sequence allows for sorting that is universally supported through binary string comparison.  </p>
 <p id="rfc.section.2.4.p.4">There are several theories on the best way to structure a temporal sequence.  The most productive is based on the SignSpelling Sequence theory of Valerie Sutton.  A temporal sequence is structured as a series of starting handshapes followed by optional movements, transitional handshapes, movement, and end handshapes.  Only symbols of type "hand" and "movement" should be used in this first section.  The last section of the temporal sequence should contain symbols of of type "dynamic", "head", "trunk", and "limb".  </p>
 <p id="rfc.section.2.4.p.5">Detailed location symbols of type "location" can be used in a temporal sequence, but are rarely (if ever) needed for general writing.  </p>
 <p id="rfc.section.2.4.p.6">A temporal sequence can be described with 5 tokens.  </p>
-<div id="rfc.table.10"/>
+<div id="rfc.table.8"/>
 <div id="table_tokens_sequence"/>
-<p>Temporal Sequence Tokens</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -1062,10 +1051,10 @@ X Axis       |
     </tr>
   </tbody>
 </table>
+<p>Temporal Sequence Tokens</p>
 <p id="rfc.section.2.4.p.7">The temporal prefix starts with a sequence marker and includes an ordered list of writing symbols and detailed locations.  </p>
-<div id="rfc.table.11"/>
+<div id="rfc.table.9"/>
 <div id="table_definition_sequence"/>
-<p>Temporal Sequence Definition</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -1080,15 +1069,15 @@ X Axis       |
     </tr>
   </tbody>
 </table>
+<p>Temporal Sequence Definition</p>
 <h1 id="rfc.section.2.5"><a href="#rfc.section.2.5">2.5.</a> Sentences</h1>
 <p id="rfc.section.2.5.p.1">General signs are written as a spatial SignBox of symbols in 2-dimensional space.  Sortable signs include a temporal sequence as a 1-dimensional prefix to the spatial SignBox.  </p>
 <p id="rfc.section.2.5.p.2">Signs are mixed with punctuation to form text. Punctuation is a single symbol and separates a series of signs into structured sentences.  A punctuation symbol is always used alone and should not be used in a sign.  Line breaks should not occur before punctuation.  </p>
 <p id="rfc.section.2.5.p.3">When written vertically, SignWriting can use 3 different lanes: left, middle, and right. The middle lane is the default lane and punctuation is always used in the middle lane. No matter the lane, the center of a sign is aligned with the center of the lane.  </p>
 <p id="rfc.section.2.5.p.4">For body weight shifts to one side or the other, the center of the sign is aligned with a fixed horizontal offset from the middle lane into either the left or right lane.  </p>
 <p id="rfc.section.2.5.p.5">The left and right lanes are used to represent body weight shifts and are represented by a horizontal offset from the middle lane. Body weight shifts are important to the grammar of sign languages, used for two different grammatical aspects: 1) role shifting during sign language storytelling, and 2) spatial comparisons of two items under discussion. One "role" or "item" is placed on the right side of the body (right lane), and the other on the left side of the body (left lane), and the weight shifts back and forth between the two, with the narrator in the middle (middle lane).  </p>
-<div id="rfc.table.12"/>
+<div id="rfc.table.10"/>
 <div id="table_token_sentences"/>
-<p>Sentence Token Patterns</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -1111,45 +1100,34 @@ X Axis       |
     </tr>
   </tbody>
 </table>
+<p>Sentence Token Patterns</p>
 <p id="rfc.section.2.5.p.6">Sentences mix signs with punctuation to form text.  </p>
-<div id="rfc.table.13"/>
-<div id="table_definition_sentence"/>
-<p>Temporal Sequence Definition</p>
-<table cellpadding="3" cellspacing="0" class="tt all left">
-  <thead>
-    <tr>
-      <th class="left">Regular Expression</th>
-      <th class="left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="left">S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}</td>
-      <td class="left">Punctuation definition</td>
-    </tr>
-    <tr>
-      <td class="left">((A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3})( (A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*| S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3})*</td>
-      <td class="left">Formal SignWriting text definition</td>
-    </tr>
-  </tbody>
-</table>
-<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> Query Language</h1>
-<p id="rfc.section.3.p.1">The query language is a lite ASCII markup similar to Formal SignWriting.  Any Formal SignWriting string can easily be converted into a query string.  The query string is a concise representation for a much larger and detailed set of regular expressions.  The regular expressions can be used to quickly and accurately search large files and databases containing Formal SignWriting.  </p>
-<p id="rfc.section.3.p.2">A filter and repeat pattern of searching is used as a series of match criteria.  A file, database, or text input is searched using a sequence of steps.  Each step applies a single match criteria.  Matching results are collated and the next search criteria is applied.  The pattern of searching the previous results continues until all regular expressions have been used.  </p>
-<p id="rfc.section.3.p.3">There are two main sections of a query string.  The first searches the spatial signbox.  The second searches the temporal sequence.  Both sections use the same definition for a symbol or a range.  The symbol search can match an exact symbol, or a set of related symbols.  For the fill and rotation modifiers, the "u" character is a wildcard.  The "u" stands for unknown and will match all values rather than a specific character.  The range search can match a range of base symbols.  The base symbol range consists of 2 values: the starting base symbol and the ending base symbol.  Every symbol between these 2 base symbols will be matched.  </p>
+<p/>
 
 <dl>
-  <dt>'Symbol Search'</dt>
+  <dt>Punctuation definition:</dt>
+  <dd style="margin-left: 8">S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}</dd>
+  <dt>Formal SignWriting text definition:</dt>
+  <dd style="margin-left: 8">((A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3})( (A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*| S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3})*</dd>
+</dl>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> Query Language</h1>
+<p id="rfc.section.3.p.1">The query language is a lite ASCII markup similar to Formal SignWriting.  Any Formal SignWriting string can easily be converted into several different query string, depending on the search parameters.  </p>
+<p id="rfc.section.3.p.2">The query string is a concise representation for a much larger and detailed set of regular expressions.  The regular expressions can be used to quickly and accurately search large files and databases containing Formal SignWriting.  </p>
+<p id="rfc.section.3.p.3">A filter and repeat pattern of searching is used as a series of match criteria.  A file, database, or text input is searched using a sequence of steps.  Each step applies a single match criteria.  Matching results are collated and the next search criteria is applied.  The pattern of searching the previous results continues until all regular expressions have been used.  </p>
+<p id="rfc.section.3.p.4">There are two main sections of a query string.  The first searches the spatial signbox.  The second searches the temporal sequence.  Both sections use the same definition for a symbol or a range.  The symbol search can match an exact symbol, or a set of related symbols.  For the fill and rotation modifiers, the "u" character is a wildcard.  The "u" stands for unknown and will match all values rather than a specific character.  The range search can match a range of base symbols.  The base symbol range consists of 2 values: the starting base symbol and the ending base symbol.  Every symbol between these 2 base symbols will be matched.  </p>
+
+<dl>
+  <dt>Symbol Search:</dt>
   <dd style="margin-left: 8">S[123][0-9a-f]{2}[0-5u][0-9a-fu]</dd>
-  <dt>'Range Search'</dt>
+  <dt>Range Search:</dt>
   <dd style="margin-left: 8">R[123][0-9a-f]{2}t[123][0-9a-f]{2}</dd>
 </dl>
 
 <p> </p>
-<p id="rfc.section.3.p.4">The full query string definition allows for the possibility of searching the temporal sequence and the spatial signbox at the same time.  </p>
+<p id="rfc.section.3.p.5">The full query string definition allows for the possibility of searching the temporal sequence and the spatial signbox at the same time.  </p>
 
 <dl>
-  <dt>'Query String'</dt>
+  <dt>Query String:</dt>
   <dd style="margin-left: 8">Q((A(S[123][0-9a-f]{2}[0-5u][0-9a-fu]|R[123][0-9a-f]{2}t[123][0-9a-f]{2})+)?T)?(S[123][0-9a-f]{2}[0-5u][0-9a-fu]([0-9]{3}x[0-9]{3})?|R[123][0-9a-f]{2}t[123][0-9a-f]{2}([0-9]{3}x[0-9]{3})?)*(V[0-9]+)?</dd>
 </dl>
 
@@ -1160,20 +1138,19 @@ X Axis       |
 <p id="rfc.section.3.1.p.3">The variance is a number value, 0 or greater with a default value of 20.  A variance of 0 will only find symbols used at an exact coordinate.  A variance of 5 will match the symbols used at a coordinate, plus or minus 5 for both X and Y numbers.  </p>
 
 <dl>
-  <dt>'Symbol Search with Optional Coordinate'</dt>
+  <dt>Symbol Search with Optional Coordinate:</dt>
   <dd style="margin-left: 8">S[123][0-9a-f]{2}[0-5u][0-9a-fu]([0-9]{3}x[0-9]{3})?</dd>
-  <dt>'Range Search with Optional Coordinate'</dt>
+  <dt>Range Search with Optional Coordinate:</dt>
   <dd style="margin-left: 8">R[123][0-9a-f]{2}t[123][0-9a-f]{2}([0-9]{3}x[0-9]{3})?</dd>
-  <dt>'Variance'</dt>
+  <dt>Variance:</dt>
   <dd style="margin-left: 8">(V[0-9]+)?</dd>
-  <dt>'Spatial Signbox Search Query'</dt>
+  <dt>Spatial Signbox Search Query:</dt>
   <dd style="margin-left: 8">Q(S[123][0-9a-f]{2}[0-5u][0-9a-fu]([0-9]{3}x[0-9]{3})?|R[123][0-9a-f]{2}t[123][0-9a-f]{2}([0-9]{3}x[0-9]{3})?)*(V[0-9]+)?</dd>
 </dl>
 
 <p> </p>
-<div id="rfc.table.14"/>
+<div id="rfc.table.11"/>
 <div id="table_signbox_query"/>
-<p>Spatial Signbox Query Examples</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -1204,19 +1181,19 @@ X Axis       |
     </tr>
   </tbody>
 </table>
+<p>Spatial Signbox Query Examples</p>
 <h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> Searching the Temporal Sequence</h1>
 <p id="rfc.section.3.2.p.1">The temporal sequence is a list of symbol keys.  The query "QT" will find all signs that include a temporal sequence.  </p>
 <p id="rfc.section.3.2.p.2">It is possible to specify the start of the temporal sequence by identifying a series of symbols and/or ranges.  The query will start with an "QA" and end with a "T", such as "QA...T".  Between the "QA" and "T", a series of symbol searches and/or range searches will specify the desired start of the temporal sequence.  The order of the symbols and ranges is important.  </p>
 
 <dl>
-  <dt>'Temporal Sequence Search Query'</dt>
+  <dt>Temporal Sequence Search Query:</dt>
   <dd style="margin-left: 8">Q((A(S[123][0-9a-f]{2}[0-5u][0-9a-fu]|R[123][0-9a-f]{2}t[123][0-9a-f]{2})+)?T)?</dd>
 </dl>
 
 <p> </p>
-<div id="rfc.table.15"/>
+<div id="rfc.table.12"/>
 <div id="table_prefix_query"/>
-<p>Temporal Sequence Query Examples</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -1239,16 +1216,17 @@ X Axis       |
     </tr>
   </tbody>
 </table>
+<p>Temporal Sequence Query Examples</p>
 <h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> Transformation to Regular Expression</h1>
-<p id="rfc.section.3.3.p.1">The conversion from Query String to Regular Expression has been fully implemented in the SignWriting Icon Server.  </p>
-<p id="rfc.section.3.3.p.2">The Query Language to regular expression generator uses the following regular expression structures as building blocks.  </p>
+<p id="rfc.section.3.3.p.1">The conversion from query string to regular expressions has been fully implemented in the SignWriting 2010 JavaScript Library and the SignWriting Icon Server.  </p>
+<p id="rfc.section.3.3.p.2">The query language to regular expressions generator uses the following regular expression structures as building blocks.  </p>
 
 <dl>
-  <dt>'Temporal Sequence Prefix'</dt>
+  <dt>Temporal Sequence Prefix:</dt>
   <dd style="margin-left: 8">(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)</dd>
-  <dt>'SignBox Prefix'</dt>
+  <dt>SignBox Prefix:</dt>
   <dd style="margin-left: 8">[BLMR]([0-9]{3}x[0-9]{3})</dd>
-  <dt>'Spatial Symbols'</dt>
+  <dt>Spatial Symbols:</dt>
   <dd style="margin-left: 8">(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*</dd>
 </dl>
 
@@ -1256,43 +1234,241 @@ X Axis       |
 <p id="rfc.section.3.3.p.3">The Temporal Sequence Prefix is a structural marker followed by one or more symbols.  For the query string "QT", the prefix is required.  For the general "Q", the prefix is optional so "?" is appended to the Temporal Sequence Prefix regular expression.  </p>
 <p id="rfc.section.3.3.p.4">The SignBox Prefix is a combination of structural marker and preprocessed maximum coordinate.  Every constructed regular expression will include the SignBox Prefix.  </p>
 <p id="rfc.section.3.3.p.5">The Spatial Symbols is zero or more symbol definitions and associated coordinates.  The Spatial Symbols regular expression is used for every search.  For both "Q" and "QT", it is the only symbol matching used.  When searching for specific symbols and ranges, the general Spatial Symbols definition will sandwich the specific search definitions.  </p>
-<p id="rfc.section.3.3.p.6">Searching for number ranges with regular expressions requires a unique technique.  This technique was described to the LinkedIn Regular Expression Experts <a href="http://www.linkedin.com/groups/Searching-3-digit-number-simple-1066587.S.85595980?qid=9cb1768b-5413-4f7f-92b5-fbef2c243df8">at the end of 2011</a>.  Searching for number ranges in hexadecimal with regular expressions is slightly more complicated but uses the same solution.  </p>
+<p id="rfc.section.3.3.p.6">Searching for number ranges with regular expressions requires a unique technique.  This technique was described to the LinkedIn Regular Expression Experts <a href="#DIGIT_SEARCH">at the end of 2011</a> <cite title="NONE">[DIGIT_SEARCH]</cite>.  Searching for number ranges in hexadecimal with regular expressions is slightly more complicated but uses the same solution.  </p>
 <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#sw10" id="sw10">SignWriting 2010</a></h1>
 <p id="rfc.section.4.p.1">SignWriting 2010 is the modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts and a compact JavaScript library.  </p>
-<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#ttf" id="ttf">TrueType Fonts</a></h1>
-<p id="rfc.section.4.1.p.1">The SignWriting 2010 TrueType fonts are available for download and installation.  The fonts have been tailored for the SignWriting 2010 JavaScript library.  </p>
-<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#sw10js" id="sw10js">JavaScript Library</a></h1>
-<p id="rfc.section.4.2.p.1">The JavaScript library leverages the TrueType fonts without any additional requirements.  The SignWriting 2010 JavaScript library is contained in a single file and can be included in any HTML page or JavaScript environment.  </p>
+<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#tools" id="tools">Font Creation Tools</a></h1>
+<p id="rfc.section.4.1.p.1">The <a href="#SW10_TOOLS">SignWriting 2010 Tools</a> <cite title="NONE">[SW10_TOOLS]</cite> is a collection of text files and python scripts used to build TrueType fonts using FontForge.  The source SVG are available in the SignWriting 2010 Fonts project.  </p>
+<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#ttf" id="ttf">TrueType Fonts</a></h1>
+<p id="rfc.section.4.2.p.1">The <a href="#SW10_FONTS">SignWriting 2010 Fonts</a> <cite title="NONE">[SW10_FONTS]</cite> are available for download in SVG format and TrueType fonts.  The TrueType fonts can be installed on Windows, Linux, Mac, and iOS.  Android is not currently supported because the fonts can not be installed due to OS limitations.  </p>
+<p id="rfc.section.4.2.p.2">The fonts have been tailored for the SignWriting 2010 JavaScript library.  </p>
+<h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#sw10js" id="sw10js">JavaScript Library</a></h1>
+<p id="rfc.section.4.3.p.1">The <a href="#SW10_JS">SignWriting 2010 JavaScript Library</a> <cite title="NONE">[SW10_JS]</cite> provides support for SignWriting images and queries.  It leverages the TrueType fonts without any additional requirements.  The SignWriting 2010 JavaScript library is contained in a single file and can be included in any HTML page or JavaScript environment.  The library includes a guide, API documentation, and a testing suite.</p>
+<h1 id="rfc.section.4.4"><a href="#rfc.section.4.4">4.4.</a> <a href="#signmaker" id="signmaker">SignMaker Editor</a></h1>
+<p><a href="#SIGNMAKER">SignMaker</a> <cite title="NONE">[SIGNMAKER]</cite> is a standards based editor, utilizing HTML, CSS, JavaScript, SVG, TrueType Fonts, and PNG images.  </p>
+<p id="rfc.section.4.4.p.2">SignMaker is browser based without the need for a server connection.  It can be used online or it can be <a href="#SM_DOWNLOAD">downloaded</a> <cite title="NONE">[SM_DOWNLOAD]</cite> and run directly from the user's computer.  </p>
+<p id="rfc.section.4.4.p.3">The <a href="#SM_SIGNBANK">primary online website on SignBank</a> <cite title="NONE">[SM_SIGNBANK]</cite> can be used to create a private dictionary in the browser's LocalStorage or view dozens of sign language dictionaries from around the world.  </p>
+<p id="rfc.section.4.4.p.4">The <a href="#SM_GITHUB">secondary online website on GitHub.io</a> <cite title="NONE">[SM_GITHUB]</cite> can be used to create a private dictionary in the browser's LocalStorage.  </p>
 <h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#unicode" id="unicode">Unicode Integration</a></h1>
 <p id="rfc.section.5.p.1">SignWriting Text is integrated with Unicode in a varieties of ways.  The TrueType fonts of SignWriting 2010 are compatible with each of the varieties.  </p>
 <h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#utf8" id="utf8">UTF-8</a></h1>
 <p id="rfc.section.5.1.p.1">Formal SignWriting is based on ASCII, so it can be supported anywhere ASCII is supported.  ASCII is a subset of UTF-8, with a one-to-one character correspondence.  Anywhere UTF-8 is supported, the size of the Formal SignWriting strings is equal to the ASCII encoding of 8 bits per character.  With UTF-32, the size of the string is 4 times that of the ASCII encoding, requiring 32 bits for each character.  </p>
 <p id="rfc.section.5.1.p.2">The Formal SignWriting strings have an equivalent encoding on plane 15 of the Private Use Area.  </p>
-<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#unicode8" id="unicode8">Unicode 8</a></h1>
-<p id="rfc.section.5.2.p.1">The symbols of the International SignWriting Alphabet 2010 have been approved for Unicode 8, which will be released next year.  Every symbol of the ISWA 2010 can be described with 1 to 3 characters.  </p>
-<p id="rfc.section.5.2.p.2">Due to the variable size of the symbol description, both sorting and searching have been compromised.  The sorting issue has not been resolved.  The searching issue either complicates the routines or makes it impossible to resolve ambiguity.  It should be noted that a basic search and replace of symbol names will likely corrupt the text.  </p>
-<h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#pua15" id="pua15">Private Use Area Plane 15</a></h1>
-<p id="rfc.section.5.3.p.1">The Unicode PUA is a simple shift of the x-Binary-SignWriting coded character set.  Each code is increased by decimal value 1,038,080 which is FD700 in hex.  </p>
-<h1 id="rfc.section.5.4"><a href="#rfc.section.5.4">5.4.</a> <a href="#pua16" id="pua16">Private Use Area Plane 16</a></h1>
-<p id="rfc.section.5.4.p.1">Every symbol of the ISWA 2010 can be described with a single character on plane 16 of the Private Use Area.  A simple formula transforms a symbol key into a codepoint.  </p>
+<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#pua15" id="pua15">Private Use Area Plane 15</a></h1>
+<p id="rfc.section.5.2.p.1">The x-Character-SignWriting coded character set is isomorphic with Formal SignWriting strings.  Instead of ASCII characters, x-Character-SignWriting uses code points on Plane 15 of Unicode.  Symbols are defined using 3 characters.  Structural markers are defined using 1 character each.  Number characters are defined using 1 character each.  </p>
+<div id="rfc.table.13"/>
+<div id="table_csw"/>
+<table cellpadding="3" cellspacing="0" class="tt all center">
+  <thead>
+    <tr>
+      <th class="left">Description</th>
+      <th class="left">Formal SignWriting</th>
+      <th class="left">x-Character-SignWriting</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="left">Sequence Marker</td>
+      <td class="left">A</td>
+      <td class="left">U+FD800</td>
+    </tr>
+    <tr>
+      <td class="left">SignBox Markers</td>
+      <td class="left">B, L, M, R</td>
+      <td class="left">U+FD801 to U+FD804</td>
+    </tr>
+    <tr>
+      <td class="left">Fill Modifiers</td>
+      <td class="left">0 to 5</td>
+      <td class="left">U+FD810 to U+FD815</td>
+    </tr>
+    <tr>
+      <td class="left">Rotation Modifiers</td>
+      <td class="left">0 to 9 and a to f</td>
+      <td class="left">U+FD820 to U+FD82F</td>
+    </tr>
+    <tr>
+      <td class="left">Symbol Base</td>
+      <td class="left">S100 to S38b</td>
+      <td class="left">U+FD830 to U+FDABB</td>
+    </tr>
+    <tr>
+      <td class="left">Numbers</td>
+      <td class="left">250 to 749</td>
+      <td class="left">U+FDE06 to U+FDFF9</td>
+    </tr>
+  </tbody>
+</table>
+<p>x-Character-SignWriting Definition</p>
+<h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#pua16" id="pua16">Private Use Area Plane 16</a></h1>
+<p id="rfc.section.5.3.p.1">The x-ISWA-2010 is a 16-bit coded character set that has a unique codepoint for each symbol of the ISWA 2010.  The coded character set can be mapped to plane 16 by adding value U+100000 to any codepoint.  </p>
+<p id="rfc.section.5.3.p.2">A simple formula transforms a symbol key into a codepoint.  Given a symbol key as variable "key", in JavaScript the function is defined as: </p>
+
+<ul class="empty">
+  <li>var code = ((parseInt(key.slice(1,4),16) - 256) * 96) + ((parseInt(key.slice(4,5),16))*16) + parseInt(key.slice(5,6),16) + 1; </li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.5.4"><a href="#rfc.section.5.4">5.4.</a> <a href="#unicode8" id="unicode8">Unicode 8</a></h1>
+<p id="rfc.section.5.4.p.1">The symbols of the International SignWriting Alphabet 2010 have been approved for <a href="#UNICODE8">Unicode 8, which will be between June and August of 2015</a> <cite title="NONE">[UNICODE8]</cite>.  Every symbol of the ISWA 2010 can be described with 1 to 3 characters.  </p>
+<p id="rfc.section.5.4.p.2">Due to the variable size of the symbol description, both sorting and searching have been compromised.  The sorting issue has been reported, but not yet resolved.  The searching issue either complicates the routines or makes it impossible to resolve ambiguity.  It should be noted that a basic search and replace of symbol names could corrupt the text.  </p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> IANA Considerations</h1>
 <p id="rfc.section.6.p.1">This section provides guidance to the Internet Assigned Numbers Authority (IANA) regarding registration of values related to the code spaces of the Center for Sutton Movement Writing, in accordance with [RFC2978].  protocol, in accordance with BCP 26, [RFC2434].  </p>
 <p id="rfc.section.6.p.2">See IANA: http://www.rfc-editor.org/rfc/rfc2978.txt </p>
 <p id="rfc.section.6.p.3">Conforms with RFC 2040.  </p>
-<p id="rfc.section.6.p.4">There are three name spaces for the Center for Sutton Movement Writing that require definition and extension: x-ISWA-2010, x-Binary-SignWriting, and x-Character-SignWriting </p>
+<p id="rfc.section.6.p.4">There are two name spaces for the Center for Sutton Movement Writing that require definition and extension: x-ISWA-2010 and x-Character-SignWriting </p>
 <p id="rfc.section.6.p.5">SignWriting Text is an international standard with several coded character sets.  These sets may require additional hand and mouth shapes.  </p>
 <p id="rfc.section.6.p.6">The following terms are used here with the meanings defined in BCP 26: "name space", "assigned value", "registration".  </p>
 <p id="rfc.section.6.p.7">The following policies are used here with the meanings defined in BCP 26: "Private Use", "First Come First Served", "Expert Review", "Specification Required", "IETF Consensus", "Standards Action".  </p>
 <h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> Security Considerations</h1>
 <p id="rfc.section.7.p.1">None.</p>
 <h1 id="rfc.references"><a href="#rfc.references">8.</a> References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="CODING_SYSTEM">[CODING_SYSTEM]</b>
+      </td>
+      <td class="top"><a>Butler, C.</a> and <a>R. Channon</a>, "<a href="http://www.signwriting.org/archive/docs7/sw0623_TISLR_2010_SignWriting_SignTyp_Poster.pdf">Transcription systems as input to coding systems: SignWriting &amp; SignTyp</a>"</td>
+    </tr>
+    <tr><td class="reference"><b id="DELEGS">[DELEGS]</b></td><td class="top">"<a href="http://www.delegs.com/DelegsPage">DELEGS Editor</a>"</td></tr>
+    <tr>
+      <td class="reference">
+        <b id="DIGIT_SEARCH">[DIGIT_SEARCH]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="https://www.linkedin.com/grp/post/1066587-85595980">3 Digit Number Searching</a>"</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="FEATURES">[FEATURES]</b>
+      </td>
+      <td class="top"><a>Hulst, H.</a> and <a>R. Channon</a>, "<a href="http://www.purdue.edu/tislr10/pdfs/van%20der%20Hulst%20Channon.pdf">Why dynamic features?</a>"</td>
+    </tr>
+    <tr><td class="reference"><b id="FORMAL">[FORMAL]</b></td><td class="top">"<a href="https://en.wikipedia.org/wiki/Formal_language">Formal Language on Wikipedia</a>"</td></tr>
+    <tr>
+      <td class="reference">
+        <b id="ISWA_FONT">[ISWA_FONT]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="http://signpuddle.net/iswa">International SignWriting Alphabet 2010  Font Reference</a>"</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="ISWA_REF">[ISWA_REF]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="http://signbank.org/iswa">International SignWriting Alphabet 2010  HTML Reference</a>"</td>
+    </tr>
+    <tr><td class="reference"><b id="JSPAD">[JSPAD]</b></td><td class="top">"<a href="http://www.mat.info.gifu-u.ac.jp/jspad/">JSPad</a>"</td></tr>
+    <tr>
+      <td class="reference">
+        <b id="MSW">[MSW]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="https://github.com/Slevinski/msw">Modern SignWriting</a>"</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="NOTATION">[NOTATION]</b>
+      </td>
+      <td class="top"><a>Hulst, H.</a> and <a>R. Channon</a>, "<a href="http://homepage.uconn.edu/~hdv02001/Articles-pdfs/131%20-%20Notation%20Systems.pdf">Notation Systems</a>"</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SHORTHAND">[SHORTHAND]</b>
+      </td>
+      <td class="top"><a>Sutton, V.</a>, "<a href="http://www.signwriting.org/lessons/cursive/shorthand">SignWriting Shorthand</a>"</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SIGNMAKER">[SIGNMAKER]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="https://github.com/Slevinski/signmaker">SignMaker Editor</a>"</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SM_DOWNLOAD">[SM_DOWNLOAD]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="https://github.com/Slevinski/signmaker/archive/gh-pages.zip">SignMaker Download Link</a>"</td>
+    </tr>
+    <tr><td class="reference"><b id="SM_GITHUB">[SM_GITHUB]</b></td><td class="top">"<a href="http://slevinski.github.io/signmaker">SignMaker on GitHub.io</a>"</td></tr>
+    <tr><td class="reference"><b id="SM_SIGNBANK">[SM_SIGNBANK]</b></td><td class="top">"<a href="http://signbank.org/signmaker.html">SignMaker on SignBank</a>"</td></tr>
+    <tr><td class="reference"><b id="SPML">[SPML]</b></td><td class="top">"<a href="http://signbank.org/signpuddle2.0/data/spml">SignPuddle Markup Language Source Files</a>"</td></tr>
+    <tr><td class="reference"><b id="SP_ONLINE">[SP_ONLINE]</b></td><td class="top">"<a href="http://signpuddle.org">SignPuddle Online</a>"</td></tr>
+    <tr>
+      <td class="reference">
+        <b id="STENOGRAPHY">[STENOGRAPHY]</b>
+      </td>
+      <td class="top"><a>Sutton, V.</a>, "<a href="http://www.signwriting.org/lessons/cursive/byhand5.html">Sign Language Stenography</a>"</td>
+    </tr>
+    <tr><td class="reference"><b id="STUDIO">[STUDIO]</b></td><td class="top">"<a href="http://signwriterstudio.com">SignWriter Studio</a>"</td></tr>
+    <tr>
+      <td class="reference">
+        <b id="SW10_FONTS">[SW10_FONTS]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="https://github.com/Slevinski/signwriting_2010_fonts">SignWriting 2010 Fonts</a>"</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SW10_JS">[SW10_JS]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="https://github.com/Slevinski/sw10js">SignWriting 2010 JavaScript Library</a>"</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SW10_TOOLS">[SW10_TOOLS]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="https://github.com/Slevinski/signwriting_2010_tools">SignWriting 2010 Tools</a>"</td>
+    </tr>
+    <tr><td class="reference"><b id="SWIFT">[SWIFT]</b></td><td class="top">"<a href="http://www.researchgate.net/publication/230720646_SWift_a_SignWriting_improved_fast_transcriber">SignWriting improved fast transcriber</a>"</td></tr>
+    <tr>
+      <td class="reference">
+        <b id="SWIS">[SWIS]</b>
+      </td>
+      <td class="top"><a>Slevinski, S.</a>, "<a href="https://github.com/Slevinski/swis">SignWriting Icon Server source</a>"</td>
+    </tr>
+    <tr><td class="reference"><b id="SWIS_LABS">[SWIS_LABS]</b></td><td class="top">"<a href="http://swis.wmflabs.org">SignWriting Icon Server on Wikimedia Labs</a>"</td></tr>
+    <tr><td class="reference"><b id="SWIS_SIGNBANK">[SWIS_SIGNBANK]</b></td><td class="top">"<a href="http://signbank.org/swis">SignWriting Icon Server on SignBank</a>"</td></tr>
+    <tr><td class="reference"><b id="UNICODE8">[UNICODE8]</b></td><td class="top">"<a href="http://unicode.org/versions/Unicode8.0.0/">Unicode 8</a>"</td></tr>
+  </tbody>
+</table>
 <h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> <a href="#msw" id="msw">Modern SignWriting</a></h1>
-<p id="rfc.section.A.p.1">This Internet Draft is in complete agreement with the theory and example workbook released on January 12th, 2012 called <a href="http://signpuddle.net/wiki/index.php/MSW">Modern SignWriting</a>.  Modern SignWriting has example text and concretely defines the processes available.  It fully documented the text encoding with regular expressions.  </p>
+<p id="rfc.section.A.p.1">This Internet Draft is in complete agreement with the theory and example workbook released on January 12th, 2012 called <a href="#MSW">Modern SignWriting</a> <cite title="NONE">[MSW]</cite>.  Modern SignWriting has example text and concretely defines the processes available.  It fully documented the text encoding with regular expressions.  </p>
 <p id="rfc.section.A.p.2">The Formal SignWriting strings are exactly the same as they appear in the Modern SignWriting document.  The query language is nearly the same, with a compatible improvement for searching the temporal sequence.  </p>
-<h1 id="rfc.appendix.B"><a href="#rfc.appendix.B">Appendix B.</a> <a href="#iswa_2010" id="iswa_2010">ISWA 2010</a></h1>
-<p id="rfc.section.B.p.1">The ISWA 2010 is the abstract symbolset for the x-ISWA-2010 coded character set. The symbols are visually iconic, uniquely identified, and organized in a layered hierarchy (<a href="#hierarchy">Appendix B.3</a>).  </p>
-<p id="rfc.section.B.p.2">The x-ISWA-2010 is a 16-bit coded character used in the font software to access the symbol glyphs.  </p>
-<p id="rfc.section.B.p.3">The x-Binary-SignWriting is a 12-bit coded character set that does not directly encode the symbols of the ISWA 2010, but divides each symbol into a combination of 3 characters.  The first character represents the base of the symbol.  The next represents the fill of the symbol.  The last character represents the rotation of the symbol.  </p>
+<h1 id="rfc.appendix.B"><a href="#rfc.appendix.B">Appendix B.</a> <a href="#iswa_2010" id="iswa_2010">International SignWriting Alphabet 2010</a></h1>
+<p id="rfc.section.B.p.1">The <a href="#ISWA_REF">International SignWriting Alphabet 2010</a> <cite title="NONE">[ISWA_REF]</cite> is a collection of visually iconic symbols that exists in a layered hierarchy (<a href="#hierarchy">Appendix B.3</a>).  The ISWA 2010 is a product of the collaboration between SignWriting inventor, Valerie Sutton, and SignWriting encoder Stephen E Slevinski Jr.  Special thanks to Adam Frost's excellent work on the SVG refinement and more.  </p>
+<p id="rfc.section.B.p.2">The <a href="#ISWA_FONT">ISWA 2010 fonts</a> <cite title="NONE">[ISWA_FONT]</cite> have been stable since their initial release on October 20th, 2010.</p>
+<p id="rfc.section.B.p.3">Valerie Sutton </p>
+
+<ul>
+  <li>hand crafted and organized 30K plus individual glyphs</li>
+  <li>created a 2 dimension PNG of 3 colors for each</li>
+  <li>named each individual glyph with 6 degrees of significance</li>
+  <li>font name: ISWA 2010 Sutton</li>
+</ul>
+
+<p> </p>
+<p id="rfc.section.B.p.4">Steve Slevinski </p>
+
+<ul>
+  <li>counted and numbered the glyphs</li>
+  <li>created mathematical names</li>
+  <li>analyzed PNGs for line and fill</li>
+  <li>refactored glyphs - font name: ISWA 2010 PNG Standard</li>
+  <li>extended glyphs - font names: ISWA 2010 PNG Inverse, Shadow, Colorized</li>
+  <li>traced glyphs - font names: ISWA 2010 SVG Line Trace, Shaddow Trace, Smooth, and Angular</li>
+  <li>refactored and extended Adam's SVG work - font name: ISWA 2010 SVG Refinement</li>
+</ul>
+
+<p> </p>
+<p id="rfc.section.B.p.5">Adam Frost </p>
+
+<ul>
+  <li>manually traced each and every glyph that could not be automatically rotated</li>
+  <li>font name: ISWA 2010 SVG Refinement</li>
+  <li>physically performed and photographed every hand shape</li>
+  <li>font name: ISWA 2010 Hand Photo</li>
+  <li>consulted with Valerie in places of ambiguity</li>
+</ul>
+
+<p> </p>
 <h1 id="rfc.appendix.B.1"><a href="#rfc.appendix.B.1">B.1.</a> <a href="#sw_grapheme" id="sw_grapheme">Grapheme</a></h1>
 <p id="rfc.section.B.1.p.1">The grapheme is the fundamental unit of writing for the SignWriting script. Many graphemes of SignWriting are visually iconic.  The main writing graphemes of SignWriting represent a visual conception: either hands, movement, dynamics, timing, head, face, trunk, or limb.  The body concept is a combination of trunk and limb.  The specific size and shape of each grapheme is designed to balance and complement other graphemes.  </p>
 <p id="rfc.section.B.1.p.2">The writing graphemes are extensive and specifically organized for written sign language and sign gestures.  The writing graphemes do not include the specific graphemes of DanceWriting or the general graphemes of MovementWriting.  </p>
@@ -1304,7 +1480,7 @@ X Axis       |
 <h1 id="rfc.appendix.B.2"><a href="#rfc.appendix.B.2">B.2.</a> <a href="#iswa_sym" id="iswa_sym">Symbol</a></h1>
 <p id="rfc.section.B.2.p.1">There are 37,811 symbols, each with a unique ID.  A symbol ID is a sequence of six formatted numbers of increasing detail.  The first dashed number defines the category (11).  The first two dashed numbers define the group (11-22).  The first four dashed numbers define a base (11-22-333-44).  The fifth number represents the fill (55).  The sixth number represents the rotation (66).  A symbol ID is a combination of base ID with a valid fill and a valid rotation.  A symbol ID has the format "nn-nn-nnn-nn-nn-nn", where each "n" is a digit from 0 to 9.  </p>
 <p id="rfc.section.B.2.p.2">The fill modifier can best be understood through the palm facing of the hand graphemes.   The palm facing is based on planes. The SignWriting script uses two planes: the Front Wall  (Frontal Plane) and the Floor (Transverse Plane). There are 6 palm facings. The first three palm facings are parallel with the Front Wall. The second three palm facings are parallel with the Floor. The reader can view the signer from different viewpoints (expressive or receptive) and can view the hands from different perspectives (front or top), but no matter what the viewpoint or perspective, the first three Fills represent the palm facing parallel to the Front Wall and the second three Fills represent the palm facing parallel to the Floor.  </p>
-<div id="rfc.table.16"/>
+<div id="rfc.table.14"/>
 <div id="table_hand_fills"/>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
@@ -1348,7 +1524,7 @@ X Axis       |
   </tbody>
 </table>
 <p id="rfc.section.B.2.p.3">The fill modifier is redefined for the movement arrows of category 2.  </p>
-<div id="rfc.table.17"/>
+<div id="rfc.table.15"/>
 <div id="table_arrow_fills"/>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
@@ -1383,7 +1559,7 @@ X Axis       |
 </table>
 <p id="rfc.section.B.2.p.4">The rest of the other bases use a fill modifier for grouping and visual organization that is meaningful only for a particular base symbol or small set.  </p>
 <p id="rfc.section.B.2.p.5">The rotation modifier can best be understood through the hand symbols.  The first 8 rotations progress 45 degrees counter clockwise.  The last 8 rotations are a mirror of the first 8 and progress 45 degrees clockwise.  Zero (0) degrees is understood to point to the top of the grapheme.  </p>
-<div id="rfc.table.18"/>
+<div id="rfc.table.16"/>
 <div id="table_hand_rotations"/>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
@@ -1480,9 +1656,8 @@ X Axis       |
 <p id="rfc.section.B.3.p.1">The symbols of the ISWA 2010 are placed in a layered hierarchy for organization and access.  There are 4 levels to the ISWA 2010 hierarchy: category, group, base, and symbol.  </p>
 <p id="rfc.section.B.3.p.2">There are 7 categories.  The first number of the symbol ID identifies the category.  The first 5 categories contain writing symbols for use in clusters: 1) Hands, 2) Movement, 3) Dynamics &amp; Timing, 4) Head &amp; Face, and 5) Body.  The Body category can be broken into 2 subcategories: 5.1) Trunk and 5.2) Limb.  </p>
 <p id="rfc.section.B.3.p.3">The 6th category is Detailed Location that contains symbols used alone or in sequence, always outside the cluster.  The 7th category is Punctuation that contains symbols used between clusters for text.  </p>
-<div id="rfc.table.19"/>
+<div id="rfc.table.17"/>
 <div id="table_categories"/>
-<p>The 7 Categories of the ISWA 2010</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -1537,10 +1712,10 @@ X Axis       |
     </tr>
   </tbody>
 </table>
+<p>The 7 Categories of the ISWA 2010</p>
 <p id="rfc.section.B.3.p.4">There are 30 groups.  The first 2 dashed numbers in the symbol ID identify the group.  The 30 groups can be divided into 3 sets of 10.  The first ten are hands, category 1.  The second ten are movements, category 2.  The third ten are categories 3 thru 7.  In order, 1 group for the Dynamics &amp; Timing category, 1 for Head, 4 for Face, 1 for Trunk, 1 for Limb, 1 for Detailed Location, and 1 for Punctuation.  </p>
-<div id="rfc.table.20"/>
+<div id="rfc.table.18"/>
 <div id="table_30_groups"/>
-<p>The 30 groups with symbol ID segment.</p>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
     <tr>
@@ -1602,191 +1777,16 @@ X Axis       |
     </tr>
   </tbody>
 </table>
+<p>The 30 groups with symbol ID segment.</p>
 <p id="rfc.section.B.3.p.5">There are 652 bases.  The first 4 dashed numbers of a symbol ID identify the base.  The 652 bases are divided between the 30 groups.  For each group, there are less than 60 bases.  The bases are often displayed in columns of 10.  </p>
 <p id="rfc.section.B.3.p.6">Each base can have up to 96 symbols.  All 6 dashed numbers of the symbol ID are required to identify a symbol.  Each symbol is a combination of a base, fill, and rotation.  The fill is identified by the 5th number of the symbol ID with possible values from 01 to 06.  The rotation is identified by the 6th number of the symbol ID with possible values from 01 to 16.  </p>
 <h1 id="rfc.appendix.B.4"><a href="#rfc.appendix.B.4">B.4.</a> <a href="#sec_x_iswa_2010_combo" id="sec_x_iswa_2010_combo">Combined Character Sequence</a></h1>
 <p id="rfc.section.B.4.p.1">Each symbol of the ISWA 2010 can be expressed with a combination of 3 characters.  The first character represents the base of the symbol.  The next character represents the fill of the symbol.  The last character represents the rotation of the symbol.  </p>
-<p id="rfc.section.B.4.p.2">There are three forms the fill and rotation can use to represent their value: a hexadecimal key, an x-Binary-SignWriting character, or an x-Character-SignWriting character.  </p>
-<p id="rfc.section.B.4.p.3">The x-Binary-SignWriting coded character set uses a 12-bit encoding.  Code points in this set use a "B+" prefix along with the 3 hexadecimal digits that represent the value.  </p>
-<p id="rfc.section.B.4.p.4">The x-Character-SignWriting coded character set uses the Private Use Area of Unicode.  These code points occur on plane 15.  Code points in this set use a "U+" prefix along with the 5 hexadecimal digits that represent the value.  </p>
-<p id="rfc.section.B.4.p.5">The fill value ranges from 1 to 6.  The fill key is 1 less than the value and ranges from 0 to 5.  </p>
-<div id="rfc.table.21"/>
-<div id="fill_variations"/>
-<table cellpadding="3" cellspacing="0" class="tt all left">
-  <thead>
-    <tr>
-      <th class="right">Fill Value</th>
-      <th class="left">Key</th>
-      <th class="left">x-Binary-SignWriting</th>
-      <th class="left">x-Character-SignWriting</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="right">1</td>
-      <td class="left">0</td>
-      <td class="left">B+110</td>
-      <td class="left">U+FD810</td>
-    </tr>
-    <tr>
-      <td class="right">2</td>
-      <td class="left">1</td>
-      <td class="left">B+111</td>
-      <td class="left">U+FD812</td>
-    </tr>
-    <tr>
-      <td class="right">3</td>
-      <td class="left">2</td>
-      <td class="left">B+112</td>
-      <td class="left">U+FD812</td>
-    </tr>
-    <tr>
-      <td class="right">4</td>
-      <td class="left">3</td>
-      <td class="left">B+113</td>
-      <td class="left">U+FD813</td>
-    </tr>
-    <tr>
-      <td class="right">5</td>
-      <td class="left">4</td>
-      <td class="left">B+114</td>
-      <td class="left">U+FD814</td>
-    </tr>
-    <tr>
-      <td class="right">6</td>
-      <td class="left">5</td>
-      <td class="left">B+115</td>
-      <td class="left">U+FD815</td>
-    </tr>
-  </tbody>
-</table>
-<p id="rfc.section.B.4.p.6">The rotation value ranges from 1 to 16.  The rotation key is written in hexadecimal and is equal to 1 less than the value and ranges from "0" to "f".  </p>
-<div id="rfc.table.22"/>
-<div id="rotation_variations"/>
-<table cellpadding="3" cellspacing="0" class="tt all left">
-  <thead>
-    <tr>
-      <th class="right">Rotation Value</th>
-      <th class="left">Key</th>
-      <th class="left">x-Binary-SignWriting</th>
-      <th class="left">x-Character-SignWriting</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="right">1</td>
-      <td class="left">0</td>
-      <td class="left">B+120</td>
-      <td class="left">U+FD820</td>
-    </tr>
-    <tr>
-      <td class="right">2</td>
-      <td class="left">1</td>
-      <td class="left">B+121</td>
-      <td class="left">U+FD821</td>
-    </tr>
-    <tr>
-      <td class="right">3</td>
-      <td class="left">2</td>
-      <td class="left">B+122</td>
-      <td class="left">U+FD822</td>
-    </tr>
-    <tr>
-      <td class="right">4</td>
-      <td class="left">3</td>
-      <td class="left">B+123</td>
-      <td class="left">U+FD823</td>
-    </tr>
-    <tr>
-      <td class="right">5</td>
-      <td class="left">4</td>
-      <td class="left">B+124</td>
-      <td class="left">U+FD824</td>
-    </tr>
-    <tr>
-      <td class="right">6</td>
-      <td class="left">5</td>
-      <td class="left">B+125</td>
-      <td class="left">U+FD825</td>
-    </tr>
-    <tr>
-      <td class="right">7</td>
-      <td class="left">6</td>
-      <td class="left">B+126</td>
-      <td class="left">U+FD826</td>
-    </tr>
-    <tr>
-      <td class="right">8</td>
-      <td class="left">7</td>
-      <td class="left">B+127</td>
-      <td class="left">U+FD827</td>
-    </tr>
-    <tr>
-      <td class="right">9</td>
-      <td class="left">8</td>
-      <td class="left">B+128</td>
-      <td class="left">U+FD828</td>
-    </tr>
-    <tr>
-      <td class="right">10</td>
-      <td class="left">9</td>
-      <td class="left">B+129</td>
-      <td class="left">U+FD829</td>
-    </tr>
-    <tr>
-      <td class="right">11</td>
-      <td class="left">a</td>
-      <td class="left">B+12A</td>
-      <td class="left">U+FD82A</td>
-    </tr>
-    <tr>
-      <td class="right">12</td>
-      <td class="left">b</td>
-      <td class="left">B+12B</td>
-      <td class="left">U+FD82B</td>
-    </tr>
-    <tr>
-      <td class="right">13</td>
-      <td class="left">c</td>
-      <td class="left">B+12C</td>
-      <td class="left">U+FD82C</td>
-    </tr>
-    <tr>
-      <td class="right">14</td>
-      <td class="left">d</td>
-      <td class="left">B+12D</td>
-      <td class="left">U+FD82D</td>
-    </tr>
-    <tr>
-      <td class="right">15</td>
-      <td class="left">e</td>
-      <td class="left">B+12E</td>
-      <td class="left">U+FD82E</td>
-    </tr>
-    <tr>
-      <td class="right">16</td>
-      <td class="left">f</td>
-      <td class="left">B+12F</td>
-      <td class="left">U+FD82F</td>
-    </tr>
-  </tbody>
-</table>
-<p id="rfc.section.B.4.p.7">Further, a 16 bit symbol code from the x-ISWA-2010 exists for each of the valid combined character sequences.  This relationship can be stated as (symbol code = ((base code - 256) * 96) + ((fill value - 1) * 16) + rotation value).  The first symbol code is 1 and the last valid symbol code is  62,504.  </p>
-<p id="rfc.section.B.4.p.8">The first symbol has an ID of "01-01-001-01-01-01" and a symbol code of 1.  </p>
-
-<ul class="empty">
-  <li>Symbol code 1 = symbol key S10000 = B+130, B+110, B+120 = U+FD830, U+FD810, U+FD820.  </li>
-  <li>Symbol code 1 = ( ( hexdec('100') - 256 ) * 96 ) + ( ( fill_value(1) - 1 ) * 16 ) + rotation_value(1).  </li>
-  <li>Symbol code 1 = ( ( 256 - 256 ) * 96 ) + ( ( 1 - 1 ) * 16 ) + 1.  </li>
-  <li>Symbol code 1 = ( 0 * 96 ) + ( 0 * 16 ) + 1.  </li>
-  <li>Symbol code 1 = 1.  </li>
-</ul>
-
-<p> </p>
+<p id="rfc.section.B.4.p.2">The combined character sequence is used in Formal SignWriting and the x-Character-SignWriting coded character set.  </p>
 <h1 id="rfc.appendix.B.5"><a href="#rfc.appendix.B.5">B.5.</a> <a href="#sec_x_iswa_2010_validity" id="sec_x_iswa_2010_validity">Validity</a></h1>
 <p id="rfc.section.B.5.p.1">Although there are 6 possible fills and 16 possible rotations, not every combination of base, fill, and rotation is valid. Each base has a set of valid fills and a set of valid rotation.  These validity sets contain one or more values from the defined range.  </p>
 <p id="rfc.section.B.5.p.2">For each value, the inclusion in the validity set can be expressed with a value of "0" or "1".   For fill values, lining up the digit from left to right, will result in a string 6 digits long.  The value of the 6 digit number is 2 ^ (value -1).  </p>
-<div id="rfc.table.23"/>
+<div id="rfc.table.19"/>
 <div id="table_binaryfills"/>
 <table cellpadding="3" cellspacing="0" class="tt all center">
   <thead>
@@ -1872,7 +1872,7 @@ X Axis       |
   </tbody>
 </table>
 <p id="rfc.section.B.5.p.3">The value of any fill validity set is equal to the sum of the power of 2 for each fill value in the set.  The empty set is invalid and has a sum of zero (0).  The full set of all possible fills has a sum of 63.  </p>
-<div id="rfc.table.24"/>
+<div id="rfc.table.20"/>
 <div id="table_binaryfills_empty_full"/>
 <table cellpadding="3" cellspacing="0" class="tt all center">
   <thead>
@@ -1913,9 +1913,9 @@ X Axis       |
     </tr>
   </tbody>
 </table>
-<p id="rfc.section.B.5.p.4">Each base has a defined validity set for fills.  The "Fills" column in the "Bases" section.  </p>
+<p id="rfc.section.B.5.p.4">Each base has a defined validity set for fills.  </p>
 <p id="rfc.section.B.5.p.5">The rotation validity sets have a larger range than the fills.  The possible rotation values range from 1 to 16.  The power of 2 numbers are 16-bit.  </p>
-<div id="rfc.table.25"/>
+<div id="rfc.table.21"/>
 <div id="binarynumber_value"/>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
@@ -2009,9 +2009,9 @@ X Axis       |
   </tbody>
 </table>
 <p id="rfc.section.B.5.p.6">The value of a rotation validity set is the summation of the power of 2 numbers.  The minimum summation is 1.  The largest possible summation is 65,535 where all 16 rotations are valid.</p>
-<p id="rfc.section.B.5.p.7">Each base has a defined validity set for rotations.  The "Rotations" column in the "Bases" section.  </p>
+<p id="rfc.section.B.5.p.7">Each base has a defined validity set for rotations.  </p>
 <p id="rfc.section.B.5.p.8">Interestingly enough, there are only 12 possible validity sets in the ISWA 2010.  </p>
-<div id="rfc.table.26"/>
+<div id="rfc.table.22"/>
 <div id="binaryvalue_sets"/>
 <table cellpadding="3" cellspacing="0" class="tt all left">
   <thead>
@@ -2089,70 +2089,33 @@ X Axis       |
 <h1 id="rfc.appendix.C.1"><a href="#rfc.appendix.C.1">C.1.</a> Licenses</h1>
 <p id="rfc.section.C.1.p.1">The font software is available under SIL's Open Font License.</p>
 <p id="rfc.section.C.1.p.2">The reference material is licensed under Creative Commons attribution, share alike (by-sa).</p>
-<p id="rfc.section.C.1.p.3">The current open source projects are licensed under the GPL 2 for MediaWiki and GPL 3 for the general software on Github.  Any contributions to the open source code must agree to a possible relicense in the future under a BSD like license.</p>
-<p id="rfc.section.C.1.p.4">After the <a href="http://signpuddle.net/wiki/index.php/The_Wall">financial issues</a> of the Center for Sutton Movement Writing have been addressed, the open source projects will relicensed under a more open and free BSD-like license, such as the MIT License.</p>
+<p id="rfc.section.C.1.p.3">The previous generation of open source projects are licensed under the GPL 2 for MediaWiki and GPL 3 for the general software on Github.</p>
+<p id="rfc.section.C.1.p.4">The current generation of open source projects on GitHub are licensed under the MIT License.</p>
 <h1 id="rfc.appendix.C.2"><a href="#rfc.appendix.C.2">C.2.</a> Infrastructure</h1>
-<h1 id="rfc.appendix.C.2.1"><a href="#rfc.appendix.C.2.1">C.2.1.</a> International SignWriting Alphabet 2010</h1>
-<p id="rfc.section.C.2.1.p.1">The <a href="http://signpuddle.net/iswa">International SignWriting Alphabet 2010 (ISWA 2010) Font Reference</a> is a product of the collaboration between SignWriting inventor, Valerie Sutton, and SignWriting encoder Stephen E Slevinski Jr.  Special thanks to Adam Frost's excellent work on the SVG refinement and more.</p>
-<p id="rfc.section.C.2.1.p.2">The ISWA 2010 fonts have been stable since their initial release on October 20th, 2010.</p>
-<p id="rfc.section.C.2.1.p.3">Valerie Sutton </p>
-
-<ul>
-  <li>hand crafted and organized 30K plus individual glyphs</li>
-  <li>created a 2 dimension PNG of 3 colors for each</li>
-  <li>named each individual glyph with 6 degrees of significance</li>
-  <li>font name: ISWA 2010 Sutton</li>
-</ul>
-<p id="rfc.section.C.2.1.p.4">Steve Slevinski </p>
-
-<ul>
-  <li>counted and numbered the glyphs</li>
-  <li>created mathematical names</li>
-  <li>analyzed PNGs for line and fill</li>
-  <li>refactored glyphs - font name: ISWA 2010 PNG Standard</li>
-  <li>extended glyphs - font names: ISWA 2010 PNG Inverse, Shadow, Colorized</li>
-  <li>traced glyphs - font names: ISWA 2010 SVG Line Trace, Shaddow Trace, Smooth, and Angular</li>
-  <li>refactored and extended Adam's SVG work - font name: ISWA 2010 SVG Refinement</li>
-</ul>
-<p id="rfc.section.C.2.1.p.5">Adam Frost </p>
-
-<ul>
-  <li>manually traced each and every glyph that could not be automatically rotated</li>
-  <li>font name: ISWA 2010 SVG Refinement</li>
-  <li>physically performed and photographed every hand shape</li>
-  <li>font name: ISWA 2010 Hand Photo</li>
-  <li>consulted with Valerie in places of ambiguity</li>
-  <li>found the Facial Irregularity, documented in the ISWA 2010 Errata</li>
-</ul>
-<h1 id="rfc.appendix.C.2.2"><a href="#rfc.appendix.C.2.2">C.2.2.</a> SignPuddle Online</h1>
-<p><a href="http://signpuddle.org">SignPuddle Online</a> is the current home of the international community of online writers of the SignWriting Script.  Online tools make it possible to create SignWriting dictionaries and documents directly on the web.  Each collection is freely available as <a href="http://signbank.org/signpuddle2.0/data/spml">a small XML file</a>.  Dozens of sign languages from around the world are represented.  Each language can have several collections of SignWriting.  </p>
-<h1 id="rfc.appendix.C.2.3"><a href="#rfc.appendix.C.2.3">C.2.3.</a> SignWriting Icon Server</h1>
-<p id="rfc.section.C.2.3.p.1">The SignWriting Icon Server is the current generation SignWriting server code for SVG, PNG, and other image formats.  The image creation is stable and fully implemented.  The API is a proof of concept with only an initial level of support.  </p>
-<p id="rfc.section.C.2.3.p.2">The main server is available on <a href="http://swis.wmflabs.org">Wikimedia Labs</a> for all SignWriting projects.  </p>
-<p id="rfc.section.C.2.3.p.3">A backup server is available on <a href="http://signbank.org/swis">SignBank</a>.  </p>
-<p id="rfc.section.C.2.3.p.4">Each SignWriting Icon Server provides the SignWriting Thin Viewer as a site script and as a bookmark.  </p>
-<p id="rfc.section.C.2.3.p.5">Additional SignWriting Icon Servers can be created directly from the GitHub source.  </p>
-<h1 id="rfc.appendix.C.2.4"><a href="#rfc.appendix.C.2.4">C.2.4.</a> SignWriting Asset Provider</h1>
-<p id="rfc.section.C.2.4.p.1">The SignWriting Asset Provider is the next generation SignWriting server code for SVG creation and data processing.  Symbols and signs can be accessed with a simple syntax.  Data from SignPuddle Online can be queried with an API and returns JSON data.  </p>
-<p id="rfc.section.C.2.4.p.2">Coming soon...</p>
-<h1 id="rfc.appendix.C.2.5"><a href="#rfc.appendix.C.2.5">C.2.5.</a> Wikimedia Incubator</h1>
-<p id="rfc.section.C.2.5.p.1">The SignWriting Script has been enabled on Wikimedia Incubator using the SignWriting Gadget.  </p>
-<h1 id="rfc.appendix.C.2.6"><a href="#rfc.appendix.C.2.6">C.2.6.</a> SignWriting Thin Viewer</h1>
-<p id="rfc.section.C.2.6.p.1">The SignWriting Thin Viewer uses JavaScript to wrap the sign names with basic HTML and CSS to fully supports the grammar of written ASL.  This script can be applied to any modern browser through a site script or initiated within a browser using a bookmark.  </p>
+<h1 id="rfc.appendix.C.2.1"><a href="#rfc.appendix.C.2.1">C.2.1.</a> SignPuddle Online</h1>
+<p><a href="#SP_ONLINE">SignPuddle Online</a> <cite title="NONE">[SP_ONLINE]</cite> is the current home of the international community of online writers of the SignWriting Script.  Online tools make it possible to create SignWriting dictionaries and documents directly on the web.  Each collection is freely available as <a href="#SPML">a small XML file</a> <cite title="NONE">[SPML]</cite>.  Dozens of sign languages from around the world are represented.  Each language can have several collections of SignWriting.  </p>
+<h1 id="rfc.appendix.C.2.2"><a href="#rfc.appendix.C.2.2">C.2.2.</a> SignWriting Icon Server</h1>
+<p id="rfc.section.C.2.2.p.1">The SignWriting Icon Server is the previous generation SignWriting server code for SVG, PNG, and other image formats.  The image creation is stable and fully implemented.  The API is a proof of concept with only an initial level of support.  </p>
+<p id="rfc.section.C.2.2.p.2">The main server is available on <a href="#SWIS_LABS">Wikimedia Labs</a> <cite title="NONE">[SWIS_LABS]</cite> for all SignWriting projects.  </p>
+<p id="rfc.section.C.2.2.p.3">A backup server is available on <a href="#SWIS_SIGNBANK">SignBank</a> <cite title="NONE">[SWIS_SIGNBANK]</cite>.  </p>
+<p id="rfc.section.C.2.2.p.4">Each SignWriting Icon Server provides the SignWriting Thin Viewer as a site script and as a bookmark.  </p>
+<p id="rfc.section.C.2.2.p.5">Additional SignWriting Icon Servers can be created directly from the <a href="#SWIS">GitHub source</a> <cite title="NONE">[SWIS]</cite>.  </p>
+<h1 id="rfc.appendix.C.2.3"><a href="#rfc.appendix.C.2.3">C.2.3.</a> Wikimedia Incubator</h1>
+<p id="rfc.section.C.2.3.p.1">The SignWriting Script has been enabled on Wikimedia Incubator using the SignWriting Gadget.  </p>
 <h1 id="rfc.appendix.C.3"><a href="#rfc.appendix.C.3">C.3.</a> Compatibility</h1>
 <p id="rfc.section.C.3.p.1">SignTyp, SignWriter Studio, the DELEGS Editor, SWift, and more.</p>
 <h1 id="rfc.appendix.C.3.1"><a href="#rfc.appendix.C.3.1">C.3.1.</a> <a href="#signtyp" id="signtyp">SignTyp</a></h1>
 <p id="rfc.section.C.3.1.p.1">This standard is being integrated with the SignTyp linguistic coding system developed by Rachel Channon through an NSF grant.  </p>
 
 <ul class="empty">
-  <li><a href="http://homepage.uconn.edu/~hdv02001/Articles-pdfs/131%20-%20Notation%20Systems.pdf">Notation Systems</a> by Harry van der Hulst and Rachel Channon.  </li>
-  <li><a href="http://www.purdue.edu/tislr10/pdfs/van%20der%20Hulst%20Channon.pdf">Why dynamic features?</a> by Harry van der Hulst and Rachel Channon.  </li>
-  <li><a href="http://www.signwriting.org/archive/docs7/sw0623_TISLR_2010_SignWriting_SignTyp_Poster.pdf">Transcription systems as input to coding systems: SignWriting &amp; SignTyp</a> by Charles Butler and Rachel Channon.  </li>
+  <li><a href="#NOTATION">Notation Systems by Harry van der Hulst and Rachel Channon.</a> <cite title="NONE">[NOTATION]</cite> </li>
+  <li><a href="#FEATURES">Why dynamic features? by Harry van der Hulst and Rachel Channon.</a> <cite title="NONE">[FEATURES]</cite> </li>
+  <li><a href="#CODING_SYSTEM">Transcription systems as input to coding systems: SignWriting &amp; SignTyp by Charles Butler and Rachel Channon.</a> <cite title="NONE">[CODING_SYSTEM]</cite> </li>
 </ul>
 
 <p> </p>
 <h1 id="rfc.appendix.C.3.2"><a href="#rfc.appendix.C.3.2">C.3.2.</a> <a href="#signwriter_studio" id="signwriter_studio">SignWriter Studio</a></h1>
-<p><a href="http://signwriterstudio.com">SignWriter Studio</a> is a Windows-only compatible application by Jonathan Duncan.  It has an alternate symbol selection technique.  According to Valerie Sutton, it illustrates a unique insight into the hand shapes of the ISWA.  </p>
+<p><a href="#STUDIO">SignWriter Studio</a> <cite title="NONE">[STUDIO]</cite> is a Windows-only compatible application by Jonathan Duncan.  It has an alternate symbol selection technique.  According to Valerie Sutton, it illustrates a unique insight into the hand shapes of the ISWA.  </p>
 <p id="rfc.section.C.3.2.p.2">Jonathan Duncan writes: </p>
 <p/>
 
@@ -2165,11 +2128,13 @@ X Axis       |
   <li>The General Chooser is for symbols for which the two previous chooser do not work well and gives a grouped list of symbols for the base group.  </li>
 </ul>
 <h1 id="rfc.appendix.C.3.3"><a href="#rfc.appendix.C.3.3">C.3.3.</a> <a href="#delegs" id="delegs">DELEGS Online</a></h1>
-<p id="rfc.section.C.3.3.p.1">The <a href="http://www.delegs.com/DelegsPage">DELEGS Editor</a> from the University of Hamburg and C1 WPS GmbH in Germany is designed for Deaf Education.  It is a tool for writing translation texts between spoken and signed languages.  </p>
+<p id="rfc.section.C.3.3.p.1">The <a href="#DELEGS">DELEGS Editor</a> <cite title="NONE">[DELEGS]</cite> from the University of Hamburg and C1 WPS GmbH in Germany is designed for Deaf Education.  It is a tool for writing translation texts between spoken and signed languages.  </p>
 <p id="rfc.section.C.3.3.p.2">Spoken language text is used to display horizontal SignWriting Text from left to right.  The spoken language can appear beneath the sign or it can be hidden.  </p>
 <h1 id="rfc.appendix.C.3.4"><a href="#rfc.appendix.C.3.4">C.3.4.</a> <a href="#swift" id="swift">SWift</a></h1>
-<p><a href="http://www.researchgate.net/publication/230720646_SWift_a_SignWriting_improved_fast_transcriber">SWift is a SignWriting improved fast transcriber</a> from Claudia Savina Bianchini, Fabrizio Borgia, and Maria De Marsico.  SWift is under active development.  The design "guides and simplifies the editing process".  </p>
+<p><a href="#SWIFT">SWift is a SignWriting improved fast transcriber</a> <cite title="NONE">[SWIFT]</cite> from Claudia Savina Bianchini, Fabrizio Borgia, and Maria De Marsico.  SWift is under active development.  The design "guides and simplifies the editing process".  </p>
 <p id="rfc.section.C.3.4.p.2">SWift uses an alternate symbol hierarchy than the ISWA 2010.  A conversion library is planned in the future to support Formal SignWriting strings.  </p>
+<h1 id="rfc.appendix.C.3.5"><a href="#rfc.appendix.C.3.5">C.3.5.</a> <a href="#jspad" id="jspad">JSPad</a></h1>
+<p><a href="#JSPAD">JSPad</a> <cite title="NONE">[JSPAD]</cite> is Windows and Mac OS X software for editing the words and sentences of sign language, created by the Matsumoto Laboratory of Gifu University in Japan.  </p>
 <h1 id="rfc.authors">
   <a href="#rfc.authors">Author's Address</a>
 </h1>
