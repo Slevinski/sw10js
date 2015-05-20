@@ -1,7 +1,7 @@
 ## The SignWriting 2010 JavaScript Library
 - - - 
-> Version 1.4.6  
-May 13th, 2015
+> Version 1.4.7  
+May 20th, 2015
 
 
 SignWriting 2010 is the modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts and a compact JavaScript library.
@@ -23,16 +23,17 @@ The JavaScript library leverages the TrueType fonts without any additional requi
 - - -
 
 ### TrueType Fonts
-> Reserved Font Name: [SignWriting 2010](https://github.com/Slevinski/signwriting_2010_fonts/raw/master/fonts/SignWriting%202010.ttf) with [log report](https://github.com/Slevinski/signwriting_2010_fonts/raw/master/fonts/SignWriting%202010.log)  
-Reserved Font Name: [SignWriting 2010 Filling](https://github.com/Slevinski/signwriting_2010_fonts/raw/master/fonts/SignWriting%202010%20Filling.ttf) with [log report](https://github.com/Slevinski/signwriting_2010_fonts/raw/master/fonts/SignWriting%202010%20Filling.log)  
+> Reserved Font Name: [SignWriting 2010](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.ttf) with [log report](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.log)  
+Reserved Font Name: [SignWriting 2010 Filling](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.ttf) with [log report](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.log)  
 
-Fonts packaged for iOS: [SignWriting 2010 Configuration Profile](https://github.com/Slevinski/signwriting_2010_fonts/raw/master/fonts/SignWriting%202010.mobileconfig)
+Fonts packaged for iOS: [SignWriting 2010 Configuration Profile](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.mobileconfig)
 
     SignWriting 2010 Fonts
     Copyright (c) 1974-2015, Center for Sutton Movement Writing, inc
     Licensed under the SIL Open Font License v1.1
 
 ### Version History
+* 1.4.7 - May 20th, 2015: updated font links to CDN
 * 1.4.6 - May 13th, 2015: update to I-D revision 05, added version history
 * 1.4.5 - May 5th, 2015: added github link
 * 1.4.4 - Mar 27th, 2015: svg namespace
