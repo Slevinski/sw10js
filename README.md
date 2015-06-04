@@ -1,7 +1,7 @@
 ## The SignWriting 2010 JavaScript Library
 - - - 
-> Version 1.4.7  
-May 20th, 2015
+> Version 1.5.0  
+June 4th, 2015
 
 
 SignWriting 2010 is the modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts and a compact JavaScript library.
@@ -11,9 +11,9 @@ SignWriting 2010 is the modern implementation and international specification of
 ### JavaScript Library
 The JavaScript library leverages the TrueType fonts without any additional requirements. Include the "sw10.js" script or the minified version "sw10.min.js" in any HTML page to access the function library. 
 
-      SignWriting 2010 JavaScript Library
-      Copyright (c) 2007-2015, Stephen E Slevinski Jr
-      Licensed under the MIT License
+> SignWriting 2010 JavaScript Library  
+Copyright (c) 2007-2015, Stephen E Slevinski Jr  
+Licensed under the MIT License
 
 - [SignWriting 2010 JavaScript Library](http://slevinski.github.io/sw10js)  
 - [Guide](http://slevinski.github.io/sw10js/guide.html)  
@@ -23,16 +23,42 @@ The JavaScript library leverages the TrueType fonts without any additional requi
 - - -
 
 ### TrueType Fonts
-> Reserved Font Name: [SignWriting 2010](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.ttf) with [log report](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.log)  
-Reserved Font Name: [SignWriting 2010 Filling](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.ttf) with [log report](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.log)  
+>SignWriting 2010 Fonts  
+Copyright (c) 1974-2015, Center for Sutton Movement Writing, inc  
+Licensed under the SIL Open Font License v1.1
+
+#### Installation
+The TrueType Fonts can be installed on Linux, Windows, Mac, and iOS. 
+
+- Reserved Font Name: [SignWriting 2010](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.ttf) with [log report](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.log)  
+- Reserved Font Name: [SignWriting 2010 Filling](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.ttf) with [log report](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.log)  
 
 Fonts packaged for iOS: [SignWriting 2010 Configuration Profile](https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.mobileconfig)
 
-    SignWriting 2010 Fonts
-    Copyright (c) 1974-2015, Center for Sutton Movement Writing, inc
-    Licensed under the SIL Open Font License v1.1
+#### CSS Font-Face
+The CSS Font-Face declaration works with all systems, regardless if the fonts are installed or not.  Use the CSS below or include the "fonts.css" file in any HTML page to access the TrueType fonts.
+
+When the TrueType fonts are not installed, the CSS Font-Face declaration will cause the browser to automatically download and install the fonts in the browser cache. The fonts are about 13 MB combined so the first page view will experience a slight delay while the fonts are downloaded and installed.  All subsequent page views, regardless of domain, will use the fonts that have already been installed in the browser cache without any additional delay.
+
+When the TrueType fonts are installed on a system, the CSS Font-Face declaration will cause the browser to use the already installed local fonts and will not download the fonts from the URL.  When the fonts are installed, the CSS Font-Face isn't required but neither will it negatively affect performance.
+
+    @font-face {
+      font-family: "SignWriting 2010";
+      src: 
+        local('SignWriting 2010'),
+        local('SignWriting_2010'),
+        url('https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: "SignWriting 2010 Filling";
+      src: 
+        local('SignWriting 2010 Filling'),
+        local('SignWriting_2010_Filling'),
+        url('https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.ttf') format('truetype');
+    }
 
 ### Version History
+* 1.5.0 - June 4th, 2015: added CSS font-face declaration
 * 1.4.7 - May 20th, 2015: updated font links to CDN
 * 1.4.6 - May 13th, 2015: update to I-D revision 05, added version history
 * 1.4.5 - May 5th, 2015: added github link
