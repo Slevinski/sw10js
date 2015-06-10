@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "SignWriting 2010";
+  src: 
+    local('SignWriting 2010'),
+    local('SignWriting_2010'),
+    url('https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.ttf') format('truetype');
+}
+@font-face {
+  font-family: "SignWriting 2010 Filling";
+  src: 
+    local('SignWriting 2010 Filling'),
+    local('SignWriting_2010_Filling'),
+    url('https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.ttf') format('truetype');
+}
+
+svg.primary g text.sym-line{
+  fill: #337ab7 !important;
+}
+svg.success g text.sym-line{
+  fill: #5cb85c !important;
+}
+svg.info g text.sym-line{
+  fill: #5bc0de !important;
+}
+svg.warning g text.sym-line{
+  fill: #f0ad4e !important;
+}
+svg.danger g text.sym-line{
+  fill: #d9534f !important;
+}

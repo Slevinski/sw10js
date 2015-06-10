@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.4.4
+* SignWriting 2010 JavaScript Library v1.5.1
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
@@ -344,15 +344,58 @@
     var height = h+1;
     width= '' + Math.ceil(width/zoom);
     height= '' + Math.ceil(height/zoom);
-    //rounding error appears in chrome, could be FontForge, Potrace, or TrueType based
-    if ('S1710d S1711d S1712d S17311 S17321 S17733 S1773f S17743 S1774f S17753 S1775f'.indexOf(key)>-1){
+    // Rounding error in chrome.  Manual fixes.
+    if ('S1710d S1711d S1712d S17311 S17321 S17733 S1773f S17743 S1774f S17753 S1775f S16d33 S1713d S1714d S17301 S17329 S1715d'.indexOf(key)>-1){
       width = '20';
+    }
+    if ('S24c15 S24c30'.indexOf(key)>-1){
+      width = '22';
+    }
+    if ('S2903b'.indexOf(key)>-1){
+      width = '23';
+    }
+    if ('S1d203 S1d233'.indexOf(key)>-1){
+      width = '25';
+    }
+    if ('S24c15'.indexOf(key)>-1){
+      width = '28';
+    }
+    if ('S2e629'.indexOf(key)>-1){
+      width = '29';
+    }
+    if ('S16541 S23425'.indexOf(key)>-1){
+      width = '30';
+    }
+    if ('S2d316'.indexOf(key)>-1){
+      width = '40';
+    }
+    if ('S2541a'.indexOf(key)>-1){
+      width = '50';
     }
     if ('S1732f S17731 S17741 S17751'.indexOf(key)>-1){
       height = '20';
     }
+    if ('S1412c'.indexOf(key)>-1){
+      height = '21';
+    }
+    if ('S2a903'.indexOf(key)>-1){
+      height = '31';
+    }
+    if ('S2b002'.indexOf(key)>-1){
+      height = '36';
+    }
     size = width + 'x' + height;
-    if (size=='0x0') return '';
+    // Error in chrome.  Manual fix.
+    if (size=='0x0') {
+      var sizefix = 'S1000815x30 S1000921x30 S1000a30x15 S1000b30x21 S1000c15x30 S1000d21x30 ';
+      var ipos = sizefix.indexOf(key);
+      if (ipos ==-1) {
+        return '';
+      } else {
+        var iend = sizefix.indexOf(' ',ipos);
+        size = sizefix.slice(ipos + 6,iend);
+      }
+    }
     return size;
   },
   max: function(fsw,type){
@@ -492,7 +535,8 @@
     h = y2 - y1;
     l = o[k] || 0;
     l = l * 75 + x1 - 400;
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" '
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" ';
+    if (options.class) svg += 'class="' + options.class + '" ';
     if (options.size!='x') svg += 'width="' + (w * options.size) + '" height="' + (h * options.size) + '" ';
     svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '"><text style="font-size:0%;">' + text + '</text>' + syms.join('') + "</svg>";
     if (options.laned){

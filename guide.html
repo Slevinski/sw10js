@@ -9,6 +9,30 @@
     <meta name="robots" content="noindex,nocache,nofollow,noarchive,noimageindex,nosnippet"/>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="vendor/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="sw10.css" />
+    <style>
+      svg.rotate, svg.bigger, svg.skewed, svg.blacken g text.sym-line, svg.whiten g text.sym-line{
+        -webkit-transition: 1s ease-in-out;
+        -moz-transition: 1s ease-in-out;
+        -o-transition: 1s ease-in-out;
+        transition: 1s ease-in-out;
+      }
+      svg.rotate:hover{
+        transform: rotate(0.5turn);
+      }
+      svg.bigger:hover{
+        transform: scale(2);
+      }
+      svg.skewed:hover{
+        transform: skewX(30deg);
+      }
+      svg.blacken:hover g text.sym-line{
+        fill: #000000 !important;
+      }
+      svg.whiten:hover g text.sym-line{
+        fill: #FFFFFF !important;
+      }
+    </style>
     <script src="sw10.js"></script>
   </head>
 
@@ -36,6 +60,9 @@
                 <a href="#ttf" class="list-group-item">
                   <h5 class="list-group-item-heading">Installing the TrueType Fonts</h5>
                 </a>
+                <a href="#css" class="list-group-item">
+                  <h5 class="list-group-item-heading">CSS Declarations</h5>
+                </a>
                 <a href="#js" class="list-group-item">
                   <h5 class="list-group-item-heading">Using the JavaScript Library</h5>
                 </a>
@@ -49,7 +76,7 @@
             <div class="col-sm-8 col-xs-12">
               <h2>Welcome to SignWriting 2010</h2>
               <p class="lead">
-                The modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts and a compact JavaScript library.
+                The modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts, CSS Declarations, and a compact JavaScript Library.
               </p>
 
               <hr>
@@ -58,6 +85,8 @@
               <p>The SignWriting 2010 TrueType fonts are available for download and installation.  
               The fonts have been tailored for the SignWriting 2010 JavaScript library.
               Please ignore warning and unusual font previews as these will not affect the fonts utility.</p>
+              <p>Installing the fonts using the instructions below is not required, but it will improve the user experience.
+              If the fonts are not installed on the system, CSS declarations will install the fonts in the browser cache.</p>
               <h3>Windows, Linux, and Mac</h3>
               <p>Installation is straight forward for these platforms.  Simply download the 2 TrueType fonts and install as usual.</p>
               <a class="btn btn-default btn-lg btn-block" href="https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.ttf" role="button">SignWriting 2010 TrueType Font</a>
@@ -68,10 +97,47 @@
               <a class="btn btn-default btn-lg btn-block" href="https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.mobileconfig" role="button">SignWriting 2010 Configuration Profile</a>
 
               <h3>Android</h3>
-              <p>Android is not officially supported yet.
-              While installing the fonts should be possible, the process has not yet been defined.
-              Anyone knowledgable about using fonts on Android is encouraged to help realize the installation process.</p>
+              <p>Android can not install the fonts directly onto the system.
+              The CSS declarations below will install the fonts in the browser cache.
+              </p>
 
+             <hr>
+
+              <h2 id="css">CSS Declarations</h2>
+              <p>The TrueType Fonts can be used without installing the fonts on any platform by defining two font-face statements.
+              Simply include the "<a href="fonts.css">fonts.css</a>" style sheet or the following CSS in any HTML page to access the fonts.</p>
+              <pre>
+@font-face {
+  font-family: "SignWriting 2010";
+  src: 
+    local('SignWriting 2010'),
+    local('SignWriting_2010'),
+    url('https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010.ttf') format('truetype');
+}
+@font-face {
+  font-family: "SignWriting 2010 Filling";
+  src: 
+    local('SignWriting 2010 Filling'),
+    local('SignWriting_2010_Filling'),
+    url('https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.ttf') format('truetype');
+}
+              </pre>
+              
+              <p>If the fonts are installed, then the system fonts will be used.
+              If the fonts are not installed when a SignWriting Font page is opened, the CSS will cause the fonts to be automatically downloaded to the browser's cache on the first visit.  
+              Once the fonts are installed in the browser cache, they will remain there until the browser cache is emptied.
+              Any webside that uses this CSS can access the browser installed font without requesting a new copy.
+              The fonts are 13 MB, so the first install make take a few seconds or longer depending on your download speed and processor.</p>
+
+              <p>The SVG of the sign and symbol images can be manipulated with standard CSS.
+              See the "<a href="sw10.css">sw10.css</a>" style sheet for example usage.</p>
+              <p><script>document.write(sw10.svg("AS15a40S15a48S20e00S26600M516x535S15a48485x488S26600500x465S20e00502x498S15a40490x508",{class:"primary rotate"}));</script>&nbsp;&nbsp;&nbsp;
+              <script>document.write(sw10.svg("AS10011S10019S2c601S2c610S34400M549x542S34400482x483S10011507x510S10019471x510S2c610452x516S2c601530x515",{class:"success bigger"}));</script>&nbsp;&nbsp;&nbsp;
+              <script>document.write(sw10.svg("AS18517S1851fS26a00S26a10S14c00S14c08S2ff00M538x522S18517516x486S1851f461x495S2ff00482x483S14c00513x436S14c08461x445S26a00511x469S26a10459x478",{class:"info skewed"}));</script>&nbsp;&nbsp;&nbsp;
+              <script>document.write(sw10.svg("AS11042S1104aS23100S23110S20f00M534x531S11042504x488S1104a467x488S20f00489x469S23100508x513S23110467x514",{class:"warning blacken"}));</script>&nbsp;&nbsp;&nbsp;
+              <script>document.write(sw10.svg("AS1f702S1f70aS28909S20e00M523x531S1f70a477x494S1f702490x511S28909496x470S20e00493x498",{class:"danger whiten"}));</script></p>
+
+              
              <hr>
 
               <h2 id="js">Using the JavaScript Library</h2>

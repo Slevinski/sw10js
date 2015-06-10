@@ -56,8 +56,21 @@
     <script>mocha.setup('tdd')</script>
     <script src="test.size.js"></script>
     <script>
+window.onload = function () {
+  var cnt = 0;
+  if (!sw10.size("S10000")){
+    cssCheck = setInterval(function(){
+      if (sw10.size("S10000")){
+        clearInterval(cssCheck);
+        mocha.checkLeaks();
+        mocha.run();
+      }
+    },100);
+  } else {
       mocha.checkLeaks();
       mocha.run();
+  }
+}
     </script>
   </body>
 </html>
