@@ -4,7 +4,7 @@
 June 10th, 2015
 
 
-SignWriting 2010 is the modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts, CSS Declarations, and a compact JavaScript library.
+SignWriting 2010 is the modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts, CSS Declarations, and a compact JavaScript Library.
 
 - - -
 

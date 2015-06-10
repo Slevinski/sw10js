@@ -13,6 +13,10 @@
     url('https://cdn.rawgit.com/Slevinski/signwriting_2010_fonts/master/fonts/SignWriting%202010%20Filling.ttf') format('truetype');
 }
 
+svg{
+  overflow: visible !important;
+}
+
 svg.primary g text.sym-line{
   fill: #337ab7 !important;
 }
