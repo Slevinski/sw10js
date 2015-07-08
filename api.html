@@ -9,7 +9,7 @@
     <meta name="robots" content="noindex,nocache,nofollow,noarchive,noimageindex,nosnippet"/>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="vendor/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="fonts.css" />
+    <link rel="stylesheet" type="text/css" href="sw10.css" />
     <script src="sw10.js"></script>
   </head>
 
@@ -50,6 +50,51 @@ function keyChange(){
 	  document.getElementById("sizeRow").className = "success";
 	} else {
 	  document.getElementById("sizeRow").className = "warning";
+	}
+
+    var kindOut = sw10.structure('kind',keyIn);
+	document.getElementById("kindFn").innerHTML = 'sw10.structure("kind","' + keyIn + '");';
+	document.getElementById("kindOut").innerHTML = kindOut;
+	if (kindOut) {
+	  document.getElementById("kindRow").className = "success";
+	} else {
+	  document.getElementById("kindRow").className = "warning";
+	}
+
+    var catOut = sw10.structure("category",keyIn);
+	document.getElementById("catFn").innerHTML = 'sw10.structure("category","' + keyIn + '");';
+	document.getElementById("catOut").innerHTML = catOut;
+	if (catOut) {
+	  document.getElementById("catRow").className = "success";
+	} else {
+	  document.getElementById("catRow").className = "warning";
+	}
+
+    var grpOut = sw10.structure("group",keyIn);
+	document.getElementById("grpFn").innerHTML = 'sw10.structure("group","' + keyIn + '");';
+	document.getElementById("grpOut").innerHTML = grpOut;
+	if (grpOut) {
+	  document.getElementById("grpRow").className = "success";
+	} else {
+	  document.getElementById("grpRow").className = "warning";
+	}
+
+    var viewOut = sw10.view(keyIn);
+	document.getElementById("viewFn").innerHTML = 'sw10.view("' + keyIn + '");';
+	document.getElementById("viewOut").innerHTML = viewOut;
+	if (viewOut) {
+	  document.getElementById("viewRow").className = "success";
+	} else {
+	  document.getElementById("viewRow").className = "warning";
+	}
+
+    var viewTOut = sw10.view(keyIn,true);
+	document.getElementById("viewTFn").innerHTML = 'sw10.view("' + keyIn + '",true);';
+	document.getElementById("viewTOut").innerHTML = viewTOut;
+	if (viewTOut) {
+	  document.getElementById("viewTRow").className = "success";
+	} else {
+	  document.getElementById("viewTRow").className = "warning";
 	}
 
     var svgOut = sw10.svg(keyIn);
@@ -511,6 +556,26 @@ function setText(fsw){
         <tr id="sizeRow">
           <td id="sizeFn">sw10.size("")</td>
           <td id="sizeOut"></td>
+        </tr>
+        <tr id="kindRow">
+          <td id="kindFn">sw10.structure("kind","")</td>
+          <td id="kindOut"></td>
+        </tr>
+        <tr id="catRow">
+          <td id="catFn">sw10.structure("category","")</td>
+          <td id="catOut"></td>
+        </tr>
+        <tr id="grpRow">
+          <td id="grpFn">sw10.structure("group","")</td>
+          <td id="grpOut"></td>
+        </tr>
+        <tr id="viewRow">
+          <td id="viewFn">sw10.view("")</td>
+          <td id="viewOut"></td>
+        </tr>
+        <tr id="viewTRow">
+          <td id="viewTFn">sw10.view("",true)</td>
+          <td id="viewTOut"></td>
         </tr>
         <tr id="svgRow">
           <td id="svgFn">sw10.svg("")</td>

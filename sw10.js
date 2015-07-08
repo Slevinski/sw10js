@@ -1,10 +1,10 @@
 /**
-* SignWriting 2010 JavaScript Library v1.5.1
+* SignWriting 2010 JavaScript Library v1.5.2
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 */
- var sw10 = signwriting_2010 = {
+var sw10 = signwriting_2010 = {
   key: function(text){
     var key = text.match(/S[123][0-9a-f]{2}[0-5][0-9a-f]([0-9]{3}x[0-9]{3})?/g);
     if (!key) {
@@ -100,6 +100,49 @@
       return key;
     }
   },
+  structure: function(division,key,opt){
+    var arrs = {kind:['S100','S37f','S387'],
+      category:['S100','S205','S2f7','S2ff','S36d','S37f','S387'],
+      group:['S100','S10e','S11e','S144','S14c','S186','S1a4','S1ba','S1cd','S1f5','S205','S216','S22a','S255','S265','S288','S2a6','S2b7','S2d5','S2e3','S2f7','S2ff','S30a','S32a','S33b','S359','S36d','S376','S37f','S387']
+    }
+    var arr = arrs[division];
+    if (!arr) return !key?[]:opt=="is"?false:'';
+    if (!key) return arr;
+    if (!opt) opt='';
+    var adj;
+    switch(opt){
+      case 'is':
+        return (arr.indexOf(key.slice(0,4))==-1)?false:true;
+        break;
+      case 'first':
+        return arr[0];
+        break;
+      case 'last':
+        return arr.slice(-1)[0];
+        break;
+      case 'prev':
+        adj = -2;
+        break;
+      case '':
+        adj = -1;
+        break;
+      case 'next':
+        adj = 0;
+        break;
+      default:
+        return '';
+    }
+    var index = arr.length;
+    for(i=0; i<arr.length; i++) {
+      if(parseInt(key.slice(1,4),16) < parseInt(arr[i].slice(1,4),16)) {
+        index = i;
+        break;
+      }
+    }
+    index += adj;
+    index = index<0?0:index>=arr.length?arr.length-1:index;
+    return arr[index];
+  },
   type: function(type){
     var start,end;
     switch(type) {
@@ -152,7 +195,7 @@
     return [start,end];
   },
   is: function(key,type){
-    if (!this.size(key)) return '';
+    if (key.length==6 && !this.size(key)) return false;
     var range = this.type(type);
     var start = range[0];
     var end = range[1];
@@ -171,7 +214,7 @@
       return '';
     }
   },
-  random: function (type) {
+  random: function(type) {
     var range = this.type(type);
     var start = range[0];
     var end = range[1];
@@ -185,26 +228,57 @@
       return this.random(type);
     }
   },
-  code: function(key){
-    key = this.key(key);
+  view: function(key,fillone) {
+    if (!this.is(key)) return '';
+    var prefix = key.slice(0,4)
+    if (fillone){
+      return prefix + ((this.size(prefix + '00'))?'0':'1') +'0';
+    } else {
+      return prefix + ((this.is(prefix,'hand') && !this.structure('group',prefix,'is'))?'1':'0') +'0';
+    }
+  },
+  code: function(text,hexval){
+    var key;
+    var fsw = this.fsw(text);
+    if (fsw){
+      var pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
+      var matches = fsw.match(RegExp(pattern,'g'));
+      for(i=0; i<matches.length; i++) {
+        key = matches[i];
+        fsw = fsw.replace(key,this.code(key,hexval));
+      }
+      return fsw;
+    }
+    key = this.key(text);
     if (!key) return '';
     var code = 0x100000 + ((parseInt(key.slice(1,4),16) - 256) * 96) + ((parseInt(key.slice(4,5),16))*16) + parseInt(key.slice(5,6),16) + 1;
-    return String.fromCharCode(0xD800 + ((code - 0x10000) >> 10), 0xDC00 + ((code - 0x10000) & 0x3FF));
+    return hexval?code.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((code - 0x10000) >> 10), 0xDC00 + ((code - 0x10000) & 0x3FF));
   },
-  uni8: function(key){
-    key = this.key(key);
+  uni8: function(text,hexval){
+    var key;
+    var fsw = this.fsw(text);
+    if (fsw){
+      var pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
+      var matches = fsw.match(RegExp(pattern,'g'));
+      for(i=0; i<matches.length; i++) {
+        key = matches[i];
+        fsw = fsw.replace(key,this.uni8(key,hexval));
+      }
+      return fsw;
+    }
+    key = this.key(text);
     if (!key) return '';
     var base = parseInt(key.substr(1,3),16) + parseInt('1D700',16);
-    var uni8 = String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
+    var uni8 = hexval?base.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
     var fill = key.substr(4,1);
     if (fill!="0"){
       fill = parseInt(fill,16) + parseInt('1DA9A',16);
-      uni8 += String.fromCharCode(0xD800 + ((fill - 0x10000) >> 10), 0xDC00 + ((fill - 0x10000) & 0x3FF));
+      uni8 += hexval?fill.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((fill - 0x10000) >> 10), 0xDC00 + ((fill - 0x10000) & 0x3FF));
     }
     var rotation = key.substr(5,1);
     if (rotation!="0"){
       rotation = parseInt(rotation,16) + parseInt('1DAA0',16);
-      uni8 += String.fromCharCode(0xD800 + ((rotation - 0x10000) >> 10), 0xDC00 + ((rotation - 0x10000) & 0x3FF));
+      uni8 += hexval?rotation.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((rotation - 0x10000) >> 10), 0xDC00 + ((rotation - 0x10000) & 0x3FF));
     }
     return uni8;
   },
@@ -288,6 +362,8 @@
     }
     return text;
   },
+  sizes:{
+  },
   size: function(text) {
     var size,fsw = this.fsw(text);
     if (fsw) {
@@ -303,6 +379,7 @@
     }
     var key = this.key(text);
     if (!key) return '';
+    if (this.sizes[key]) return this.sizes[key];
 
     var imgData,i,zoom = 2;
     var bound = 76 * zoom;
@@ -396,6 +473,7 @@
         size = sizefix.slice(ipos + 6,iend);
       }
     }
+    this.sizes[key]=size;
     return size;
   },
   max: function(fsw,type){
@@ -424,16 +502,16 @@
     var vbox = this.bbox(this.max(fsw,'vcenter'));
     var box = this.bbox(this.max(fsw));
     if (!box) return "";
-    if (hbox){
-      minx = parseInt(hbox.slice(0,3));
-      maxx = parseInt(hbox.slice(4,7));
+    if (vbox){
+      minx = parseInt(vbox.slice(0,3));
+      maxx = parseInt(vbox.slice(4,7));
     } else {
       minx = parseInt(box.slice(0,3));
       maxx = parseInt(box.slice(4,7));
     }
-    if (vbox){
-      miny = parseInt(vbox.slice(8,11));
-      maxy = parseInt(vbox.slice(12,15));
+    if (hbox){
+      miny = parseInt(hbox.slice(8,11));
+      maxy = parseInt(hbox.slice(12,15));
     } else {
       miny = parseInt(box.slice(8,11));
       maxy = parseInt(box.slice(12,15));
@@ -454,9 +532,11 @@
   },
   svg: function(text,options){
     var fsw = this.fsw(text);
+    var keysize;
     if (!fsw) {
       var key = this.key(text);
-      if (!this.size(key)) return '';
+      var keysize = this.size(key);
+      if (!keysize) return '';
       if (key.length==6) {
         fsw = key + "500x500";
       } else {
@@ -479,6 +559,8 @@
     } else {
       options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.fill)?"#"+options.fill:options.fill;
     }
+    options.view = options.view=="key"?"key":options.view=="uni8"?"uni8":options.view=="pua"?"pua":"code";
+    options.copy = options.copy=="code"?"code":options.copy=="uni8"?"uni8":options.copy=="pua"?"pua":"key";
     var r, rsym, rcoord, sym, syms, coords, gelem, o;
     r = /(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
     rsym = /S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
@@ -491,8 +573,6 @@
       y, y1 = 500,
       y2 = 500,
       k, w, h, l;
-
-    
     k = fsw.charAt(0);
     var bbox = this.bbox(fsw);
     bbox = bbox.split(' ');
@@ -509,21 +589,32 @@
       gelem += '<text ';
       gelem += 'class="sym-fill" ';
       if (!options.css) {
-        gelem += 'style="pointer-events:none;font-family:\'SignWriting 2010 Filling\';font-size:30px;fill:' + options.fill + '"';
+        gelem += 'style="pointer-events:none;font-family:\'SignWriting 2010 Filling\';font-size:30px;fill:' + options.fill + ';';
+        gelem += options.view=='code'?'':'-webkit-font-feature-settings:\'liga\';font-feature-settings:\'liga\';';
+        gelem += '"';
+        //-moz-font-feature-settings:'liga';
       }
-      gelem += '>' + this.code(sym) + '</text>';
+      gelem += '>';
+      gelem += options.view=="key"?sym:options.view=="uni8"?this.uni8(sym):options.view=="pua"?this.pua(sym):this.code(sym);
+      gelem += '</text>';
       gelem += '<text ';
       gelem += 'class="sym-line" ';
       if (!options.css) {
-        gelem += 'style="pointer-events:none;font-family:\'SignWriting 2010\';font-size:30px;fill:' + options.line + '"';
+        gelem += 'style="';
+        gelem += options.view==options.copy?'':'pointer-events:none;';
+        gelem += 'font-family:\'SignWriting 2010\';font-size:30px;fill:' + options.line + ';';
+        gelem += options.view=='code'?'':'-webkit-font-feature-settings:\'liga\';font-feature-settings:\'liga\';';
+        gelem += '"';
       }
-      gelem += '>' + this.code(sym) + '</text>';
+      gelem += '>';
+      gelem += options.view=="key"?sym:options.view=="uni8"?this.uni8(sym):options.view=="pua"?this.pua(sym):this.code(sym);
+      gelem += '</text>';
       gelem += '</g>';
       syms[i] = gelem
     }
     if (k == 'S') {
       if (x1==500 && y1==500){
-        var size = this.size(fsw.slice(0,6)).split('x');
+        var size = keysize.split('x');
         x2 = 500 + parseInt(size[0]);
         y2 = 500 + parseInt(size[1]);
       } else {
@@ -538,7 +629,13 @@
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" ';
     if (options.class) svg += 'class="' + options.class + '" ';
     if (options.size!='x') svg += 'width="' + (w * options.size) + '" height="' + (h * options.size) + '" ';
-    svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '"><text style="font-size:0%;">' + text + '</text>' + syms.join('') + "</svg>";
+    svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '">';
+    if (options.view!=options.copy) {
+      svg += '<text style="font-size:0%;">'
+      svg += options.copy=="code"?this.code(text):options.copy=="uni8"?this.uni8(text):options.copy=="pua"?this.pua(text):text;
+      svg += '</text>';
+    }
+    svg += syms.join('') + "</svg>";
     if (options.laned){
       svg = '<div style="padding:10px;position:relative;width:' + w + 'px;height:' + h + 'px;left:' + l + 'px;">' + svg + '</div>';
     }
