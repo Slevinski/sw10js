@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.5.2
+* SignWriting 2010 JavaScript Library v1.5.3
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
@@ -107,7 +107,7 @@ var sw10 = signwriting_2010 = {
     }
     var arr = arrs[division];
     if (!arr) return !key?[]:opt=="is"?false:'';
-    if (!key) return arr;
+    if (!key&&!opt) return arr;
     if (!opt) opt='';
     var adj;
     switch(opt){
@@ -282,7 +282,7 @@ var sw10 = signwriting_2010 = {
     }
     return uni8;
   },
-  pua: function(text){
+  pua: function(text,hexval){
     var fsw = this.fsw(text);
     if (fsw){
       var str, code, coord, key, pua;
@@ -293,8 +293,8 @@ var sw10 = signwriting_2010 = {
         coord = str.split('x');
         coord[0] = parseInt(coord[0]) + parseInt('FDD0C',16);
         coord[1] = parseInt(coord[1]) + parseInt('FDD0C',16);
-        pua = String.fromCharCode(0xD800 + ((coord[0] - 0x10000) >> 10), 0xDC00 + ((coord[0] - 0x10000) & 0x3FF));
-        pua += String.fromCharCode(0xD800 + ((coord[1] - 0x10000) >> 10), 0xDC00 + ((coord[1] - 0x10000) & 0x3FF));
+        pua = hexval?coord[0].toString(16).toUpperCase():String.fromCharCode(0xD800 + ((coord[0] - 0x10000) >> 10), 0xDC00 + ((coord[0] - 0x10000) & 0x3FF));
+        pua += hexval?coord[1].toString(16).toUpperCase():String.fromCharCode(0xD800 + ((coord[1] - 0x10000) >> 10), 0xDC00 + ((coord[1] - 0x10000) & 0x3FF));
         fsw = fsw.replace(str,pua);
       }
       pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
@@ -304,23 +304,23 @@ var sw10 = signwriting_2010 = {
         fsw = fsw.replace(key,this.pua(key));
       }
       code = parseInt('FD800',16);
-      fsw = fsw.replace('A',String.fromCharCode(0xD800 + (((code) - 0x10000) >> 10), 0xDC00 + (((code) - 0x10000) & 0x3FF)));
-      fsw = fsw.replace('B',String.fromCharCode(0xD800 + (((code+1) - 0x10000) >> 10), 0xDC00 + (((code+1) - 0x10000) & 0x3FF)));
-      fsw = fsw.replace('L',String.fromCharCode(0xD800 + (((code+2) - 0x10000) >> 10), 0xDC00 + (((code+2) - 0x10000) & 0x3FF)));
-      fsw = fsw.replace('M',String.fromCharCode(0xD800 + (((code+3) - 0x10000) >> 10), 0xDC00 + (((code+3) - 0x10000) & 0x3FF)));
-      fsw = fsw.replace('R',String.fromCharCode(0xD800 + (((code+4) - 0x10000) >> 10), 0xDC00 + (((code+4) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('A',hexval?(code).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code) - 0x10000) >> 10), 0xDC00 + (((code) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('B',hexval?(code+1).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+1) - 0x10000) >> 10), 0xDC00 + (((code+1) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('L',hexval?(code+2).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+2) - 0x10000) >> 10), 0xDC00 + (((code+2) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('M',hexval?(code+3).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+3) - 0x10000) >> 10), 0xDC00 + (((code+3) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('R',hexval?(code+4).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+4) - 0x10000) >> 10), 0xDC00 + (((code+4) - 0x10000) & 0x3FF)));
       return fsw;
     }
     var key = this.key(text);
     if (!key) return '';
     var base = parseInt(key.substr(1,3),16) + parseInt('FD730',16);
-    var pua = String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
+    var pua = hexval?base.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
     var fill = key.substr(4,1);
     fill = parseInt(fill,16) + parseInt('FD810',16);
-    pua += String.fromCharCode(0xD800 + ((fill - 0x10000) >> 10), 0xDC00 + ((fill - 0x10000) & 0x3FF));
+    pua += hexval?fill.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((fill - 0x10000) >> 10), 0xDC00 + ((fill - 0x10000) & 0x3FF));
     var rotation = key.substr(5,1);
     rotation = parseInt(rotation,16) + parseInt('FD820',16);
-    pua += String.fromCharCode(0xD800 + ((rotation - 0x10000) >> 10), 0xDC00 + ((rotation - 0x10000) & 0x3FF));
+    pua += hexval?rotation.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((rotation - 0x10000) >> 10), 0xDC00 + ((rotation - 0x10000) & 0x3FF));
     return pua;
   },
   bbox: function(fsw) {
