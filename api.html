@@ -79,6 +79,15 @@ function keyChange(){
 	  document.getElementById("grpRow").className = "warning";
 	}
 
+    var clzOut = sw10.colorize(keyIn);
+	document.getElementById("clzFn").innerHTML = 'sw10.colorize("' + keyIn + '");';
+	document.getElementById("clzOut").innerHTML = clzOut;
+	if (clzOut) {
+	  document.getElementById("clzRow").className = "success";
+	} else {
+	  document.getElementById("clzRow").className = "warning";
+	}
+
     var viewOut = sw10.view(keyIn);
 	document.getElementById("viewFn").innerHTML = 'sw10.view("' + keyIn + '");';
 	document.getElementById("viewOut").innerHTML = viewOut;
@@ -303,6 +312,24 @@ function fswChange(){
 	  document.getElementById("fswRow").className = "warning";
 	}
 
+    var sfswOut = sw10.styling(fswIn);
+	document.getElementById("sfswFn").innerHTML = 'sw10.styling("' + fswIn + '");';
+	document.getElementById("sfswOut").innerHTML = sfswOut;
+	if (sfswOut) {
+	  document.getElementById("sfswRow").className = "success";
+	} else {
+	  document.getElementById("sfswRow").className = "warning";
+	}
+
+    var fswTOut = sw10.fsw(fswIn,true);
+	document.getElementById("fswTFn").innerHTML = 'sw10.fsw("' + fswIn + '",true);';
+	document.getElementById("fswTOut").innerHTML = fswTOut;
+	if (fswOut) {
+	  document.getElementById("fswTRow").className = "success";
+	} else {
+	  document.getElementById("fswTRow").className = "warning";
+	}
+
     var fswfilterOut = sw10.filter(fswIn,"hand");
 	document.getElementById("fswfilterFn").innerHTML = 'sw10.filter("' + fswIn + '","hand");';
 	document.getElementById("fswfilterOut").innerHTML = fswfilterOut;
@@ -329,19 +356,10 @@ function fswChange(){
 	} else {
 	  document.getElementById("fswnormRow").className = "warning";
 	}
-	fswIn = fswnormOut;
+	var fswInN = fswnormOut;
 
-    var fswsizeOut = sw10.size(fswIn);
-	document.getElementById("fswsizeFn").innerHTML = 'sw10.size("' + fswIn + '");';
-	document.getElementById("fswsizeOut").innerHTML = fswsizeOut;
-	if (fswsizeOut) {
-	  document.getElementById("fswsizeRow").className = "success";
-	} else {
-	  document.getElementById("fswsizeRow").className = "warning";
-	}
-
-    var fswbboxOut = sw10.bbox(fswIn);
-	document.getElementById("fswbboxFn").innerHTML = 'sw10.bbox("' + fswIn + '");';
+    var fswbboxOut = sw10.bbox(fswInN);
+	document.getElementById("fswbboxFn").innerHTML = 'sw10.bbox("' + fswInN + '");';
 	document.getElementById("fswbboxOut").innerHTML = fswbboxOut;
 	if (fswbboxOut) {
 	  document.getElementById("fswbboxRow").className = "success";
@@ -349,8 +367,17 @@ function fswChange(){
 	  document.getElementById("fswbboxRow").className = "warning";
 	}
 
-    var fswsvgOut = sw10.svg(fswIn);
-	document.getElementById("fswsvgFn").innerHTML = 'sw10.svg("' + fswIn + '");';
+    var fswsizeOut = sw10.size(fswInN);
+	document.getElementById("fswsizeFn").innerHTML = 'sw10.size("' + fswInN + '");';
+	document.getElementById("fswsizeOut").innerHTML = fswsizeOut;
+	if (fswsizeOut) {
+	  document.getElementById("fswsizeRow").className = "success";
+	} else {
+	  document.getElementById("fswsizeRow").className = "warning";
+	}
+
+    var fswsvgOut = sw10.svg(fswInN);
+	document.getElementById("fswsvgFn").innerHTML = 'sw10.svg("' + fswInN + '");';
 	document.getElementById("fswsvgOut").innerHTML = fswsvgOut;
 	if (fswsvgOut) {
 	  document.getElementById("fswsvgRow").className = "success";
@@ -358,8 +385,17 @@ function fswChange(){
 	  document.getElementById("fswsvgRow").className = "warning";
 	}
 
-    var fswcanvasOut = sw10.canvas(fswIn);
-	document.getElementById("fswcanvasFn").innerHTML = 'sw10.canvas("' + fswIn + '");';
+    var sfswsvgOut = sw10.svg(fswIn);
+	document.getElementById("sfswsvgFn").innerHTML = 'sw10.svg("' + fswIn + '");';
+	document.getElementById("sfswsvgOut").innerHTML = sfswsvgOut;
+	if (sfswsvgOut) {
+	  document.getElementById("sfswsvgRow").className = "success";
+	} else {
+	  document.getElementById("sfswsvgRow").className = "warning";
+	}
+
+    var fswcanvasOut = sw10.canvas(fswInN);
+	document.getElementById("fswcanvasFn").innerHTML = 'sw10.canvas("' + fswInN + '");';
 	document.getElementById("fswcanvasOut").innerHTML = fswcanvasOut;
 	if (fswcanvasOut) {
 	  document.getElementById("fswcanvasRow").className = "success";
@@ -367,13 +403,22 @@ function fswChange(){
 	  document.getElementById("fswcanvasRow").className = "warning";
 	}
 
-    var fswpngOut = sw10.png(fswIn);
-	document.getElementById("fswpngFn").innerHTML = 'sw10.png("' + fswIn + '");';
-	document.getElementById("fswpngOut").innerHTML = fswpngOut;// + '<br><img src="' + fswpngOut + '">';
+    var fswpngOut = sw10.png(fswInN);
+	document.getElementById("fswpngFn").innerHTML = 'sw10.png("' + fswInN + '");';
+	document.getElementById("fswpngOut").innerHTML = '<img src="' + fswpngOut + '">';
 	if (fswpngOut) {
 	  document.getElementById("fswpngRow").className = "success";
 	} else {
 	  document.getElementById("fswpngRow").className = "warning";
+	}
+
+    var sfswpngOut = sw10.png(fswIn);
+	document.getElementById("sfswpngFn").innerHTML = 'sw10.png("' + fswIn + '");';
+	document.getElementById("sfswpngOut").innerHTML = '<img src="' + sfswpngOut + '">';
+	if (sfswpngOut) {
+	  document.getElementById("sfswpngRow").className = "success";
+	} else {
+	  document.getElementById("sfswpngRow").className = "warning";
 	}
 
     var fswpuaOut = sw10.pua(fswIn);
@@ -569,6 +614,10 @@ function setText(fsw){
           <td id="grpFn">sw10.structure("group","")</td>
           <td id="grpOut"></td>
         </tr>
+        <tr id="clzRow">
+          <td id="clzFn">sw10.colorize("")</td>
+          <td id="clzOut"></td>
+        </tr>
         <tr id="viewRow">
           <td id="viewFn">sw10.view("")</td>
           <td id="viewOut"></td>
@@ -698,6 +747,22 @@ function setText(fsw){
         <tr id="fswRow">
           <td id="fswFn">sw10.fsw("")</td>
           <td id="fswOut"></td>
+        </tr>
+        <tr id="sfswRow">
+          <td id="sfswFn">sw10.styling("")</td>
+          <td id="sfswOut"></td>
+        </tr>
+        <tr id="fswTRow">
+          <td id="fswTFn">sw10.fsw("",true)</td>
+          <td id="fswTOut"></td>
+        </tr>
+        <tr id="sfswsvgRow">
+          <td id="sfswsvgFn">sw10.svg("")</td>
+          <td id="sfswsvgOut"></td>
+        </tr>
+        <tr id="sfswpngRow">
+          <td id="sfswpngFn">sw10.png("")</td>
+          <td id="sfswpngOut"></td>
         </tr>
         <tr id="fswfilterRow">
           <td id="fswfilterFn">sw10.filter("","hand")</td>
