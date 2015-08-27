@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.6.0
+* SignWriting 2010 JavaScript Library v1.6.1
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
@@ -594,7 +594,7 @@ var sw10 = signwriting_2010 = {
     if (!options.back){
       options.back="";
     } else {
-      options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.fill)?"#"+options.back:options.back;
+      options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.back)?"#"+options.back:options.back;
     }
     options.E = [];
     options.F = [];
@@ -803,7 +803,7 @@ var sw10 = signwriting_2010 = {
     if (!options.back){
       options.back="";
     } else {
-      options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.fill)?"#"+options.back:options.back;
+      options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(options.back)?"#"+options.back:options.back;
     }
     options.E = [];
     options.F = [];
@@ -924,7 +924,6 @@ var sw10 = signwriting_2010 = {
     canvas.width = w;
     canvas.height = h;
     var context = canvas.getContext("2d");
-    console.log(options.back);
     if (options.back){
       context.rect(0,0,w,h);
       context.fillStyle=options.back;
