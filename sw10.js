@@ -1,10 +1,10 @@
 /**
-* SignWriting 2010 JavaScript Library v1.6.1
+* SignWriting 2010 JavaScript Library v1.6.2
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 */
-var sw10 = signwriting_2010 = {
+var sw10 = {
   key: function(text,style){
     var key = text.match(/S[123][0-9a-f]{2}[0-5][0-9a-f]([0-9]{3}x[0-9]{3})?/g);
     if (!key) {
@@ -15,7 +15,6 @@ var sw10 = signwriting_2010 = {
   },
   fsw: function(text,style){
     var fsw = text.match(/(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}/);
-    var styling = this.styling(text);
     if (!fsw) {
       return '';
     } else {
@@ -23,7 +22,7 @@ var sw10 = signwriting_2010 = {
     }
   },
   styling: function(text){
-    var sfsw = text.match(/-C?(P[0-9]{2})?(G\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)\))?(D\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)(,([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+))?\))?(Z[0-9]+(\.[0-9]+)?)?(\+(D[0-9]{2}\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)(,([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+))?\))*(Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?)*)?/);
+    var sfsw = text.match(/-C?(P[0-9]{2})?(G\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)\))?(D\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)(,([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+))?\))?(Z([0-9]+(\.[0-9]+)?|x))?(\+(D[0-9]{2}\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)(,([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+))?\))*(Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?)*)?/);
     if (!sfsw) {
       return '';
     } else {
@@ -32,7 +31,7 @@ var sw10 = signwriting_2010 = {
   },
   mirror: function(key){
     key = this.key(key);
-    if (!this.size(key)) return ''
+    if (!this.size(key)) {return '';}
     var base = key.slice(0,4);
     var fill = key.slice(4,5);
     var rot = parseInt(key.slice(5,6),16);
@@ -42,40 +41,40 @@ var sw10 = signwriting_2010 = {
     if (this.size(key1) || this.size(key2)){
       rAdd = 8;
     } else {
-      if ((rot==0) || (rot==4)) {rAdd=0}
-      if ((rot==1) || (rot==5)) {rAdd=6}
-      if ((rot==2) || (rot==6)) {rAdd=4}
-      if ((rot==3) || (rot==7)) {rAdd=2}
+      if ((rot===0) || (rot==4)) {rAdd=0;}
+      if ((rot==1) || (rot==5)) {rAdd=6;}
+      if ((rot==2) || (rot==6)) {rAdd=4;}
+      if ((rot==3) || (rot==7)) {rAdd=2;}
     }
     key='';
     while (!this.size(key)) {
-      rot += rAdd
-      if ((rot>7) && (rAdd<8)) { rot = rot -8}
-      if (rot>15) { rot = rot -16}
+      rot += rAdd;
+      if ((rot>7) && (rAdd<8)) { rot = rot -8;}
+      if (rot>15) { rot = rot -16;}
       key = base + fill + rot.toString(16);
     }
     return key;
   },
   fill: function(key,step){
     key = this.key(key);
-    if (!this.size(key)) return ''
-    if (step!=-1) step=1;
+    if (!this.size(key)) {return '';}
+    if (step!=-1) {step=1;}
     var base = key.slice(0,4);
     var fill = parseInt(key.slice(4,5));
     var rot = key.slice(5,6);
     key='';
     while (!this.size(key)){
       fill += step;
-      if (fill>5) fill=0;
-      if (fill<0) fill=5;
+      if (fill>5) {fill=0;}
+      if (fill<0) {fill=5;}
       key = base + fill + rot;
     }
     return key;
   },
   rotate: function(key,step){
     key = this.key(key);
-    if (!this.size(key)) return ''
-    if (step!=-1) step=1;
+    if (!this.size(key)) {return '';}
+    if (step!=-1) {step=1;}
     var base = key.slice(0,4);
     var fill = key.slice(4,5);
     var rot = parseInt(key.slice(5,6),16);
@@ -83,13 +82,13 @@ var sw10 = signwriting_2010 = {
     while (!this.size(key)){
       if (rot>7){
         rot += step;
-        if (rot>15) rot=8;
-        if (rot<8) rot=15;
+        if (rot>15) {rot=8;}
+        if (rot<8) {rot=15;}
         key = base + fill + rot.toString(16);
       } else {
         rot -= step;
-        if (rot>7) rot=0;
-        if (rot<0) rot=7;
+        if (rot>7) {rot=0;}
+        if (rot<0) {rot=7;}
         key = base + fill + rot;
       }
     }
@@ -97,12 +96,12 @@ var sw10 = signwriting_2010 = {
   },
   scroll: function(key,step){
     key = this.key(key);
-    if (!this.size(key)) return ''
-    if (step!=-1) step=1;
+    if (!this.size(key)) {return '';}
+    if (step!=-1) {step=1;}
     var base = parseInt(key.slice(1,4),16) + step;
     var fill = key.slice(4,5);
     var rot = key.slice(5,6);
-    var nkey= 'S' + base.toString(16) + fill + rot
+    var nkey= 'S' + base.toString(16) + fill + rot;
     if(this.size(nkey)){
       return nkey;
     } else {
@@ -113,22 +112,19 @@ var sw10 = signwriting_2010 = {
     var arrs = {kind:['S100','S37f','S387'],
       category:['S100','S205','S2f7','S2ff','S36d','S37f','S387'],
       group:['S100','S10e','S11e','S144','S14c','S186','S1a4','S1ba','S1cd','S1f5','S205','S216','S22a','S255','S265','S288','S2a6','S2b7','S2d5','S2e3','S2f7','S2ff','S30a','S32a','S33b','S359','S36d','S376','S37f','S387']
-    }
+    };
     var arr = arrs[division];
-    if (!arr) return !key?[]:opt=="is"?false:'';
-    if (!key&&!opt) return arr;
-    if (!opt) opt='';
+    if (!arr) {return !key?[]:opt=="is"?false:'';}
+    if (!key&&!opt) {return arr;}
+    if (!opt) {opt='';}
     var adj;
     switch(opt){
       case 'is':
         return (arr.indexOf(key.slice(0,4))==-1)?false:true;
-        break;
       case 'first':
         return arr[0];
-        break;
       case 'last':
         return arr.slice(-1)[0];
-        break;
       case 'prev':
         adj = -2;
         break;
@@ -141,7 +137,7 @@ var sw10 = signwriting_2010 = {
       default:
         return '';
     }
-    var index = arr.length;
+    var i,index = arr.length;
     for(i=0; i<arr.length; i++) {
       if(parseInt(key.slice(1,4),16) < parseInt(arr[i].slice(1,4),16)) {
         index = i;
@@ -204,19 +200,19 @@ var sw10 = signwriting_2010 = {
     return [start,end];
   },
   is: function(key,type){
-    if (key.length==6 && !this.size(key)) return false;
+    if (key.length==6 && !this.size(key)) {return false;}
     var range = this.type(type);
     var start = range[0];
     var end = range[1];
     var char = key.slice(1,4);
-    return (parseInt(start,16)<=parseInt(char,16) && parseInt(end,16)>=parseInt(char,16)); 
+    return (parseInt(start,16)<=parseInt(char,16) && parseInt(end,16)>=parseInt(char,16));
   },
   filter: function (fsw,type) {
     var range = this.type(type);
     var start = range[0];
     var end = range[1];
     var re = 'S' + this.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
-    var matches = fsw.match(RegExp(re,'g'));
+    var matches = fsw.match(new RegExp(re,'g'));
     if (matches){
       return matches.join('');
     } else {
@@ -239,19 +235,19 @@ var sw10 = signwriting_2010 = {
   },
   colorize: function(key) {
     var color = '000000';
-    if (this.is(key,'hand')) color = '0000CC';
-    if (this.is(key,'movement')) color = 'CC0000';
-    if (this.is(key,'dynamic')) color = 'FF0099';
-    if (this.is(key,'head')) color = '006600';
-//    if (this.is(key,'trunk')) color = '000000';
-//    if (this.is(key,'limb')) color = '000000';
-    if (this.is(key,'location')) color = '884411';
-    if (this.is(key,'punctuation')) color = 'FF9900';
+    if (this.is(key,'hand')) {color = '0000CC';}
+    if (this.is(key,'movement')) {color = 'CC0000';}
+    if (this.is(key,'dynamic')) {color = 'FF0099';}
+    if (this.is(key,'head')) {color = '006600';}
+//    if (this.is(key,'trunk')) {color = '000000';}
+//    if (this.is(key,'limb')) {color = '000000';}
+    if (this.is(key,'location')) {color = '884411';}
+    if (this.is(key,'punctuation')) {color = 'FF9900';}
     return color;
   },
   view: function(key,fillone) {
-    if (!this.is(key)) return '';
-    var prefix = key.slice(0,4)
+    if (!this.is(key)) {return '';}
+    var prefix = key.slice(0,4);
     if (fillone){
       return prefix + ((this.size(prefix + '00'))?'0':'1') +'0';
     } else {
@@ -259,11 +255,11 @@ var sw10 = signwriting_2010 = {
     }
   },
   code: function(text,hexval){
-    var key;
+    var key,i;
     var fsw = this.fsw(text);
     if (fsw){
       var pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
-      var matches = fsw.match(RegExp(pattern,'g'));
+      var matches = fsw.match(new RegExp(pattern,'g'));
       for(i=0; i<matches.length; i++) {
         key = matches[i];
         fsw = fsw.replace(key,this.code(key,hexval));
@@ -271,16 +267,16 @@ var sw10 = signwriting_2010 = {
       return fsw;
     }
     key = this.key(text);
-    if (!key) return '';
+    if (!key) {return '';}
     var code = 0x100000 + ((parseInt(key.slice(1,4),16) - 256) * 96) + ((parseInt(key.slice(4,5),16))*16) + parseInt(key.slice(5,6),16) + 1;
     return hexval?code.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((code - 0x10000) >> 10), 0xDC00 + ((code - 0x10000) & 0x3FF));
   },
   uni8: function(text,hexval){
-    var key;
+    var key,i;
     var fsw = this.fsw(text);
     if (fsw){
       var pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
-      var matches = fsw.match(RegExp(pattern,'g'));
+      var matches = fsw.match(new RegExp(pattern,'g'));
       for(i=0; i<matches.length; i++) {
         key = matches[i];
         fsw = fsw.replace(key,this.uni8(key,hexval));
@@ -288,7 +284,7 @@ var sw10 = signwriting_2010 = {
       return fsw;
     }
     key = this.key(text);
-    if (!key) return '';
+    if (!key) {return '';}
     var base = parseInt(key.substr(1,3),16) + parseInt('1D700',16);
     var uni8 = hexval?base.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
     var fill = key.substr(4,1);
@@ -304,9 +300,9 @@ var sw10 = signwriting_2010 = {
     return uni8;
   },
   pua: function(text,hexval){
-    var fsw = this.fsw(text);
+    var key,pua,fsw = this.fsw(text);
     if (fsw){
-      var str, code, coord, key, pua;
+      var str, code, coord;
       code = parseInt('FD800',16);
       fsw = fsw.replace('A',hexval?(code).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code) - 0x10000) >> 10), 0xDC00 + (((code) - 0x10000) & 0x3FF)));
       fsw = fsw.replace('B',hexval?(code+1).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+1) - 0x10000) >> 10), 0xDC00 + (((code+1) - 0x10000) & 0x3FF)));
@@ -314,7 +310,7 @@ var sw10 = signwriting_2010 = {
       fsw = fsw.replace('M',hexval?(code+3).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+3) - 0x10000) >> 10), 0xDC00 + (((code+3) - 0x10000) & 0x3FF)));
       fsw = fsw.replace('R',hexval?(code+4).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+4) - 0x10000) >> 10), 0xDC00 + (((code+4) - 0x10000) & 0x3FF)));
       var pattern = '[0-9]{3}x[0-9]{3}';
-      var matches = fsw.match(RegExp(pattern,'g'));
+      var matches = fsw.match(new RegExp(pattern,'g'));
       for(var i=0; i<matches.length; i++) {
         str = matches[i];
         coord = str.split('x');
@@ -325,17 +321,17 @@ var sw10 = signwriting_2010 = {
         fsw = fsw.replace(str,pua);
       }
       pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
-      matches = fsw.match(RegExp(pattern,'g'));
+      matches = fsw.match(new RegExp(pattern,'g'));
       for(i=0; i<matches.length; i++) {
         key = matches[i];
         fsw = fsw.replace(key,this.pua(key,hexval));
       }
       return fsw;
     }
-    var key = this.key(text);
-    if (!key) return '';
+    key = this.key(text);
+    if (!key) {return '';}
     var base = parseInt(key.substr(1,3),16) + parseInt('FD730',16);
-    var pua = hexval?base.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
+    pua = hexval?base.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
     var fill = key.substr(4,1);
     fill = parseInt(fill,16) + parseInt('FD810',16);
     pua += hexval?fill.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((fill - 0x10000) >> 10), 0xDC00 + ((fill - 0x10000) & 0x3FF));
@@ -352,7 +348,7 @@ var sw10 = signwriting_2010 = {
       for (var i=0; i < coords.length; i++) {
         x = parseInt(coords[i].slice(0, 3));
         y = parseInt(coords[i].slice(4, 7));
-        if (i==0){
+        if (i===0){
           x1 = x;
           x2 = x;
           y1 = y;
@@ -372,7 +368,7 @@ var sw10 = signwriting_2010 = {
   displace: function(text,x,y){
     var xpos,ypos;
     var re = '[0-9]{3}x[0-9]{3}';
-    var matches = text.match(RegExp(re,'g'));
+    var matches = text.match(new RegExp(re,'g'));
     if (matches){
       for(var i=0; i<matches.length; i++) {
         xpos = parseInt(matches[i].slice(0, 3)) + x;
@@ -386,21 +382,21 @@ var sw10 = signwriting_2010 = {
   sizes:{
   },
   size: function(text) {
-    var size,fsw = this.fsw(text);
+    var w,h,s,size,fsw = this.fsw(text);
     if (fsw) {
       var bbox = this.bbox(fsw);
       bbox = bbox.split(' ');
-      x1 = bbox[0];
-      x2 = bbox[1];
-      y1 = bbox[2];
-      y2 = bbox[3];
+      var x1 = bbox[0];
+      var x2 = bbox[1];
+      var y1 = bbox[2];
+      var y2 = bbox[3];
       size = (x2-x1) + 'x' + (y2-y1);
-      if (size=='0x0') return '';
+      if (size=='0x0') {return '';}
       return size;
     }
     var key = this.key(text);
-    if (!key) return '';
-    if (this.sizes[key]) return this.sizes[key];
+    if (!key) {return '';}
+    if (this.sizes[key]) {return this.sizes[key];}
 
     var imgData,i,zoom = 2;
     var bound = 76 * zoom;
@@ -415,11 +411,11 @@ var sw10 = signwriting_2010 = {
     context.font = (30*zoom) + "px 'SignWriting 2010'";
     context.fillText(this.code(key),0,0);
     imgData = context.getImageData(0,0,bound,bound).data;
-    
+
     wloop:
-    for (var w=bound-1;w>=0;w--){
-      for (var h=0;h<bound;h++){
-        for (var s=0;s<4;s++){
+    for (w=bound-1;w>=0;w--){
+      for (h=0;h<bound;h++){
+        for (s=0;s<4;s++){
           i=w*4+(h*4*bound) +s;
           if (imgData[i]){
             break wloop;
@@ -429,9 +425,9 @@ var sw10 = signwriting_2010 = {
     }
     var width = w;
     hloop:
-    for (var h=bound-1;h>=0;h--){
-      for (var w=0;w<width;w++){
-        for (var s=0;s<4;s++){
+    for (h=bound-1;h>=0;h--){
+      for (w=0;w<width;w++){
+        for (s=0;s<4;s++){
           i=w*4+(h*4*bound) +s;
           if (imgData[i]){
             break hloop;
@@ -502,7 +498,7 @@ var sw10 = signwriting_2010 = {
     var start = range[0];
     var end = range[1];
     var re = 'S' + this.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
-    var matches = fsw.match(RegExp(re,'g'));
+    var matches = fsw.match(new RegExp(re,'g'));
     if (matches){
       var key,x,y,size,output='';
       for (var i=0; i < matches.length; i++) {
@@ -522,7 +518,7 @@ var sw10 = signwriting_2010 = {
     var hbox = this.bbox(this.max(fsw,'hcenter'));
     var vbox = this.bbox(this.max(fsw,'vcenter'));
     var box = this.bbox(this.max(fsw));
-    if (!box) return "";
+    if (!box) {return "";}
     if (vbox){
       minx = parseInt(vbox.slice(0,3));
       maxx = parseInt(vbox.slice(4,7));
@@ -548,17 +544,17 @@ var sw10 = signwriting_2010 = {
       start = start[0];
     }
 
-    fsw = start + parseInt(box.slice(4,7)) + "x" + parseInt(box.slice(12,15)) + this.filter(fsw)
+    fsw = start + parseInt(box.slice(4,7)) + "x" + parseInt(box.slice(12,15)) + this.filter(fsw);
     return this.displace(fsw,xdiff,ydiff);
   },
   svg: function(text,options){
     var fsw = this.fsw(text);
     var styling = this.styling(text);
-    var keysize;
+    var stylings,pos,keysize,colors,i,size;
     if (!fsw) {
       var key = this.key(text);
-      var keysize = this.size(key);
-      if (!keysize) return '';
+      keysize = this.size(key);
+      if (!keysize) {return '';}
       if (key.length==6) {
         fsw = key + "500x500";
       } else {
@@ -598,11 +594,10 @@ var sw10 = signwriting_2010 = {
     }
     options.E = [];
     options.F = [];
-    
+
     options.view = options.view=="key"?"key":options.view=="uni8"?"uni8":options.view=="pua"?"pua":"code";
     options.copy = options.copy=="code"?"code":options.copy=="uni8"?"uni8":options.copy=="pua"?"pua":"key";
-    
-    
+
     if (styling){
       var rs;
       rs = styling.match(/C/);
@@ -616,29 +611,29 @@ var sw10 = signwriting_2010 = {
       rs = styling.match(/G\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)\)/);
       if (rs){
         var back = rs[0].substring(2,rs[0].length-1);
-        options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(back)?"#"+back:back;      
+        options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(back)?"#"+back:back;
       }
 
       stylings = styling.split('+');
       rs = stylings[0].match(/D\(([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+))?\)/);
       if (rs) {
-        var colors = rs[0].substring(2,rs[0].length-1).split(',');
+        colors = rs[0].substring(2,rs[0].length-1).split(',');
         if (colors[0]) options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
         if (colors[1]) options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
       }
 
-      rs = stylings[0].match(/Z[0-9]+(\.[0-9]+)?/);
+      rs = stylings[0].match(/Z([0-9]+(\.[0-9]+)?|x)/);
       if (rs){
-        options.size = rs[0].substring(1,rs[0].length);
+        options.size = parseFloat(rs[0].substring(1,rs[0].length)) || 'x';
       }
-      
+
       if (!stylings[1]) stylings[1]='';
 
       rs = stylings[1].match(/D[0-9]{2}\(([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+))?\)/g);
       if (rs) {
-        for (var i=0; i < rs.length; i++) {
-          var pos = parseInt(rs[i].substring(1,3));
-          var colors = rs[i].substring(4,rs[i].length-1).split(',');
+        for (i=0; i < rs.length; i++) {
+          pos = parseInt(rs[i].substring(1,3));
+          colors = rs[i].substring(4,rs[i].length-1).split(',');
           if (colors[0]) colors[0] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
           if (colors[1]) colors[1] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
           options.E[pos]=colors;
@@ -647,16 +642,16 @@ var sw10 = signwriting_2010 = {
 
       rs = stylings[1].match(/Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?/g);
       if (rs){
-        for (var i=0; i < rs.length; i++) {
-          var pos = parseInt(rs[i].substring(1,3));
-          var size = rs[i].substring(4,rs[i].length).split(',');
+        for (i=0; i < rs.length; i++) {
+          pos = parseInt(rs[i].substring(1,3));
+          size = rs[i].substring(4,rs[i].length).split(',');
           size[0]=parseFloat(size[0]);
           options.F[pos]=size;
         }
       }
     }
 
-    var r, rsym, rcoord, sym, syms, coords, gelem, o;
+    var r, rsym, rcoord, sym, syms, gelem, o;
     r = /(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
     rsym = /S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
     rcoord = /[0-9]{3}x[0-9]{3}/g;
@@ -677,7 +672,7 @@ var sw10 = signwriting_2010 = {
     y2 = parseInt(bbox[3]);
     if (k == 'S') {
       if (x1==500 && y1==500){
-        var size = keysize.split('x');
+        size = keysize.split('x');
         x2 = 500 + parseInt(size[0]);
         y2 = 500 + parseInt(size[1]);
       } else {
@@ -686,8 +681,8 @@ var sw10 = signwriting_2010 = {
       }
     }
     syms = fsw.match(rsym);
-    for (var i=0; i < syms.length; i++) {
-      sym = syms[i].slice(0,6)
+    for (i=0; i < syms.length; i++) {
+      sym = syms[i].slice(0,6);
       x = syms[i].slice(6, 9);
       y = syms[i].slice(10, 13);
       if (options.F[i+1]){
@@ -730,7 +725,7 @@ var sw10 = signwriting_2010 = {
       gelem += options.view=="key"?sym:options.view=="uni8"?this.uni8(sym):options.view=="pua"?this.pua(sym):this.code(sym);
       gelem += '</text>';
       gelem += '</g>';
-      syms[i] = gelem
+      syms[i] = gelem;
     }
 
     x1 = x1 - options.pad;
@@ -763,11 +758,11 @@ var sw10 = signwriting_2010 = {
     var canvas = document.createElement("canvas");
     var fsw = this.fsw(text,true);
     var styling = this.styling(text);
-    var keysize;
+    var stylings,colors,keysize,keysized,size,i,pos;
     if (!fsw) {
       var key = this.key(text);
-      var keysize=this.size(key)
-      if (!key) return '';
+      keysize=this.size(key);
+      if (!key) {return '';}
       if (key.length==6) {
         fsw = key + "500x500";
       } else {
@@ -821,13 +816,13 @@ var sw10 = signwriting_2010 = {
       rs = styling.match(/G\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)\)/);
       if (rs){
         var back = rs[0].substring(2,rs[0].length-1);
-        options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(back)?"#"+back:back;      
+        options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(back)?"#"+back:back;
       }
 
       stylings = styling.split('+');
       rs = stylings[0].match(/D\(([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+))?\)/);
       if (rs) {
-        var colors = rs[0].substring(2,rs[0].length-1).split(',');
+        colors = rs[0].substring(2,rs[0].length-1).split(',');
         if (colors[0]) options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
         if (colors[1]) options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
       }
@@ -836,14 +831,14 @@ var sw10 = signwriting_2010 = {
       if (rs){
         options.size = rs[0].substring(1,rs[0].length);
       }
-      
+
       if (!stylings[1]) stylings[1]='';
 
       rs = stylings[1].match(/D[0-9]{2}\(([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+))?\)/g);
       if (rs) {
-        for (var i=0; i < rs.length; i++) {
-          var pos = parseInt(rs[i].substring(1,3));
-          var colors = rs[i].substring(4,rs[i].length-1).split(',');
+        for (i=0; i < rs.length; i++) {
+          pos = parseInt(rs[i].substring(1,3));
+          colors = rs[i].substring(4,rs[i].length-1).split(',');
           if (colors[0]) colors[0] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
           if (colors[1]) colors[1] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
           options.E[pos]=colors;
@@ -852,9 +847,9 @@ var sw10 = signwriting_2010 = {
 
       rs = stylings[1].match(/Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?/g);
       if (rs){
-        for (var i=0; i < rs.length; i++) {
-          var pos = parseInt(rs[i].substring(1,3));
-          var size = rs[i].substring(4,rs[i].length).split(',');
+        for (i=0; i < rs.length; i++) {
+          pos = parseInt(rs[i].substring(1,3));
+          size = rs[i].substring(4,rs[i].length).split(',');
           size[0]=parseFloat(size[0]);
           options.F[pos]=size;
         }
@@ -862,7 +857,7 @@ var sw10 = signwriting_2010 = {
     }
 
 
-    var r, rsym, rcoord, sym, syms, coords, gelem, o;
+    var r, rsym, rcoord, sym, syms, o;
     r = /(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
     rsym = /S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
     rcoord = /[0-9]{3}x[0-9]{3}/g;
@@ -873,7 +868,7 @@ var sw10 = signwriting_2010 = {
       x2 = 500,
       y, y1 = 500,
       y2 = 500,
-      k, w, h, l;
+      k, w, h;
     k = fsw.charAt(0);
     var bbox = this.bbox(fsw);
     bbox = bbox.split(' ');
@@ -884,7 +879,7 @@ var sw10 = signwriting_2010 = {
 
     if (k == 'S') {
       if (x1==500 && y1==500){
-        var size = keysize.split('x');
+        size = keysize.split('x');
         x2 = 500 + parseInt(size[0]);
         y2 = 500 + parseInt(size[1]);
       } else {
@@ -894,8 +889,8 @@ var sw10 = signwriting_2010 = {
     }
 
     syms = fsw.match(rsym);
-    for (var i=0; i < syms.length; i++) {
-      sym = syms[i].slice(0,6)
+    for (i=0; i < syms.length; i++) {
+      sym = syms[i].slice(0,6);
       x = syms[i].slice(6, 9);
       y = syms[i].slice(10, 13);
       if (options.F[i+1]){
@@ -905,7 +900,7 @@ var sw10 = signwriting_2010 = {
           x1 = Math.min(x1,x);
           y1 = Math.min(y1,y);
         }
-        var keysized = this.size(sym);
+        keysized = this.size(sym);
         if (keysized) {
           keysized = keysized.split('x');
           x2 = Math.max(x2,parseInt(x) + (options.F[i+1][0] * parseInt(keysized[0])));
@@ -919,8 +914,8 @@ var sw10 = signwriting_2010 = {
     x2 = x2 + options.pad;
     y1 = y1 - options.pad;
     y2 = y2 + options.pad;
-    var w = (x2-x1) * options.size;
-    var h = (y2-y1) * options.size;
+    w = (x2-x1) * options.size;
+    h = (y2-y1) * options.size;
     canvas.width = w;
     canvas.height = h;
     var context = canvas.getContext("2d");
@@ -932,8 +927,8 @@ var sw10 = signwriting_2010 = {
 //      context.fillRect(0,0,w,h);
     }
     syms = fsw.match(rsym);
-    for (var i=0; i < syms.length; i++) {
-      sym = syms[i].slice(0,6)
+    for (i=0; i < syms.length; i++) {
+      sym = syms[i].slice(0,6);
       x = syms[i].slice(6, 9);
       y = syms[i].slice(10, 13);
       if (options.F[i+1]){
@@ -943,7 +938,7 @@ var sw10 = signwriting_2010 = {
           x1 = Math.min(x1,x);
           y1 = Math.min(y1,y);
         }
-        var keysized = this.size(sym);
+        keysized = this.size(sym);
         if (keysized) {
           keysized = keysized.split('x');
           x2 = Math.max(x2,parseInt(x) + (options.F[i+1][0] * parseInt(keysized[0])));
@@ -971,7 +966,7 @@ var sw10 = signwriting_2010 = {
     }
   },
   query: function (query){
-    var query = query.match(/Q((A(S[123][0-9a-f]{2}[0-5u][0-9a-fu]|R[123][0-9a-f]{2}t[123][0-9a-f]{2})+)?T)?((R[123][0-9a-f]{2}t[123][0-9a-f]{2}([0-9]{3}x[0-9]{3})?)|(S[123][0-9a-f]{2}[0-5u][0-9a-fu]([0-9]{3}x[0-9]{3})?))*(V[0-9]+)?/);
+    query = query.match(/Q((A(S[123][0-9a-f]{2}[0-5u][0-9a-fu]|R[123][0-9a-f]{2}t[123][0-9a-f]{2})+)?T)?((R[123][0-9a-f]{2}t[123][0-9a-f]{2}([0-9]{3}x[0-9]{3})?)|(S[123][0-9a-f]{2}[0-5u][0-9a-fu]([0-9]{3}x[0-9]{3})?))*(V[0-9]+)?/);
     if (query) {
       return query[0];
     } else {
@@ -979,13 +974,13 @@ var sw10 = signwriting_2010 = {
     }
   },
   range: function (min,max,hex){
-    var pattern, re, diff, tmax, cnt, text, minV, maxV;
+    var pattern, re, diff, tmax, cnt, minV, maxV;
     if (!hex) hex='';
     min = ("000" + min).slice(-3);
     max = '' + max;
     pattern='';
 
-    if (min===max) return min;
+    if (min===max) {return min;}
 
     //ending pattern will be series of connected OR ranges
     re = [];
@@ -1026,7 +1021,7 @@ var sw10 = signwriting_2010 = {
           }
           diff = 15-parseInt(min[2],16) +1;
           min = '' + ((parseInt(min,16)+diff)).toString(16);
-          re.push(pattern); 
+          re.push(pattern);
         } else {
           //switch for dex
           switch (min[2]){
@@ -1042,7 +1037,7 @@ var sw10 = signwriting_2010 = {
           }
           diff = 9-min[2] +1;
           min = '' + (min*1 + diff);
-          re.push(pattern); 
+          re.push(pattern);
         }
       }
     }
@@ -1080,7 +1075,7 @@ var sw10 = signwriting_2010 = {
           pattern += '[0-9a-f]';
           diff = 15-parseInt(min[1],16) +1;
           min = '' + (parseInt(min,16)+diff*16).toString(16);
-          re.push(pattern); 
+          re.push(pattern);
         } else {
           //scrape to 99
           pattern = min[0];
@@ -1099,7 +1094,7 @@ var sw10 = signwriting_2010 = {
           pattern += '[0-9]';
           diff = 9-min[1] +1;
           min = '' + (min*1 + diff*10);
-          re.push(pattern); 
+          re.push(pattern);
         }
       }
     }
@@ -1110,7 +1105,7 @@ var sw10 = signwriting_2010 = {
       if (hex){
         diff = parseInt(max[0],16) - parseInt(min[0],16);
         tmax = (parseInt(min[0],16) + diff-1).toString(16);
-    
+
         switch (diff){
         case 1:
           pattern = min[0];
@@ -1168,11 +1163,11 @@ var sw10 = signwriting_2010 = {
         pattern += '[0-9a-f][0-9a-f]';
         diff = parseInt(max[0],16) - parseInt(min[0],16);
         min = '' + (parseInt(min,16)+diff*256).toString(16);
-        re.push(pattern); 
+        re.push(pattern);
       } else {
         diff = max[0] - min[0];
         tmax = min[0]*1 + diff-1;
-    
+
         switch (diff){
         case 1:
           pattern = min[0];
@@ -1186,7 +1181,7 @@ var sw10 = signwriting_2010 = {
         }
         pattern += '[0-9][0-9]';
         min = '' + (min*1 + diff*100);
-        re.push(pattern); 
+        re.push(pattern);
       }
     }
     pattern = '';
@@ -1259,7 +1254,7 @@ var sw10 = signwriting_2010 = {
         pattern += '[0-9a-f]';
         diff = parseInt(max[1],16) - parseInt(min[1],16);
         min = '' + (parseInt(min,16)+diff*16).toString(16);
-        re.push(pattern); 
+        re.push(pattern);
       } else {
         diff = max[1] - min[1];
         tmax = min[1]*1 + diff-1;
@@ -1277,7 +1272,7 @@ var sw10 = signwriting_2010 = {
         }
         pattern += '[0-9]';
         min = '' + (min*1 + diff*10);
-        re.push(pattern); 
+        re.push(pattern);
       }
     }
     pattern = '';
@@ -1328,7 +1323,7 @@ var sw10 = signwriting_2010 = {
             pattern += 'a-' + max[2] + ']';
             break;
           }
-        
+
           break;
         case "hh":
           pattern += '[' + min[2];
@@ -1338,7 +1333,7 @@ var sw10 = signwriting_2010 = {
         }
         diff = parseInt(max[2],16) - parseInt(min[2],16);
         min = '' + (parseInt(min,16) + diff).toString(16);
-        re.push(pattern); 
+        re.push(pattern);
       } else {
         diff = max[2] - min[2];
         pattern = min[0] + min[1];
@@ -1354,7 +1349,7 @@ var sw10 = signwriting_2010 = {
           break;
         }
         min = '' + (min*1 + diff);
-        re.push(pattern); 
+        re.push(pattern);
       }
     }
     pattern = '';
@@ -1365,7 +1360,7 @@ var sw10 = signwriting_2010 = {
       re.push(pattern);
     }
     pattern = '';
-  
+
     cnt = re.length;
     if (cnt==1){
       pattern = re[0];
@@ -1380,7 +1375,7 @@ var sw10 = signwriting_2010 = {
     if (!query) {
       return '';
     }
-    var fsw_pattern, part, from, to, re_range, segment, x, y, base, fill, rotate;
+    var matches, i, fsw_pattern, part, from, to, re_range, segment, x, y, base, fill, rotate;
     if (!fuzz) fuzz = 20;
     var re_sym = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
     var re_coord = '[0-9]{3}x[0-9]{3}';
@@ -1392,7 +1387,7 @@ var sw10 = signwriting_2010 = {
     var q_var = '(V[0-9]+)';
     var q_term;
     query = this.query(query);
-    if (!query) return '';
+    if (!query) {return '';}
     if (query=='Q'){
       return [re_term + "?" + re_word];
     }
@@ -1401,19 +1396,19 @@ var sw10 = signwriting_2010 = {
     }
     var segments = [];
     var term = query.indexOf('T')+1;
-	if (term){
-	  q_term = '(A';
-	  var qat = query.slice(0,term);
-	  query = query.replace(qat,'');
-	  if (qat == 'QT') {
+    if (term){
+      q_term = '(A';
+      var qat = query.slice(0,term);
+      query = query.replace(qat,'');
+      if (qat == 'QT') {
         q_term += '(' + re_sym + ')+)';
-	  } else {
-        var matches = qat.match(RegExp('(' + q_sym + '|' + q_range + ')','g'));
+      } else {
+        matches = qat.match(new RegExp('(' + q_sym + '|' + q_range + ')','g'));
         if (matches){
-          for(var i=0; i<matches.length; i++) {
-            var matched = matches[i].match(RegExp(q_sym));
+          for(i=0; i<matches.length; i++) {
+            var matched = matches[i].match(new RegExp(q_sym));
             if (matched){
-              segment = matched[0].slice(0,4)
+              segment = matched[0].slice(0,4);
               fill = matched[0].slice(4,5);
               if (fill=='u') {
                 segment += '[0-5]';
@@ -1434,19 +1429,19 @@ var sw10 = signwriting_2010 = {
               segment = 'S' + re_range + '[0-5][0-9a-f]';
               q_term += segment;
             }
-	      }
+          }
           q_term += '(' + re_sym + ')*)';
-	    }
-	  }
-	}
+        }
+      }
+    }
     //get the variance
-    var matches = query.match(RegExp(q_var,'g'));
+    matches = query.match(new RegExp(q_var,'g'));
     if (matches) fuzz = matches.toString().slice(1)*1;
     //this gets all symbols with or without location
     fsw_pattern = q_sym + q_coord;
-    var matches = query.match(RegExp(fsw_pattern,'g'));
+    matches = query.match(new RegExp(fsw_pattern,'g'));
     if (matches){
-      for(var i=0; i<matches.length; i++) {
+      for(i=0; i<matches.length; i++) {
         part = matches[i].toString();
         base = part.slice(1,4);
         segment = 'S' + base;
@@ -1485,9 +1480,9 @@ var sw10 = signwriting_2010 = {
     }
     //this gets all ranges
     fsw_pattern = q_range + q_coord;
-    var matches = query.match(RegExp(fsw_pattern,'g'));
+    matches = query.match(new RegExp(fsw_pattern,'g'));
     if (matches){
-      for(var i=0; i<matches.length; i++) {
+      for(i=0; i<matches.length; i++) {
         part = matches[i].toString();
         from = part.slice(1,4);
         to = part.slice(5,8);
@@ -1519,16 +1514,16 @@ var sw10 = signwriting_2010 = {
     return segments;
   },
   results: function (query,text,lane){
-    if (!text) return [];
+    if (!text) {return [];}
     if("BLMR".indexOf(lane) === -1 || lane.length>1) {
       lane='';
     }
     var pattern, matches, parts, words;
     var re = this.regex(query);
-    if (!re) return [];
+    if (!re) {return [];}
     for(var i=0; i<re.length; i++) {
       pattern = re[i];
-      matches = text.match(RegExp(pattern,'g'));
+      matches = text.match(new RegExp(pattern,'g'));
       if (matches){
         text = matches.join(' ');
       } else {
@@ -1543,7 +1538,7 @@ var sw10 = signwriting_2010 = {
         text = text.replace(/R/g,lane);
       }
       parts = text.split(' ');
-      words = parts.filter(function(element, index, array) {
+      words = parts.filter(function(element) {
         return element in this ? false : this[element] = true;
       }, {});
     } else {
@@ -1552,17 +1547,17 @@ var sw10 = signwriting_2010 = {
     return words;
   },
   lines: function (query,text,lane){
-    if (!text) return [];
+    if (!text) {return [];}
     if("BLMR".indexOf(lane) === -1 || lane.length>1) {
       lane='';
     }
     var pattern, matches, parts, words;
     var re = this.regex(query);
-    if (!re) return [];
+    if (!re) {return [];}
     for(var i=0; i<re.length; i++) {
       pattern = re[i];
       pattern = '^' + pattern + '.*';
-      matches = text.match(RegExp(pattern,'mg'));
+      matches = text.match(new RegExp(pattern,'mg'));
       if (matches){
         text = matches.join("\n");
       } else {
@@ -1577,7 +1572,7 @@ var sw10 = signwriting_2010 = {
         text = text.replace(/R/g,lane);
       }
       parts = text.split("\n");
-      words = parts.filter(function(element, index, array) {
+      words = parts.filter(function(element) {
         return element in this ? false : this[element] = true;
       }, {});
     } else {
@@ -1591,26 +1586,25 @@ var sw10 = signwriting_2010 = {
     // E - exact symbol in spatial signbox
     // G - general symbol in spatial signbox
     // L - spatial signbox symbol at location
-    var query = '';
+    var i,query = '';
     if (this.fsw(fsw)){
       if (/^[eg]?([EG]L?)?$/.test(flags)){
         var re_base = 'S[123][0-9a-f]{2}';
         var re_sym = re_base + '[0-5][0-9a-f]';
         var re_coord = '[0-9]{3}x[0-9]{3}';
-        var re_term = '(A(' + re_sym+ ')+)';
         var matches,matched;
 
         if (flags.indexOf('e') > -1 || flags.indexOf('g') > -1) {
           //exact symbols or general symbols in order
-          matches = fsw.match(RegExp('A(' + re_sym + ')*','g'));
+          matches = fsw.match(new RegExp('A(' + re_sym + ')*','g'));
           if (matches){
             matched = matches[0];
             if (flags.indexOf('e') > -1) {
               query += matched + "T";
             } else {
-              matches = matched.match(RegExp(re_base,'g'));
+              matches = matched.match(new RegExp(re_base,'g'));
               query += "A";
-              for(var i=0; i<matches.length; i++) {
+              for(i=0; i<matches.length; i++) {
                 query += matches[i] + "uu";
               }
               query += "T";
@@ -1620,9 +1614,9 @@ var sw10 = signwriting_2010 = {
 
         if (flags.indexOf('E') > -1 || flags.indexOf('G') > -1) {
           //exact symbols or general symbols in spatial
-          matches = fsw.match(RegExp(re_sym + re_coord,'g'));
+          matches = fsw.match(new RegExp(re_sym + re_coord,'g'));
           if (matches){
-            for(var i=0; i<matches.length; i++) {
+            for(i=0; i<matches.length; i++) {
               if (flags.indexOf('E') > -1) {
                 query += matches[i].slice(0,6);
               } else {
