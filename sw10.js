@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.6.2
+* SignWriting 2010 JavaScript Library v1.7.0
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
@@ -22,7 +22,7 @@ var sw10 = {
     }
   },
   styling: function(text){
-    var sfsw = text.match(/-C?(P[0-9]{2})?(G\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)\))?(D\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)(,([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+))?\))?(Z([0-9]+(\.[0-9]+)?|x))?(\+(D[0-9]{2}\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)(,([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+))?\))*(Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?)*)?/);
+    var sfsw = text.match(/-C?(P[0-9]{2})?(G_([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)_)?(D_([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)(,([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+))?_)?(Z([0-9]+(\.[0-9]+)?|x))?(-(D[0-9]{2}_([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)(,([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+))?_)*(Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?)*)?/);
     if (!sfsw) {
       return '';
     } else {
@@ -608,28 +608,28 @@ var sw10 = {
         options.pad = parseInt(rs[0].substring(1,rs[0].length));
       }
 
-      rs = styling.match(/G\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)\)/);
+      rs = styling.match(/G_([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)_/);
       if (rs){
         var back = rs[0].substring(2,rs[0].length-1);
         options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(back)?"#"+back:back;
       }
-
-      stylings = styling.split('+');
-      rs = stylings[0].match(/D\(([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+))?\)/);
+//fix
+      stylings = styling.split('-');
+      rs = stylings[1].match(/D_([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+))?_/);
       if (rs) {
         colors = rs[0].substring(2,rs[0].length-1).split(',');
         if (colors[0]) options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
         if (colors[1]) options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
       }
 
-      rs = stylings[0].match(/Z([0-9]+(\.[0-9]+)?|x)/);
+      rs = stylings[1].match(/Z([0-9]+(\.[0-9]+)?|x)/);
       if (rs){
         options.size = parseFloat(rs[0].substring(1,rs[0].length)) || 'x';
       }
 
-      if (!stylings[1]) stylings[1]='';
+      if (!stylings[2]) stylings[2]='';
 
-      rs = stylings[1].match(/D[0-9]{2}\(([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+))?\)/g);
+      rs = stylings[2].match(/D[0-9]{2}_([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+))?_/g);
       if (rs) {
         for (i=0; i < rs.length; i++) {
           pos = parseInt(rs[i].substring(1,3));
@@ -640,7 +640,7 @@ var sw10 = {
         }
       }
 
-      rs = stylings[1].match(/Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?/g);
+      rs = stylings[2].match(/Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?/g);
       if (rs){
         for (i=0; i < rs.length; i++) {
           pos = parseInt(rs[i].substring(1,3));
@@ -813,28 +813,28 @@ var sw10 = {
         options.pad = parseInt(rs[0].substring(1,rs[0].length));
       }
 
-      rs = styling.match(/G\(([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)\)/);
+      rs = styling.match(/G_([0-9a-fA-F]{3}([0-9a-fA-F]{3})?|[a-zA-Z]+)_/);
       if (rs){
         var back = rs[0].substring(2,rs[0].length-1);
         options.back = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(back)?"#"+back:back;
       }
-
-      stylings = styling.split('+');
-      rs = stylings[0].match(/D\(([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+))?\)/);
+//fix
+      stylings = styling.split('-');
+      rs = stylings[1].match(/D_([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+))?_/);
       if (rs) {
         colors = rs[0].substring(2,rs[0].length-1).split(',');
         if (colors[0]) options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
         if (colors[1]) options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
       }
 
-      rs = stylings[0].match(/Z[0-9]+(\.[0-9]+)?/);
+      rs = stylings[1].match(/Z[0-9]+(\.[0-9]+)?/);
       if (rs){
         options.size = rs[0].substring(1,rs[0].length);
       }
 
-      if (!stylings[1]) stylings[1]='';
+      if (!stylings[2]) stylings[2]='';
 
-      rs = stylings[1].match(/D[0-9]{2}\(([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+))?\)/g);
+      rs = stylings[2].match(/D[0-9]{2}_([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+))?_/g);
       if (rs) {
         for (i=0; i < rs.length; i++) {
           pos = parseInt(rs[i].substring(1,3));
@@ -845,7 +845,7 @@ var sw10 = {
         }
       }
 
-      rs = stylings[1].match(/Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?/g);
+      rs = stylings[2].match(/Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?/g);
       if (rs){
         for (i=0; i < rs.length; i++) {
           pos = parseInt(rs[i].substring(1,3));
@@ -1581,25 +1581,26 @@ var sw10 = {
     return words;
   },
   convert: function (fsw,flags){
-    // e - exact symbol in temporal prefix
-    // g - general symbol in temporal prefix
-    // E - exact symbol in spatial signbox
-    // G - general symbol in spatial signbox
+    // update to new set of flags
+    // A - exact symbol in temporal prefix
+    // a - general symbol in temporal prefix
+    // S - exact symbol in spatial signbox
+    // s - general symbol in spatial signbox
     // L - spatial signbox symbol at location
     var i,query = '';
     if (this.fsw(fsw)){
-      if (/^[eg]?([EG]L?)?$/.test(flags)){
+      if (/^[Aa]?([Ss]L?)?$/.test(flags)){
         var re_base = 'S[123][0-9a-f]{2}';
         var re_sym = re_base + '[0-5][0-9a-f]';
         var re_coord = '[0-9]{3}x[0-9]{3}';
         var matches,matched;
 
-        if (flags.indexOf('e') > -1 || flags.indexOf('g') > -1) {
+        if (flags.indexOf('A') > -1 || flags.indexOf('a') > -1) {
           //exact symbols or general symbols in order
           matches = fsw.match(new RegExp('A(' + re_sym + ')*','g'));
           if (matches){
             matched = matches[0];
-            if (flags.indexOf('e') > -1) {
+            if (flags.indexOf('A') > -1) {
               query += matched + "T";
             } else {
               matches = matched.match(new RegExp(re_base,'g'));
@@ -1612,12 +1613,12 @@ var sw10 = {
           }
         }
 
-        if (flags.indexOf('E') > -1 || flags.indexOf('G') > -1) {
+        if (flags.indexOf('S') > -1 || flags.indexOf('s') > -1) {
           //exact symbols or general symbols in spatial
           matches = fsw.match(new RegExp(re_sym + re_coord,'g'));
           if (matches){
             for(i=0; i<matches.length; i++) {
-              if (flags.indexOf('E') > -1) {
+              if (flags.indexOf('S') > -1) {
                 query += matches[i].slice(0,6);
               } else {
                 query += matches[i].slice(0,4) + "uu";

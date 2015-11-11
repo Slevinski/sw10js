@@ -430,8 +430,8 @@ function fswChange(){
 	  document.getElementById("fswpuaRow").className = "warning";
 	}
 
-    var converteOut = sw10.convert(fswIn,'e');
-	document.getElementById("converteFn").innerHTML = 'sw10.convert("' + fswIn + '","e");';
+    var converteOut = sw10.convert(fswIn,'A');
+	document.getElementById("converteFn").innerHTML = 'sw10.convert("' + fswIn + '","A");';
 	document.getElementById("converteOut").innerHTML = converteOut;
 	if (converteOut) {
 	  document.getElementById("converteRow").className = "success";
@@ -439,8 +439,8 @@ function fswChange(){
 	  document.getElementById("converteRow").className = "warning";
 	}
 
-    var convertgOut = sw10.convert(fswIn,'g');
-	document.getElementById("convertgFn").innerHTML = 'sw10.convert("' + fswIn + '","g");';
+    var convertgOut = sw10.convert(fswIn,'a');
+	document.getElementById("convertgFn").innerHTML = 'sw10.convert("' + fswIn + '","a");';
 	document.getElementById("convertgOut").innerHTML = convertgOut;
 	if (convertgOut) {
 	  document.getElementById("convertgRow").className = "success";
@@ -448,8 +448,8 @@ function fswChange(){
 	  document.getElementById("convertgRow").className = "warning";
 	}
 
-    var convertEOut = sw10.convert(fswIn,'E');
-	document.getElementById("convertEFn").innerHTML = 'sw10.convert("' + fswIn + '","E");';
+    var convertEOut = sw10.convert(fswIn,'S');
+	document.getElementById("convertEFn").innerHTML = 'sw10.convert("' + fswIn + '","S");';
 	document.getElementById("convertEOut").innerHTML = convertEOut;
 	if (convertEOut) {
 	  document.getElementById("convertERow").className = "success";
@@ -457,8 +457,8 @@ function fswChange(){
 	  document.getElementById("convertERow").className = "warning";
 	}
 
-    var convertELOut = sw10.convert(fswIn,'EL');
-	document.getElementById("convertELFn").innerHTML = 'sw10.convert("' + fswIn + '","EL");';
+    var convertELOut = sw10.convert(fswIn,'SL');
+	document.getElementById("convertELFn").innerHTML = 'sw10.convert("' + fswIn + '","SL");';
 	document.getElementById("convertELOut").innerHTML = convertELOut;
 	if (convertELOut) {
 	  document.getElementById("convertELRow").className = "success";
@@ -466,8 +466,8 @@ function fswChange(){
 	  document.getElementById("convertELRow").className = "warning";
 	}
 
-    var convertGOut = sw10.convert(fswIn,'G');
-	document.getElementById("convertGFn").innerHTML = 'sw10.convert("' + fswIn + '","G");';
+    var convertGOut = sw10.convert(fswIn,'s');
+	document.getElementById("convertGFn").innerHTML = 'sw10.convert("' + fswIn + '","s");';
 	document.getElementById("convertGOut").innerHTML = convertGOut;
 	if (convertGOut) {
 	  document.getElementById("convertGRow").className = "success";
@@ -475,8 +475,8 @@ function fswChange(){
 	  document.getElementById("convertGRow").className = "warning";
 	}
 
-    var convertGLOut = sw10.convert(fswIn,'GL');
-	document.getElementById("convertGLFn").innerHTML = 'sw10.convert("' + fswIn + '","GL");';
+    var convertGLOut = sw10.convert(fswIn,'sL');
+	document.getElementById("convertGLFn").innerHTML = 'sw10.convert("' + fswIn + '","sL");';
 	document.getElementById("convertGLOut").innerHTML = convertGLOut;
 	if (convertGLOut) {
 	  document.getElementById("convertGLRow").className = "success";
@@ -801,27 +801,27 @@ function setText(fsw){
           <td id="fswpuaOut"></td>
         </tr>
         <tr id="converteRow">
-          <td id="converteFn">sw10.convert("","e")</td>
+          <td id="converteFn">sw10.convert("","A")</td>
           <td id="converteOut"></td>
         </tr>
         <tr id="convertgRow">
-          <td id="convertgFn">sw10.convert("","g")</td>
+          <td id="convertgFn">sw10.convert("","a")</td>
           <td id="convertgOut"></td>
         </tr>
         <tr id="convertERow">
-          <td id="convertEFn">sw10.convert("","E")</td>
+          <td id="convertEFn">sw10.convert("","S")</td>
           <td id="convertEOut"></td>
         </tr>
         <tr id="convertELRow">
-          <td id="convertELFn">sw10.convert("","EL")</td>
+          <td id="convertELFn">sw10.convert("","SL")</td>
           <td id="convertELOut"></td>
         </tr>
         <tr id="convertGRow">
-          <td id="convertGFn">sw10.convert("","G")</td>
+          <td id="convertGFn">sw10.convert("","s")</td>
           <td id="convertGOut"></td>
         </tr>
         <tr id="convertGLRow">
-          <td id="convertGLFn">sw10.convert("","GL")</td>
+          <td id="convertGLFn">sw10.convert("","sL")</td>
           <td id="convertGLOut"></td>
         </tr>
 
