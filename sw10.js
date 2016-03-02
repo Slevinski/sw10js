@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.7.0
+* SignWriting 2010 JavaScript Library v1.8.0
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2015, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
@@ -10,7 +10,7 @@ var sw10 = {
     if (!key) {
       return '';
     } else {
-      return key[0] + (style?this.styling(text):'');
+      return key[0] + (style?sw10.styling(text):'');
     }
   },
   fsw: function(text,style){
@@ -18,7 +18,7 @@ var sw10 = {
     if (!fsw) {
       return '';
     } else {
-      return fsw[0] + (style?this.styling(text):'');
+      return fsw[0] + (style?sw10.styling(text):'');
     }
   },
   styling: function(text){
@@ -30,15 +30,15 @@ var sw10 = {
     }
   },
   mirror: function(key){
-    key = this.key(key);
-    if (!this.size(key)) {return '';}
+    key = sw10.key(key);
+    if (!sw10.size(key)) {return '';}
     var base = key.slice(0,4);
     var fill = key.slice(4,5);
     var rot = parseInt(key.slice(5,6),16);
     var key1 = base + "08";
     var key2 = base + "18";
     var rAdd;
-    if (this.size(key1) || this.size(key2)){
+    if (sw10.size(key1) || sw10.size(key2)){
       rAdd = 8;
     } else {
       if ((rot===0) || (rot==4)) {rAdd=0;}
@@ -47,7 +47,7 @@ var sw10 = {
       if ((rot==3) || (rot==7)) {rAdd=2;}
     }
     key='';
-    while (!this.size(key)) {
+    while (!sw10.size(key)) {
       rot += rAdd;
       if ((rot>7) && (rAdd<8)) { rot = rot -8;}
       if (rot>15) { rot = rot -16;}
@@ -56,14 +56,14 @@ var sw10 = {
     return key;
   },
   fill: function(key,step){
-    key = this.key(key);
-    if (!this.size(key)) {return '';}
+    key = sw10.key(key);
+    if (!sw10.size(key)) {return '';}
     if (step!=-1) {step=1;}
     var base = key.slice(0,4);
     var fill = parseInt(key.slice(4,5));
     var rot = key.slice(5,6);
     key='';
-    while (!this.size(key)){
+    while (!sw10.size(key)){
       fill += step;
       if (fill>5) {fill=0;}
       if (fill<0) {fill=5;}
@@ -72,14 +72,14 @@ var sw10 = {
     return key;
   },
   rotate: function(key,step){
-    key = this.key(key);
-    if (!this.size(key)) {return '';}
+    key = sw10.key(key);
+    if (!sw10.size(key)) {return '';}
     if (step!=-1) {step=1;}
     var base = key.slice(0,4);
     var fill = key.slice(4,5);
     var rot = parseInt(key.slice(5,6),16);
     key='';
-    while (!this.size(key)){
+    while (!sw10.size(key)){
       if (rot>7){
         rot += step;
         if (rot>15) {rot=8;}
@@ -95,14 +95,14 @@ var sw10 = {
     return key;
   },
   scroll: function(key,step){
-    key = this.key(key);
-    if (!this.size(key)) {return '';}
+    key = sw10.key(key);
+    if (!sw10.size(key)) {return '';}
     if (step!=-1) {step=1;}
     var base = parseInt(key.slice(1,4),16) + step;
     var fill = key.slice(4,5);
     var rot = key.slice(5,6);
     var nkey= 'S' + base.toString(16) + fill + rot;
-    if(this.size(nkey)){
+    if(sw10.size(nkey)){
       return nkey;
     } else {
       return key;
@@ -137,8 +137,9 @@ var sw10 = {
       default:
         return '';
     }
-    var i,index = arr.length;
-    for(i=0; i<arr.length; i++) {
+    var i;
+    var index = arr.length;
+    for(i=0; i<arr.length; i+=1) {
       if(parseInt(key.slice(1,4),16) < parseInt(arr[i].slice(1,4),16)) {
         index = i;
         break;
@@ -149,7 +150,8 @@ var sw10 = {
     return arr[index];
   },
   type: function(type){
-    var start,end;
+    var start;
+    var end;
     switch(type) {
       case "writing":
         start = '100';
@@ -200,18 +202,18 @@ var sw10 = {
     return [start,end];
   },
   is: function(key,type){
-    if (key.length==6 && !this.size(key)) {return false;}
-    var range = this.type(type);
+    if (key.length==6 && !sw10.size(key)) {return false;}
+    var range = sw10.type(type);
     var start = range[0];
     var end = range[1];
     var char = key.slice(1,4);
     return (parseInt(start,16)<=parseInt(char,16) && parseInt(end,16)>=parseInt(char,16));
   },
   filter: function (fsw,type) {
-    var range = this.type(type);
+    var range = sw10.type(type);
     var start = range[0];
     var end = range[1];
-    var re = 'S' + this.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
+    var re = 'S' + sw10.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
     var matches = fsw.match(new RegExp(re,'g'));
     if (matches){
       return matches.join('');
@@ -220,70 +222,72 @@ var sw10 = {
     }
   },
   random: function(type) {
-    var range = this.type(type);
+    var range = sw10.type(type);
     var start = range[0];
     var end = range[1];
     var rBase = Math.floor(Math.random() * (parseInt(end,16)-parseInt(start,16)+1) + parseInt(start,16));
     var rFill = Math.floor(Math.random() * 6);
     var rRota = Math.floor(Math.random() * 16);
     var key = "S" + rBase.toString(16) + rFill.toString(16) + rRota.toString(16);
-    if (this.size(key)){
+    if (sw10.size(key)){
       return key;
     } else {
-      return this.random(type);
+      return sw10.random(type);
     }
   },
   colorize: function(key) {
     var color = '000000';
-    if (this.is(key,'hand')) {color = '0000CC';}
-    if (this.is(key,'movement')) {color = 'CC0000';}
-    if (this.is(key,'dynamic')) {color = 'FF0099';}
-    if (this.is(key,'head')) {color = '006600';}
-//    if (this.is(key,'trunk')) {color = '000000';}
-//    if (this.is(key,'limb')) {color = '000000';}
-    if (this.is(key,'location')) {color = '884411';}
-    if (this.is(key,'punctuation')) {color = 'FF9900';}
+    if (sw10.is(key,'hand')) {color = '0000CC';}
+    if (sw10.is(key,'movement')) {color = 'CC0000';}
+    if (sw10.is(key,'dynamic')) {color = 'FF0099';}
+    if (sw10.is(key,'head')) {color = '006600';}
+//    if (sw10.is(key,'trunk')) {color = '000000';}
+//    if (sw10.is(key,'limb')) {color = '000000';}
+    if (sw10.is(key,'location')) {color = '884411';}
+    if (sw10.is(key,'punctuation')) {color = 'FF9900';}
     return color;
   },
   view: function(key,fillone) {
-    if (!this.is(key)) {return '';}
+    if (!sw10.is(key)) {return '';}
     var prefix = key.slice(0,4);
     if (fillone){
-      return prefix + ((this.size(prefix + '00'))?'0':'1') +'0';
+      return prefix + ((sw10.size(prefix + '00'))?'0':'1') +'0';
     } else {
-      return prefix + ((this.is(prefix,'hand') && !this.structure('group',prefix,'is'))?'1':'0') +'0';
+      return prefix + ((sw10.is(prefix,'hand') && !sw10.structure('group',prefix,'is'))?'1':'0') +'0';
     }
   },
   code: function(text,hexval){
-    var key,i;
-    var fsw = this.fsw(text);
+    var key;
+    var i;
+    var fsw = sw10.fsw(text);
     if (fsw){
       var pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
       var matches = fsw.match(new RegExp(pattern,'g'));
-      for(i=0; i<matches.length; i++) {
+      for(i=0; i<matches.length; i+=1) {
         key = matches[i];
-        fsw = fsw.replace(key,this.code(key,hexval));
+        fsw = fsw.replace(key,sw10.code(key,hexval));
       }
       return fsw;
     }
-    key = this.key(text);
+    key = sw10.key(text);
     if (!key) {return '';}
     var code = 0x100000 + ((parseInt(key.slice(1,4),16) - 256) * 96) + ((parseInt(key.slice(4,5),16))*16) + parseInt(key.slice(5,6),16) + 1;
     return hexval?code.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((code - 0x10000) >> 10), 0xDC00 + ((code - 0x10000) & 0x3FF));
   },
   uni8: function(text,hexval){
-    var key,i;
-    var fsw = this.fsw(text);
+    var key;
+    var i;
+    var fsw = sw10.fsw(text);
     if (fsw){
       var pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
       var matches = fsw.match(new RegExp(pattern,'g'));
-      for(i=0; i<matches.length; i++) {
+      for(i=0; i<matches.length; i+=1) {
         key = matches[i];
-        fsw = fsw.replace(key,this.uni8(key,hexval));
+        fsw = fsw.replace(key,sw10.uni8(key,hexval));
       }
       return fsw;
     }
-    key = this.key(text);
+    key = sw10.key(text);
     if (!key) {return '';}
     var base = parseInt(key.substr(1,3),16) + parseInt('1D700',16);
     var uni8 = hexval?base.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
@@ -300,18 +304,23 @@ var sw10 = {
     return uni8;
   },
   pua: function(text,hexval){
-    var key,pua,fsw = this.fsw(text);
+    var key;
+    var pua;
+    var fsw = sw10.fsw(text);
     if (fsw){
-      var str, code, coord;
+      var str;
+      var code;
+      var coord;
       code = parseInt('FD800',16);
-      fsw = fsw.replace('A',hexval?(code).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code) - 0x10000) >> 10), 0xDC00 + (((code) - 0x10000) & 0x3FF)));
+      fsw = fsw.replace('A',hexval?code.toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code) - 0x10000) >> 10), 0xDC00 + (((code) - 0x10000) & 0x3FF)));
       fsw = fsw.replace('B',hexval?(code+1).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+1) - 0x10000) >> 10), 0xDC00 + (((code+1) - 0x10000) & 0x3FF)));
       fsw = fsw.replace('L',hexval?(code+2).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+2) - 0x10000) >> 10), 0xDC00 + (((code+2) - 0x10000) & 0x3FF)));
       fsw = fsw.replace('M',hexval?(code+3).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+3) - 0x10000) >> 10), 0xDC00 + (((code+3) - 0x10000) & 0x3FF)));
       fsw = fsw.replace('R',hexval?(code+4).toString(16).toUpperCase():String.fromCharCode(0xD800 + (((code+4) - 0x10000) >> 10), 0xDC00 + (((code+4) - 0x10000) & 0x3FF)));
       var pattern = '[0-9]{3}x[0-9]{3}';
       var matches = fsw.match(new RegExp(pattern,'g'));
-      for(var i=0; i<matches.length; i++) {
+      var i;
+      for(i=0; i<matches.length; i+=1) {
         str = matches[i];
         coord = str.split('x');
         coord[0] = parseInt(coord[0]) + parseInt('FDD0C',16);
@@ -322,13 +331,13 @@ var sw10 = {
       }
       pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
       matches = fsw.match(new RegExp(pattern,'g'));
-      for(i=0; i<matches.length; i++) {
+      for(i=0; i<matches.length; i+=1) {
         key = matches[i];
-        fsw = fsw.replace(key,this.pua(key,hexval));
+        fsw = fsw.replace(key,sw10.pua(key,hexval));
       }
       return fsw;
     }
-    key = this.key(text);
+    key = sw10.key(text);
     if (!key) {return '';}
     var base = parseInt(key.substr(1,3),16) + parseInt('FD730',16);
     pua = hexval?base.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((base - 0x10000) >> 10), 0xDC00 + ((base - 0x10000) & 0x3FF));
@@ -342,10 +351,16 @@ var sw10 = {
   },
   bbox: function(fsw) {
     var rcoord = /[0-9]{3}x[0-9]{3}/g;
-    var x,y,x1,x2,y1,y2;
+    var x;
+    var y;
+    var x1;
+    var x2;
+    var y1;
+    var y2;
     var coords = fsw.match(rcoord);
     if (coords){
-      for (var i=0; i < coords.length; i++) {
+      var i;
+      for (i=0; i < coords.length; i+=1) {
         x = parseInt(coords[i].slice(0, 3));
         y = parseInt(coords[i].slice(4, 7));
         if (i===0){
@@ -360,17 +375,23 @@ var sw10 = {
           y2 = Math.max(y2, y);
         }
       }
+      if (x1==x2 && y1==y2){
+        x2 = 1000 - x1;
+        y2 = 1000 - y1;
+      }
       return '' + x1 + ' ' + x2 + ' ' + y1 + ' ' + y2;
     } else {
       return '';
     }
   },
   displace: function(text,x,y){
-    var xpos,ypos;
+    var xpos;
+    var ypos;
     var re = '[0-9]{3}x[0-9]{3}';
     var matches = text.match(new RegExp(re,'g'));
     if (matches){
-      for(var i=0; i<matches.length; i++) {
+      var i;
+      for(i=0; i<matches.length; i+=1) {
         xpos = parseInt(matches[i].slice(0, 3)) + x;
         ypos = parseInt(matches[i].slice(4, 7)) + y;
         text = text.replace(matches[i],xpos + "X" + ypos);
@@ -382,9 +403,13 @@ var sw10 = {
   sizes:{
   },
   size: function(text) {
-    var w,h,s,size,fsw = this.fsw(text);
+    var w;
+    var h;
+    var s;
+    var size;
+    var fsw = sw10.fsw(text);
     if (fsw) {
-      var bbox = this.bbox(fsw);
+      var bbox = sw10.bbox(fsw);
       bbox = bbox.split(' ');
       var x1 = bbox[0];
       var x2 = bbox[1];
@@ -394,28 +419,30 @@ var sw10 = {
       if (size=='0x0') {return '';}
       return size;
     }
-    var key = this.key(text);
+    var key = sw10.key(text);
     if (!key) {return '';}
-    if (this.sizes[key]) {return this.sizes[key];}
+    if (sw10.sizes[key]) {return sw10.sizes[key];}
 
-    var imgData,i,zoom = 2;
+    var imgData;
+    var i;
+    var zoom = 2;
     var bound = 76 * zoom;
-    if (!this.canvaser){
-      this.canvaser = document.createElement("canvas");
-      this.canvaser.width = bound;
-      this.canvaser.height = bound;
+    if (!sw10.canvaser){
+      sw10.canvaser = document.createElement("canvas");
+      sw10.canvaser.width = bound;
+      sw10.canvaser.height = bound;
     }
-    var canvas = this.canvaser;
+    var canvas = sw10.canvaser;
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, bound, bound);
     context.font = (30*zoom) + "px 'SignWriting 2010'";
-    context.fillText(this.code(key),0,0);
+    context.fillText(sw10.code(key),0,0);
     imgData = context.getImageData(0,0,bound,bound).data;
 
     wloop:
     for (w=bound-1;w>=0;w--){
-      for (h=0;h<bound;h++){
-        for (s=0;s<4;s++){
+      for (h=0;h<bound;h+=1){
+        for (s=0;s<4;s+=1){
           i=w*4+(h*4*bound) +s;
           if (imgData[i]){
             break wloop;
@@ -426,8 +453,8 @@ var sw10 = {
     var width = w;
     hloop:
     for (h=bound-1;h>=0;h--){
-      for (w=0;w<width;w++){
-        for (s=0;s<4;s++){
+      for (w=0;w<width;w+=1){
+        for (s=0;s<4;s+=1){
           i=w*4+(h*4*bound) +s;
           if (imgData[i]){
             break hloop;
@@ -484,28 +511,34 @@ var sw10 = {
       var sizefix = 'S1000815x30 S1000921x30 S1000a30x15 S1000b30x21 S1000c15x30 S1000d21x30 ';
       var ipos = sizefix.indexOf(key);
       if (ipos ==-1) {
-        return '';
+        size = '';
       } else {
         var iend = sizefix.indexOf(' ',ipos);
         size = sizefix.slice(ipos + 6,iend);
       }
+    } else {
+      sw10.sizes[key]=size;
     }
-    this.sizes[key]=size;
     return size;
   },
   max: function(fsw,type){
-    var range = this.type(type);
+    var range = sw10.type(type);
     var start = range[0];
     var end = range[1];
-    var re = 'S' + this.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
+    var re = 'S' + sw10.range(start,end,1) + '[0-5][0-9a-f][0-9]{3}x[0-9]{3}';
     var matches = fsw.match(new RegExp(re,'g'));
     if (matches){
-      var key,x,y,size,output='';
-      for (var i=0; i < matches.length; i++) {
+      var key;
+      var x;
+      var y;
+      var size;
+      var output='';
+      var i;
+      for (i=0; i < matches.length; i+=1) {
         key = matches[i].slice(0,6);
         x = parseInt(matches[i].slice(6, 9));
         y = parseInt(matches[i].slice(10, 13));
-        size =this.size(key).split('x');
+        size =sw10.size(key).split('x');
         output += key + x + "x" + y + (x+parseInt(size[0])) + 'x' + (y+parseInt(size[1]));
       }
       return output;
@@ -514,10 +547,13 @@ var sw10 = {
     }
   },
   norm: function (fsw){
-    var minx,maxx,miny,maxy;
-    var hbox = this.bbox(this.max(fsw,'hcenter'));
-    var vbox = this.bbox(this.max(fsw,'vcenter'));
-    var box = this.bbox(this.max(fsw));
+    var minx;
+    var maxx;
+    var miny;
+    var maxy;
+    var hbox = sw10.bbox(sw10.max(fsw,'hcenter'));
+    var vbox = sw10.bbox(sw10.max(fsw,'vcenter'));
+    var box = sw10.bbox(sw10.max(fsw));
     if (!box) {return "";}
     if (vbox){
       minx = parseInt(vbox.slice(0,3));
@@ -544,16 +580,21 @@ var sw10 = {
       start = start[0];
     }
 
-    fsw = start + parseInt(box.slice(4,7)) + "x" + parseInt(box.slice(12,15)) + this.filter(fsw);
-    return this.displace(fsw,xdiff,ydiff);
+    fsw = start + parseInt(box.slice(4,7)) + "x" + parseInt(box.slice(12,15)) + sw10.filter(fsw);
+    return sw10.displace(fsw,xdiff,ydiff);
   },
   svg: function(text,options){
-    var fsw = this.fsw(text);
-    var styling = this.styling(text);
-    var stylings,pos,keysize,colors,i,size;
+    var fsw = sw10.fsw(text);
+    var styling = sw10.styling(text);
+    var stylings;
+    var pos;
+    var keysize;
+    var colors;
+    var i;
+    var size;
     if (!fsw) {
-      var key = this.key(text);
-      keysize = this.size(key);
+      var key = sw10.key(text);
+      keysize = sw10.size(key);
       if (!keysize) {return '';}
       if (key.length==6) {
         fsw = key + "500x500";
@@ -561,7 +602,9 @@ var sw10 = {
         fsw = key;
       }
     }
-    if (!options) options = {};
+    if (!options) {
+      options = {};
+    }
     if (options.size) {
       options.size = parseFloat(options.size) || 'x';
     } else {
@@ -618,8 +661,12 @@ var sw10 = {
       rs = stylings[1].match(/D_([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+))?_/);
       if (rs) {
         colors = rs[0].substring(2,rs[0].length-1).split(',');
-        if (colors[0]) options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
-        if (colors[1]) options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
+        if (colors[0]) {
+          options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
+        }
+        if (colors[1]) {
+          options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
+        }
       }
 
       rs = stylings[1].match(/Z([0-9]+(\.[0-9]+)?|x)/);
@@ -627,22 +674,28 @@ var sw10 = {
         options.size = parseFloat(rs[0].substring(1,rs[0].length)) || 'x';
       }
 
-      if (!stylings[2]) stylings[2]='';
+      if (!stylings[2]) {
+        stylings[2]='';
+      }
 
       rs = stylings[2].match(/D[0-9]{2}_([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+))?_/g);
       if (rs) {
-        for (i=0; i < rs.length; i++) {
+        for (i=0; i < rs.length; i+=1) {
           pos = parseInt(rs[i].substring(1,3));
           colors = rs[i].substring(4,rs[i].length-1).split(',');
-          if (colors[0]) colors[0] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
-          if (colors[1]) colors[1] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
+          if (colors[0]) {
+            colors[0] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
+          }
+          if (colors[1]) {
+            colors[1] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
+          }
           options.E[pos]=colors;
         }
       }
 
       rs = stylings[2].match(/Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?/g);
       if (rs){
-        for (i=0; i < rs.length; i++) {
+        for (i=0; i < rs.length; i+=1) {
           pos = parseInt(rs[i].substring(1,3));
           size = rs[i].substring(4,rs[i].length).split(',');
           size[0]=parseFloat(size[0]);
@@ -651,20 +704,25 @@ var sw10 = {
       }
     }
 
-    var r, rsym, rcoord, sym, syms, gelem, o;
-    r = /(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
-    rsym = /S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
-    rcoord = /[0-9]{3}x[0-9]{3}/g;
-    o = {};
+    var sym;
+    var syms;
+    var gelem;
+    var rsym = /S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
+    var o = {};
     o.L = -1;
     o.R = 1;
-    var x, x1 = 500,
-      x2 = 500,
-      y, y1 = 500,
-      y2 = 500,
-      k, w, h, l;
+    var x;
+    var x1 = 500;
+    var x2 = 500;
+    var y;
+    var y1 = 500;
+    var y2 = 500;
+    var k;
+    var w;
+    var h;
+    var l;
     k = fsw.charAt(0);
-    var bbox = this.bbox(fsw);
+    var bbox = sw10.bbox(fsw);
     bbox = bbox.split(' ');
     x1 = parseInt(bbox[0]);
     x2 = parseInt(bbox[1]);
@@ -681,7 +739,8 @@ var sw10 = {
       }
     }
     syms = fsw.match(rsym);
-    for (i=0; i < syms.length; i++) {
+    var keysized;
+    for (i=0; i < syms.length; i+=1) {
       sym = syms[i].slice(0,6);
       x = syms[i].slice(6, 9);
       y = syms[i].slice(10, 13);
@@ -692,7 +751,7 @@ var sw10 = {
           x1 = Math.min(x1,x);
           y1 = Math.min(y1,y);
         }
-        var keysized = this.size(sym);
+        keysized = sw10.size(sym);
         if (keysized) {
           keysized = keysized.split('x');
           x2 = Math.max(x2,parseInt(x) + (options.F[i+1][0] * parseInt(keysized[0])));
@@ -710,19 +769,19 @@ var sw10 = {
         //-moz-font-feature-settings:'liga';
       }
       gelem += '>';
-      gelem += options.view=="key"?sym:options.view=="uni8"?this.uni8(sym):options.view=="pua"?this.pua(sym):this.code(sym);
+      gelem += options.view=="key"?sym:options.view=="uni8"?sw10.uni8(sym):options.view=="pua"?sw10.pua(sym):sw10.code(sym);
       gelem += '</text>';
       gelem += '<text ';
       gelem += 'class="sym-line" ';
       if (!options.css) {
         gelem += 'style="';
         gelem += options.view==options.copy?'':'pointer-events:none;';
-        gelem += 'font-family:\'SignWriting 2010\';font-size:' + (options.F[i+1]?30*options.F[i+1][0]:30) + 'px;fill:' + (options.E[i+1]?options.E[i+1][0]:options.colorize?'#'+this.colorize(sym):options.line) + ';';
+        gelem += 'font-family:\'SignWriting 2010\';font-size:' + (options.F[i+1]?30*options.F[i+1][0]:30) + 'px;fill:' + (options.E[i+1]?options.E[i+1][0]:options.colorize?'#'+sw10.colorize(sym):options.line) + ';';
         gelem += options.view=='code'?'':'-webkit-font-feature-settings:\'liga\';font-feature-settings:\'liga\';';
         gelem += '"';
       }
       gelem += '>';
-      gelem += options.view=="key"?sym:options.view=="uni8"?this.uni8(sym):options.view=="pua"?this.pua(sym):this.code(sym);
+      gelem += options.view=="key"?sym:options.view=="uni8"?sw10.uni8(sym):options.view=="pua"?sw10.pua(sym):sw10.code(sym);
       gelem += '</text>';
       gelem += '</g>';
       syms[i] = gelem;
@@ -737,12 +796,16 @@ var sw10 = {
     l = o[k] || 0;
     l = l * 75 + x1 - 400;
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" ';
-    if (options.class) svg += 'class="' + options.class + '" ';
-    if (options.size!='x') svg += 'width="' + (w * options.size) + '" height="' + (h * options.size) + '" ';
+    if (options.class) {
+      svg += 'class="' + options.class + '" ';
+    }
+    if (options.size!='x') {
+      svg += 'width="' + (w * options.size) + '" height="' + (h * options.size) + '" ';
+    }
     svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '">';
     if (options.view!=options.copy) {
       svg += '<text style="font-size:0%;">';
-      svg += options.copy=="code"?this.code(text):options.copy=="uni8"?this.uni8(text):options.copy=="pua"?this.pua(text):text;
+      svg += options.copy=="code"?sw10.code(text):options.copy=="uni8"?sw10.uni8(text):options.copy=="pua"?sw10.pua(text):text;
       svg += '</text>';
     }
     if (options.back) {
@@ -756,12 +819,18 @@ var sw10 = {
   },
   canvas: function(text,options){
     var canvas = document.createElement("canvas");
-    var fsw = this.fsw(text,true);
-    var styling = this.styling(text);
-    var stylings,colors,keysize,keysized,size,i,pos;
+    var fsw = sw10.fsw(text,true);
+    var styling = sw10.styling(text);
+    var stylings;
+    var colors;
+    var keysize;
+    var keysized;
+    var size;
+    var i;
+    var pos;
     if (!fsw) {
-      var key = this.key(text);
-      keysize=this.size(key);
+      var key = sw10.key(text);
+      keysize=sw10.size(key);
       if (!key) {return '';}
       if (key.length==6) {
         fsw = key + "500x500";
@@ -769,7 +838,9 @@ var sw10 = {
         fsw = key;
       }
     }
-    if (!options) options = {};
+    if (!options) {
+      options = {};
+    }
     if (options.size) {
       options.size = parseFloat(options.size);
     } else {
@@ -823,8 +894,12 @@ var sw10 = {
       rs = stylings[1].match(/D_([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-zA-Z]+))?_/);
       if (rs) {
         colors = rs[0].substring(2,rs[0].length-1).split(',');
-        if (colors[0]) options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
-        if (colors[1]) options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
+        if (colors[0]) {
+          options.line = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
+        }
+        if (colors[1]) {
+          options.fill = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
+        }
       }
 
       rs = stylings[1].match(/Z[0-9]+(\.[0-9]+)?/);
@@ -832,22 +907,28 @@ var sw10 = {
         options.size = rs[0].substring(1,rs[0].length);
       }
 
-      if (!stylings[2]) stylings[2]='';
+      if (!stylings[2]) {
+        stylings[2]='';
+      }
 
       rs = stylings[2].match(/D[0-9]{2}_([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+)(,([0-9a-f]{3}([0-9a-f]{3})?|[a-wyzA-Z]+))?_/g);
       if (rs) {
-        for (i=0; i < rs.length; i++) {
+        for (i=0; i < rs.length; i+=1) {
           pos = parseInt(rs[i].substring(1,3));
           colors = rs[i].substring(4,rs[i].length-1).split(',');
-          if (colors[0]) colors[0] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
-          if (colors[1]) colors[1] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
+          if (colors[0]) {
+            colors[0] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[0])?"#"+colors[0]:colors[0];
+          }
+          if (colors[1]) {
+            colors[1] = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/g.test(colors[1])?"#"+colors[1]:colors[1];
+          }
           options.E[pos]=colors;
         }
       }
 
       rs = stylings[2].match(/Z[0-9]{2},[0-9]+(\.[0-9]+)?(,[0-9]{3}x[0-9]{3})?/g);
       if (rs){
-        for (i=0; i < rs.length; i++) {
+        for (i=0; i < rs.length; i+=1) {
           pos = parseInt(rs[i].substring(1,3));
           size = rs[i].substring(4,rs[i].length).split(',');
           size[0]=parseFloat(size[0]);
@@ -857,20 +938,23 @@ var sw10 = {
     }
 
 
-    var r, rsym, rcoord, sym, syms, o;
-    r = /(A(S[123][0-9a-f]{2}[0-5][0-9a-f])+)?[BLMR]([0-9]{3}x[0-9]{3})(S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3})*|S38[7-9ab][0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
-    rsym = /S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
-    rcoord = /[0-9]{3}x[0-9]{3}/g;
-    o = {};
+    var sym;
+    var syms;
+    var rsym = /S[123][0-9a-f]{2}[0-5][0-9a-f][0-9]{3}x[0-9]{3}/g;
+    var o = {};
     o.L = -1;
     o.R = 1;
-    var x, x1 = 500,
-      x2 = 500,
-      y, y1 = 500,
-      y2 = 500,
-      k, w, h;
+    var x;
+    var x1 = 500;
+    var x2 = 500;
+    var y;
+    var y1 = 500;
+    var y2 = 500;
+    var k;
+    var w;
+    var h;
     k = fsw.charAt(0);
-    var bbox = this.bbox(fsw);
+    var bbox = sw10.bbox(fsw);
     bbox = bbox.split(' ');
     x1 = parseInt(bbox[0]);
     x2 = parseInt(bbox[1]);
@@ -889,7 +973,7 @@ var sw10 = {
     }
 
     syms = fsw.match(rsym);
-    for (i=0; i < syms.length; i++) {
+    for (i=0; i < syms.length; i+=1) {
       sym = syms[i].slice(0,6);
       x = syms[i].slice(6, 9);
       y = syms[i].slice(10, 13);
@@ -900,7 +984,7 @@ var sw10 = {
           x1 = Math.min(x1,x);
           y1 = Math.min(y1,y);
         }
-        keysized = this.size(sym);
+        keysized = sw10.size(sym);
         if (keysized) {
           keysized = keysized.split('x');
           x2 = Math.max(x2,parseInt(x) + (options.F[i+1][0] * parseInt(keysized[0])));
@@ -927,7 +1011,7 @@ var sw10 = {
 //      context.fillRect(0,0,w,h);
     }
     syms = fsw.match(rsym);
-    for (i=0; i < syms.length; i++) {
+    for (i=0; i < syms.length; i+=1) {
       sym = syms[i].slice(0,6);
       x = syms[i].slice(6, 9);
       y = syms[i].slice(10, 13);
@@ -938,7 +1022,7 @@ var sw10 = {
           x1 = Math.min(x1,x);
           y1 = Math.min(y1,y);
         }
-        keysized = this.size(sym);
+        keysized = sw10.size(sym);
         if (keysized) {
           keysized = keysized.split('x');
           x2 = Math.max(x2,parseInt(x) + (options.F[i+1][0] * parseInt(keysized[0])));
@@ -948,16 +1032,16 @@ var sw10 = {
       }
       context.font = (options.F[i+1]?30*options.size*options.F[i+1][0]:30*options.size) + "px 'SignWriting 2010 Filling'";
       context.fillStyle =  (options.E[i+1]?options.E[i+1][1]?options.E[i+1][1]:options.fill:options.fill);
-      context.fillText(this.code(sym),((x-x1)*options.size),((y-y1)*options.size));
+      context.fillText(sw10.code(sym),((x-x1)*options.size),((y-y1)*options.size));
       context.font = (options.F[i+1]?30*options.size*options.F[i+1][0]:30*options.size) + "px 'SignWriting 2010'";
-      context.fillStyle = (options.E[i+1]?options.E[i+1][0]:options.colorize?'#'+this.colorize(sym):options.line);
-      context.fillText(this.code(sym),((x-x1)*options.size),((y-y1)*options.size));
+      context.fillStyle = (options.E[i+1]?options.E[i+1][0]:options.colorize?'#'+sw10.colorize(sym):options.line);
+      context.fillText(sw10.code(sym),((x-x1)*options.size),((y-y1)*options.size));
     }
     return canvas;
   },
   png: function (fsw,options){
-    if (this.fsw(fsw,true) || this.key(fsw,true) ){
-      var canvas = this.canvas(fsw,options);
+    if (sw10.fsw(fsw,true) || sw10.key(fsw,true) ){
+      var canvas = sw10.canvas(fsw,options);
       var png = canvas.toDataURL("image/png");
       canvas.remove();
       return png;
@@ -974,8 +1058,16 @@ var sw10 = {
     }
   },
   range: function (min,max,hex){
-    var pattern, re, diff, tmax, cnt, minV, maxV;
-    if (!hex) hex='';
+    var pattern;
+    var re;
+    var diff;
+    var tmax;
+    var cnt;
+    var minV;
+    var maxV;
+    if (!hex) {
+      hex='';
+    }
     min = ("000" + min).slice(-3);
     max = '' + max;
     pattern='';
@@ -1214,7 +1306,9 @@ var sw10 = {
           switch (minV + maxV){
           case "dd":
             pattern += '[' + min[1];
-            if (diff>1) pattern += '-';
+            if (diff>1) {
+              pattern += '-';
+            }
             pattern += tmax + ']';
             break;
           case "dh":
@@ -1245,7 +1339,9 @@ var sw10 = {
             break;
           case "hh":
             pattern += '[' + min[1];
-            if (diff>1) pattern += '-';
+            if (diff>1) {
+              pattern += '-';
+            }
             pattern += (parseInt(max[1],16)-1).toString(16) + ']';
             break;
           }
@@ -1295,7 +1391,9 @@ var sw10 = {
         switch (minV + maxV){
         case "dd":
           pattern += '[' + min[2];
-          if (diff>1) pattern += '-';
+          if (diff>1) {
+            pattern += '-';
+          }
           pattern += max[2] + ']';
           break;
         case "dh":
@@ -1327,7 +1425,9 @@ var sw10 = {
           break;
         case "hh":
           pattern += '[' + min[2];
-          if (diff>1) pattern += '-';
+          if (diff>1) {
+            pattern += '-';
+          }
           pattern += max[2] + ']';
           break;
         }
@@ -1371,12 +1471,26 @@ var sw10 = {
     return pattern;
   },
   regex: function (query,fuzz){
-    query = this.query(query);
+    query = sw10.query(query);
     if (!query) {
       return '';
     }
-    var matches, i, fsw_pattern, part, from, to, re_range, segment, x, y, base, fill, rotate;
-    if (!fuzz) fuzz = 20;
+    var matches;
+    var i;
+    var fsw_pattern;
+    var part;
+    var from;
+    var to;
+    var re_range;
+    var segment;
+    var x;
+    var y;
+    var base;
+    var fill;
+    var rotate;
+    if (!fuzz) {
+      fuzz = 20;
+    }
     var re_sym = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
     var re_coord = '[0-9]{3}x[0-9]{3}';
     var re_word = '[BLMR](' + re_coord + ')(' + re_sym + re_coord + ')*';
@@ -1386,7 +1500,7 @@ var sw10 = {
     var q_coord = '([0-9]{3}x[0-9]{3})?';
     var q_var = '(V[0-9]+)';
     var q_term;
-    query = this.query(query);
+    query = sw10.query(query);
     if (!query) {return '';}
     if (query=='Q'){
       return [re_term + "?" + re_word];
@@ -1405,8 +1519,9 @@ var sw10 = {
       } else {
         matches = qat.match(new RegExp('(' + q_sym + '|' + q_range + ')','g'));
         if (matches){
-          for(i=0; i<matches.length; i++) {
-            var matched = matches[i].match(new RegExp(q_sym));
+          var matched;
+          for(i=0; i<matches.length; i+=1) {
+            matched = matches[i].match(new RegExp(q_sym));
             if (matched){
               segment = matched[0].slice(0,4);
               fill = matched[0].slice(4,5);
@@ -1425,7 +1540,7 @@ var sw10 = {
             } else {
               from = matches[i].slice(1,4);
               to = matches[i].slice(5,8);
-              re_range = this.range(from,to,'hex');
+              re_range = sw10.range(from,to,'hex');
               segment = 'S' + re_range + '[0-5][0-9a-f]';
               q_term += segment;
             }
@@ -1436,12 +1551,14 @@ var sw10 = {
     }
     //get the variance
     matches = query.match(new RegExp(q_var,'g'));
-    if (matches) fuzz = matches.toString().slice(1)*1;
+    if (matches) {
+      fuzz = matches.toString().slice(1)*1;
+    }
     //this gets all symbols with or without location
     fsw_pattern = q_sym + q_coord;
     matches = query.match(new RegExp(fsw_pattern,'g'));
     if (matches){
-      for(i=0; i<matches.length; i++) {
+      for(i=0; i<matches.length; i+=1) {
         part = matches[i].toString();
         base = part.slice(1,4);
         segment = 'S' + base;
@@ -1461,9 +1578,9 @@ var sw10 = {
           x = part.slice(6,9)*1;
           y = part.slice(10,13)*1;
           //now get the x segment range+++
-          segment += this.range((x-fuzz),(x+fuzz));
+          segment += sw10.range((x-fuzz),(x+fuzz));
           segment += 'x';
-          segment += this.range((y-fuzz),(y+fuzz));
+          segment += sw10.range((y-fuzz),(y+fuzz));
         } else {
           segment += re_coord;
         }
@@ -1482,19 +1599,19 @@ var sw10 = {
     fsw_pattern = q_range + q_coord;
     matches = query.match(new RegExp(fsw_pattern,'g'));
     if (matches){
-      for(i=0; i<matches.length; i++) {
+      for(i=0; i<matches.length; i+=1) {
         part = matches[i].toString();
         from = part.slice(1,4);
         to = part.slice(5,8);
-        re_range = this.range(from,to,"hex");
+        re_range = sw10.range(from,to,"hex");
         segment = 'S' + re_range + '[0-5][0-9a-f]';
         if (part.length>8){
           x = part.slice(8,11)*1;
           y = part.slice(12,15)*1;
           //now get the x segment range+++
-          segment += this.range((x-fuzz),(x+fuzz));
+          segment += sw10.range((x-fuzz),(x+fuzz));
           segment += 'x';
-          segment += this.range((y-fuzz),(y+fuzz));
+          segment += sw10.range((y-fuzz),(y+fuzz));
         } else {
           segment += re_coord;
         }
@@ -1518,10 +1635,14 @@ var sw10 = {
     if("BLMR".indexOf(lane) === -1 || lane.length>1) {
       lane='';
     }
-    var pattern, matches, parts, words;
-    var re = this.regex(query);
+    var pattern;
+    var matches;
+    var parts;
+    var words;
+    var re = sw10.regex(query);
     if (!re) {return [];}
-    for(var i=0; i<re.length; i++) {
+    var i;
+    for(i=0; i<re.length; i+=1) {
       pattern = re[i];
       matches = text.match(new RegExp(pattern,'g'));
       if (matches){
@@ -1539,7 +1660,7 @@ var sw10 = {
       }
       parts = text.split(' ');
       words = parts.filter(function(element) {
-        return element in this ? false : this[element] = true;
+        return element in parts ? false : parts[element] = true;
       }, {});
     } else {
       words = [];
@@ -1551,10 +1672,14 @@ var sw10 = {
     if("BLMR".indexOf(lane) === -1 || lane.length>1) {
       lane='';
     }
-    var pattern, matches, parts, words;
-    var re = this.regex(query);
+    var pattern;
+    var matches;
+    var parts;
+    var words;
+    var re = sw10.regex(query);
     if (!re) {return [];}
-    for(var i=0; i<re.length; i++) {
+    var i;
+    for(i=0; i<re.length; i+=1) {
       pattern = re[i];
       pattern = '^' + pattern + '.*';
       matches = text.match(new RegExp(pattern,'mg'));
@@ -1573,7 +1698,7 @@ var sw10 = {
       }
       parts = text.split("\n");
       words = parts.filter(function(element) {
-        return element in this ? false : this[element] = true;
+        return element in parts ? false : parts[element] = true;
       }, {});
     } else {
       words = [];
@@ -1587,13 +1712,15 @@ var sw10 = {
     // S - exact symbol in spatial signbox
     // s - general symbol in spatial signbox
     // L - spatial signbox symbol at location
-    var i,query = '';
-    if (this.fsw(fsw)){
+    var i;
+    var query = '';
+    if (sw10.fsw(fsw)){
       if (/^[Aa]?([Ss]L?)?$/.test(flags)){
         var re_base = 'S[123][0-9a-f]{2}';
         var re_sym = re_base + '[0-5][0-9a-f]';
         var re_coord = '[0-9]{3}x[0-9]{3}';
-        var matches,matched;
+        var matches;
+        var matched;
 
         if (flags.indexOf('A') > -1 || flags.indexOf('a') > -1) {
           //exact symbols or general symbols in order
@@ -1605,7 +1732,7 @@ var sw10 = {
             } else {
               matches = matched.match(new RegExp(re_base,'g'));
               query += "A";
-              for(i=0; i<matches.length; i++) {
+              for(i=0; i<matches.length; i+=1) {
                 query += matches[i] + "uu";
               }
               query += "T";
@@ -1617,7 +1744,7 @@ var sw10 = {
           //exact symbols or general symbols in spatial
           matches = fsw.match(new RegExp(re_sym + re_coord,'g'));
           if (matches){
-            for(i=0; i<matches.length; i++) {
+            for(i=0; i<matches.length; i+=1) {
               if (flags.indexOf('S') > -1) {
                 query += matches[i].slice(0,6);
               } else {
@@ -1632,5 +1759,13 @@ var sw10 = {
       }
     }
     return query?"Q" + query:'';
+  },
+  signtext: function (signtext){
+    var pattern = sw10.regex('Q');
+    pattern = pattern[0];
+    pattern = '(' + pattern + '|S3[0-9a-f]{2}[0-5][0-9a-f]([0-9]{3}x[0-9]{3})' + ')';
+    var matches = signtext.match(new RegExp(pattern,'mg'));
+    return matches?matches:[];
+//    var key = text.match(/S[123][0-9a-f]{2}[0-5][0-9a-f]([0-9]{3}x[0-9]{3})?/g);
   }
 };
