@@ -1,7 +1,7 @@
 ## The SignWriting 2010 JavaScript Library
 - - - 
 > Version 1.8.0  
-March 2nd, 2015
+March 2nd, 2016
 
 
 SignWriting 2010 is the modern implementation and international specification of the SignWriting script for the internet community that includes TrueType Fonts, CSS Declarations, and a compact JavaScript Library.
