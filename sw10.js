@@ -1,7 +1,7 @@
 /**
-* SignWriting 2010 JavaScript Library v1.8.0
+* SignWriting 2010 JavaScript Library v1.9.0
 * https://github.com/Slevinski/sw10js
-* Copyright (c) 2007-2015, Stephen E Slevinski Jr
+* Copyright (c) 2007-2016, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
 */
 var sw10 = {
@@ -272,6 +272,24 @@ var sw10 = {
     key = sw10.key(text);
     if (!key) {return '';}
     var code = 0x100000 + ((parseInt(key.slice(1,4),16) - 256) * 96) + ((parseInt(key.slice(4,5),16))*16) + parseInt(key.slice(5,6),16) + 1;
+    return hexval?code.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((code - 0x10000) >> 10), 0xDC00 + ((code - 0x10000) & 0x3FF));
+  },
+  uni10: function(text,hexval){
+    var key;
+    var i;
+    var fsw = sw10.fsw(text);
+    if (fsw){
+      var pattern = 'S[123][0-9a-f]{2}[0-5][0-9a-f]';
+      var matches = fsw.match(new RegExp(pattern,'g'));
+      for(i=0; i<matches.length; i+=1) {
+        key = matches[i];
+        fsw = fsw.replace(key,sw10.uni10(key,hexval));
+      }
+      return fsw;
+    }
+    key = sw10.key(text);
+    if (!key) {return '';}
+    var code = 0x40000 + ((parseInt(key.slice(1,4),16) - 256) * 96) + ((parseInt(key.slice(4,5),16))*16) + parseInt(key.slice(5,6),16) + 1;
     return hexval?code.toString(16).toUpperCase():String.fromCharCode(0xD800 + ((code - 0x10000) >> 10), 0xDC00 + ((code - 0x10000) & 0x3FF));
   },
   uni8: function(text,hexval){
@@ -638,8 +656,8 @@ var sw10 = {
     options.E = [];
     options.F = [];
 
-    options.view = options.view=="key"?"key":options.view=="uni8"?"uni8":options.view=="pua"?"pua":"code";
-    options.copy = options.copy=="code"?"code":options.copy=="uni8"?"uni8":options.copy=="pua"?"pua":"key";
+    options.view = options.view=="key"?"key":options.view=="uni8"?"uni8":options.view=="pua"?"pua":options.view=="uni10"?"uni10":"code";
+    options.copy = options.copy=="code"?"code":options.copy=="uni8"?"uni8":options.copy=="pua"?"pua":options.copy=="uni10"?"uni10":"key";
 
     if (styling){
       var rs;
@@ -769,7 +787,7 @@ var sw10 = {
         //-moz-font-feature-settings:'liga';
       }
       gelem += '>';
-      gelem += options.view=="key"?sym:options.view=="uni8"?sw10.uni8(sym):options.view=="pua"?sw10.pua(sym):sw10.code(sym);
+      gelem += options.view=="key"?sym:options.view=="uni8"?sw10.uni8(sym):options.view=="pua"?sw10.pua(sym):options.view=="uni10"?sw10.uni10(sym):sw10.code(sym);
       gelem += '</text>';
       gelem += '<text ';
       gelem += 'class="sym-line" ';
@@ -781,7 +799,7 @@ var sw10 = {
         gelem += '"';
       }
       gelem += '>';
-      gelem += options.view=="key"?sym:options.view=="uni8"?sw10.uni8(sym):options.view=="pua"?sw10.pua(sym):sw10.code(sym);
+      gelem += options.view=="key"?sym:options.view=="uni8"?sw10.uni8(sym):options.view=="pua"?sw10.pua(sym):options.view=="uni10"?sw10.uni10(sym):sw10.code(sym);
       gelem += '</text>';
       gelem += '</g>';
       syms[i] = gelem;
@@ -805,7 +823,7 @@ var sw10 = {
     svg += 'viewBox="' + x1 + ' ' + y1 + ' ' + w + ' ' + h + '">';
     if (options.view!=options.copy) {
       svg += '<text style="font-size:0%;">';
-      svg += options.copy=="code"?sw10.code(text):options.copy=="uni8"?sw10.uni8(text):options.copy=="pua"?sw10.pua(text):text;
+      svg += options.copy=="code"?sw10.code(text):options.copy=="uni8"?sw10.uni8(text):options.copy=="pua"?sw10.pua(text):options.copy=="uni10"?sw10.uni10(text):text;
       svg += '</text>';
     }
     if (options.back) {

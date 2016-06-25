@@ -160,6 +160,15 @@ function keyChange(){
 	  document.getElementById("puaRow").className = "warning";
 	}
 
+    var uni10Out = sw10.uni10(keyIn);
+	document.getElementById("uni10Fn").innerHTML = 'sw10.uni10("' + keyIn + '");';
+	document.getElementById("uni10Out").innerHTML = uni10Out;
+	if (uni10Out) {
+	  document.getElementById("uni10Row").className = "success";
+	} else {
+	  document.getElementById("uni10Row").className = "warning";
+	}
+
 	var isOut = sw10.is(keyIn);
 	document.getElementById("isFn").innerHTML = 'sw10.is("' + keyIn + '");';
 	document.getElementById("isOut").innerHTML = isOut;
@@ -430,6 +439,15 @@ function fswChange(){
 	  document.getElementById("fswpuaRow").className = "warning";
 	}
 
+    var fswuni10Out = sw10.uni10(fswIn);
+	document.getElementById("fswuni10Fn").innerHTML = 'sw10.uni10("' + fswIn + '");';
+	document.getElementById("fswuni10Out").innerHTML = fswuni10Out;
+	if (fswuni10Out) {
+	  document.getElementById("fswuni10Row").className = "success";
+	} else {
+	  document.getElementById("fswuni10Row").className = "warning";
+	}
+
     var converteOut = sw10.convert(fswIn,'A');
 	document.getElementById("converteFn").innerHTML = 'sw10.convert("' + fswIn + '","A");';
 	document.getElementById("converteOut").innerHTML = converteOut;
@@ -521,6 +539,16 @@ function queryChange(){
 	} else {
       document.getElementById("resultsOut").innerHTML = '';
 	  document.getElementById("resultsRow").className = "warning";
+	}
+
+    var signtextOut = sw10.signtext(textIn);
+	document.getElementById("signtextFn").innerHTML = 'sw10.signtext("' + textIn + '");';
+	if (signtextOut) {
+      document.getElementById("signtextOut").innerHTML = 'Array("' + signtextOut.join('", "') + '")';
+	  document.getElementById("signtextRow").className = "success";
+	} else {
+      document.getElementById("signtextOut").innerHTML = '';
+	  document.getElementById("signtextRow").className = "warning";
 	}
 
 }
@@ -649,6 +677,10 @@ function setText(fsw){
         <tr id="puaRow">
           <td id="puaFn">sw10.pua("")</td>
           <td id="puaOut"></td>
+        </tr>
+        <tr id="uni10Row">
+          <td id="uni10Fn">sw10.uni10("")</td>
+          <td id="uni10Out"></td>
         </tr>
         <tr id="isRow">
           <td id="isFn">sw10.is("")</td>
@@ -800,6 +832,10 @@ function setText(fsw){
           <td id="fswpuaFn">sw10.pua("")</td>
           <td id="fswpuaOut"></td>
         </tr>
+        <tr id="fswuni10Row">
+          <td id="fswuni10Fn">sw10.uni10("")</td>
+          <td id="fswuni10Out"></td>
+        </tr>
         <tr id="converteRow">
           <td id="converteFn">sw10.convert("","A")</td>
           <td id="converteOut"></td>
@@ -860,6 +896,7 @@ function setText(fsw){
                     <div class="col-sm-9">
                       <button class="btn btn-default" onClick="setText('M518x529S14c20481x471S27106503x489'); queryChange();return false;">Hello</button>
                       <button class="btn btn-default" onClick="setText('M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468'); queryChange();return false;">World</button>
+                      <button class="btn btn-default" onClick="setText('AS14c20S27106M518x529S14c20481x471S27106503x489 AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468 S38800464x496'); queryChange();return false;">Hello world.</button>
                     </div>
                   </div>
                 </form>
@@ -884,6 +921,10 @@ function setText(fsw){
         <tr id="resultsRow">
           <td id="resultsFn">sw10.results("","")</td>
           <td id="resultsOut"></td>
+        </tr>
+        <tr id="signtextRow">
+          <td id="signtextFn">sw10.signtext("","")</td>
+          <td id="signtextOut"></td>
         </tr>
 
       </tbody>

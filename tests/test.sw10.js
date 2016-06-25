@@ -208,6 +208,29 @@ suite('.pua( )', function(){
   });
 });
 
+// .uni10()
+suite('.uni10( )', function(){
+  suite('Valid Key', function(){
+    test('should return 1 character per key', function(){
+      assert.equal(sw10.uni10("S10000"),'񀀁');
+      assert.equal(sw10.uni10("S38b5f"),'񏒀');
+    });
+  });
+  suite('Valid FSW', function(){
+    test('should return Unicode string with ASCII and plane 4 for symbols', function(){
+      assert.equal(sw10.uni10("M518x529S14c20481x471S27106503x489"),'M518x529񁲡481x471񈩧503x489');
+      assert.equal(sw10.uni10("M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"),'M518x533񃊫489x515񃊢482x490񆇡508x496񋛕500x468');
+    });
+  });
+  suite('Invalid', function(){
+    test('should return empty string for invalid keys', function(){
+      assert.equal(sw10.uni10("S1000"),'');
+      assert.equal(sw10.uni10("S4005f"),'');
+    });
+  });
+});
+
+
 // .bbox()
 suite('.bbox( )', function(){
   suite('Valid FSW', function(){
@@ -448,3 +471,13 @@ suite('.convert( )', function(){
     });
   });
 });
+
+// .signtext()
+suite('.signtext( )', function(){
+  suite('signtext', function(){
+    test('should return array of signs and punctuations in order', function(){
+      assert.deepEqual(sw10.signtext("AS14c20S27106M518x529S14c20481x471S27106503x489 AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468 S38800464x496"),['AS14c20S27106M518x529S14c20481x471S27106503x489','AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468','S38800464x496']);
+    });
+  });
+});
+
