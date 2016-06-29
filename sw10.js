@@ -1,5 +1,5 @@
 /**
-* SignWriting 2010 JavaScript Library v1.9.0
+* SignWriting 2010 JavaScript Library v1.9.1
 * https://github.com/Slevinski/sw10js
 * Copyright (c) 2007-2016, Stephen E Slevinski Jr
 * sw10.js is released under the MIT License.
@@ -757,6 +757,7 @@ var sw10 = {
       }
     }
     syms = fsw.match(rsym);
+    if (!syms) syms=[];
     var keysized;
     for (i=0; i < syms.length; i+=1) {
       sym = syms[i].slice(0,6);
